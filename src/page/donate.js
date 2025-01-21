@@ -171,11 +171,11 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
           link.click();
           setPrint(false);
           setLoad(false);
-          if (!isLoading && isAuthenticated) {
-            setTimeout(() => {
-              setDonatePoint(true);
-            }, 5000);
-          }
+          // if (!isLoading && isAuthenticated) {
+          //   setTimeout(() => {
+          //     setDonatePoint(true);
+          //   }, 5000);
+          // }
           if (change == false && mem == false) {
             mem = true;
             setTimeout(() => {
