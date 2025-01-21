@@ -55,6 +55,7 @@ import {
   Grow,
   Slider,
 } from "@mui/material";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import RecommendIcon from "@mui/icons-material/Recommend";
 import Draggable from "react-draggable";
@@ -439,6 +440,11 @@ const Ge = ({
       <Box sx={{ marginTop: { xs: 0, md: 13 }, marginBottom: 15 }}>
         <CardHeader
           title={<h3>BNK48 & CGM48 Senbatsu General Election 2025</h3>}
+          subheader={
+            lang == "th"
+              ? "การเลือกตั้งเซมบัดสึครั้งสุดท้ายของน้องข้าวฟ่าง"
+              : "The last of General Election of Kaofrang"
+          }
         />
 
         <Box className="m-3">
@@ -816,8 +822,8 @@ const Ge = ({
             title="How to Vote"
             subheader={
               lang == "th"
-                ? "ทำได้ทั้งหมดทั้งสองช่องทาง ดังนี้ (รายละเอียดเพิ่มเติมจะแจ้งให้ทราบในภายหลัง)"
-                : "You have two way for support this General Election campaign (More information will be announced soon)."
+                ? "ทำได้ทั้งหมดทั้งสองช่องทาง ดังนี้"
+                : "You have two way for support this General Election campaign."
             }
           />
           <div className="container" data-aos="fade-right">
@@ -830,6 +836,23 @@ const Ge = ({
                 }}>
                 <ListItem
                   sx={{ cursor: "pointer" }}
+                  onClick={() => window.open("//app.bnk48.com/shop", "_blank")}>
+                  <ListItemAvatar>
+                    <Avatar className="iconchoice">
+                      <LocalShippingIcon />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary="Official Voting - CD Packaging"
+                    secondary={
+                      lang == "th"
+                        ? 'ซื้อซิงเกิ้ล BNK48 18th Single "Green Flash" หรือ CGM48 9th Single "Totsuzen Do love me!" และรับ GE5 Token สำหรับโหวตใน IAM48 Application'
+                        : 'Buy BNK48 18th Single "Green Flash" or CGM48 9th Single "Totsuzen Do love me!" then earn GE5 Token for voting in IAM48 Application'
+                    }
+                  />
+                </ListItem>
+                <ListItem
+                  sx={{ cursor: "pointer" }}
                   onClick={() => window.open("//app.bnk48.com", "_blank")}>
                   <ListItemAvatar>
                     <Avatar className="iconchoice">
@@ -837,11 +860,11 @@ const Ge = ({
                     </Avatar>
                   </ListItemAvatar>
                   <ListItemText
-                    primary="Official Voting"
+                    primary="Official Voting - Digital Packaging"
                     secondary={
                       lang == "th"
-                        ? 'ซื้อซิงเกิ้ล BNK48 18th Single "Green Flash" หรือ CGM48 9th Single "Totsuzen Do love me!" และรับ GE5 Token สำหรับโหวตใน IAM48 Application'
-                        : 'Buy BNK48 18th Single "Green Flash" or CGM48 9th Single "Totsuzen Do love me!" then earn GE5 Token for voting in IAM48 Application'
+                        ? 'ซื้อซิงเกิ้ล BNK48 18th Single "Green Flash" หรือ CGM48 9th Single "Totsuzen Do love me!" ในรูปแบบ Digital Music Code และรับ GE5 Token สำหรับโหวตใน IAM48 Application'
+                        : 'Buy BNK48 18th Single "Green Flash" or CGM48 9th Single "Totsuzen Do love me!" in Digital Music Code edition then earn GE5 Token for voting in IAM48 Application'
                     }
                   />
                 </ListItem>
