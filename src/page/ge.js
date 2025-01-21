@@ -822,8 +822,8 @@ const Ge = ({
             title="How to Vote"
             subheader={
               lang == "th"
-                ? "ทำได้ทั้งหมดทั้งสองช่องทาง ดังนี้"
-                : "You have two way for support this General Election campaign."
+                ? "ทำได้ทั้งหมดทั้ง 3 ช่องทาง ดังนี้"
+                : "You have 3 ways for support this General Election campaign."
             }
           />
           <div className="container" data-aos="fade-right">
