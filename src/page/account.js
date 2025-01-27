@@ -524,11 +524,16 @@ const Acct = ({
           setTransReady(true);
           setTrans({
             ...trans,
+            target: result.emailverify,
             sessionId: result.sessionId,
             expired: result.expired,
             scale: Math.floor(Math.random() * (100 - 1 + 1)) + 1,
           });
         } else {
+          setTrans({
+            ...trans,
+            target: "",
+          });
           switch (result.error) {
             case 0: {
               Swal.fire({
@@ -568,6 +573,16 @@ const Acct = ({
                   lang == "th"
                     ? "กรุณาตรวจสอบคะแนนของคุณก่อนโอน"
                     : "Check your KorKao Points before tarnsfer.",
+                icon: "warning",
+              });
+              break;
+            }
+            case 5: {
+              Swal.fire({
+                title:
+                  lang == "th"
+                    ? "คุณไม่สามารถโอน KorKao Points เนื่องจาก QR นี้ หมดอายุแล้ว"
+                    : "You cannot transfer KorKao Points because KQR Code is expired.",
                 icon: "warning",
               });
               break;
