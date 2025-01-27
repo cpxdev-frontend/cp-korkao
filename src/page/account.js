@@ -1843,8 +1843,8 @@ const Acct = ({
               value={gen.userId}
               size={300}
               logoImage="https://d3hhrps04devi8.cloudfront.net/kf/korfranglogo.webp"
-              logoWidth={80}
-              logoHeight={80}
+              logoWidth={100}
+              logoHeight={100}
               style={{
                 width: 250,
                 height: 250,
