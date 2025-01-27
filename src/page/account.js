@@ -1772,6 +1772,7 @@ const Acct = ({
               onScan={(result) => {
                 if (result[0].rawValue.includes("kidr-")) {
                   setGetData(false);
+                  setLoad(true);
                   setTrans({
                     sessionId: "",
                     userId: user.email,
@@ -1780,7 +1781,9 @@ const Acct = ({
                     expired: "",
                     scale: 0,
                   });
-                  verifyEmail();
+                  setTimeout(() => {
+                    verifyEmail();
+                  }, 200);
                 } else {
                   setCheckevent(result[0].rawValue);
                 }
