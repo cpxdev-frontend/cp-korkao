@@ -505,7 +505,7 @@ const Acct = ({
       },
       body: JSON.stringify({
         userId: user.email,
-        targetId: trans.target,
+        targetId: pass != null ? pass : trans.target,
       }),
     };
     setTransModel(false);
@@ -1798,16 +1798,11 @@ const Acct = ({
                 if (result[0].rawValue.includes("kidr-")) {
                   setGetData(false);
                   setTrans({
+                    ...trans,
                     sessionId: "",
-                    userId: user.email,
-                    target: result[0].rawValue,
-                    amount: 0,
-                    expired: "",
-                    scale: 0,
+                    userId: user.email
                   });
-                  setTimeout(() => {
-                    verifyEmail(true);
-                  }, 100);
+                  verifyEmail(true);
                 } else {
                   setCheckevent(result[0].rawValue);
                 }
