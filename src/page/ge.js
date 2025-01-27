@@ -1049,7 +1049,7 @@ const Ge = ({
                     })
                   );
                 }
-                setNum(parseInt(e.target.value));
+                setNum(parseInt(e.target.value !== "" ? e.target.value : 0));
               }}
               SelectProps={{
                 native: true,
