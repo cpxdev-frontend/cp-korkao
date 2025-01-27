@@ -52,7 +52,7 @@ const moneyCurren = [
     lab: "Hong Kong Dollar (HKD)",
   },
   {
-    val: "khr",
+    val: "idr",
     lab: "Indonesian Rupiah (IDR)",
   },
   {
