@@ -1771,6 +1771,7 @@ const Acct = ({
               formats={["qr_code"]}
               onScan={(result) => {
                 if (result[0].rawValue.includes("kidr-")) {
+                  setGetData(false);
                   setTrans({
                     sessionId: "",
                     userId: user.email,
@@ -1779,6 +1780,7 @@ const Acct = ({
                     expired: "",
                     scale: 0,
                   });
+                  verifyEmail();
                 } else {
                   setCheckevent(result[0].rawValue);
                 }
