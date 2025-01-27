@@ -79,6 +79,7 @@ import stepTh from "../stepGuide/th/gallery";
 
 import { Scanner } from "@yudiel/react-qr-scanner";
 import BarcodeScannerComponent from "react-qr-barcode-scanner";
+import { QRCode } from "react-qrcode-logo";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -131,6 +132,7 @@ const Acct = ({
 
   const [transModel, setTransModel] = React.useState(false);
   const [transReady, setTransReady] = React.useState(false);
+  const [gen, setKfQRGen] = React.useState("");
   const [trans, setTrans] = React.useState({
     sessionId: "",
     userId: "",
@@ -792,6 +794,41 @@ const Acct = ({
       .catch((error) => console.error(error));
   };
 
+  const generateTempId = () => {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const raw = JSON.stringify({
+      userId: user.email,
+    });
+
+    const requestOptions = {
+      method: "PUT",
+      headers: myHeaders,
+      body: raw,
+    };
+
+    setLoad(true);
+    fetch(
+      process.env.REACT_APP_APIE_2 + "/kfsite/generateKorKaoId",
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        setLoad(false);
+        if (result.status == true) {
+          setKfQRGen(result);
+        } else {
+          Swal.fire({
+            title: "พบข้อผิดพลาด กรุณาลองใหม่อีกครั้ง",
+            icon: "warning",
+            footer: "ข้อผิดพลาดจากระบบ: " + result.message,
+          });
+        }
+      })
+      .catch((error) => console.error(error));
+  };
+
   const holdtransfer = useHold({
     ms: 3000,
     onHold: () => {
@@ -892,8 +929,7 @@ const Acct = ({
                   sx={{
                     width: "100%",
                     bgcolor: "background.paper",
-                  }}
-                >
+                  }}>
                   <ListItem className="mb-5">
                     <ListItemAvatar>
                       <Avatar className="iconchoice">
@@ -958,8 +994,7 @@ const Acct = ({
                             "&:last-child td, &:last-child th": {
                               border: 0,
                             },
-                          }}
-                        >
+                          }}>
                           <TableCell component="th" scope="row">
                             {lang == "th"
                               ? "ดูโปรไฟล์ของน้องหรือ เพลงและคอนเทนต์ต่างๆของน้องข้าวฟ่าง"
@@ -977,8 +1012,7 @@ const Acct = ({
                             "&:last-child td, &:last-child th": {
                               border: 0,
                             },
-                          }}
-                        >
+                          }}>
                           <TableCell component="th" scope="row">
                             {lang == "th"
                               ? "ดูกิจกรรมของข้าวฟ่างและเปิดการแจ้งเตือนกิจกรรมแบบเรียลไทม์"
@@ -996,8 +1030,7 @@ const Acct = ({
                             "&:last-child td, &:last-child th": {
                               border: 0,
                             },
-                          }}
-                        >
+                          }}>
                           <TableCell component="th" scope="row">
                             {lang == "th"
                               ? "เล่นมินิเกมส์พร้อมกับดูคะแนนเฉลี่ยจากผู้เล่นทั่วโลก"
@@ -1015,8 +1048,7 @@ const Acct = ({
                             "&:last-child td, &:last-child th": {
                               border: 0,
                             },
-                          }}
-                        >
+                          }}>
                           <TableCell component="th" scope="row">
                             {lang == "th"
                               ? "การเข้าร่วมกิจกรรมที่จัดขึ้นโดยบ้านกอข้าว"
@@ -1034,8 +1066,7 @@ const Acct = ({
                             "&:last-child td, &:last-child th": {
                               border: 0,
                             },
-                          }}
-                        >
+                          }}>
                           <TableCell component="th" scope="row">
                             {lang == "th"
                               ? "ดูคะแนนและประวัติการเล่นมินิเกมส์ของคุณได้สูงสุด 1 ปี"
@@ -1053,8 +1084,7 @@ const Acct = ({
                             "&:last-child td, &:last-child th": {
                               border: 0,
                             },
-                          }}
-                        >
+                          }}>
                           <TableCell component="th" scope="row">
                             {lang == "th"
                               ? "การสะสมคะแนนเพื่อลุ้นของรางวัล หรือการเข้าร่วมกิจกรรมที่ต้องใช้คะแนน (KorKao Points)"
@@ -1132,8 +1162,7 @@ const Acct = ({
                   sx={{
                     width: "100%",
                     bgcolor: "background.paper",
-                  }}
-                >
+                  }}>
                   <ListItem className="mb-5">
                     <ListItemAvatar>
                       <Avatar className="iconchoice">
@@ -1215,18 +1244,23 @@ const Acct = ({
                         sx={{ width: 80, height: 80 }}
                         src={user.picture}
                         className="mr-md-2 mr-0"
-                        aria-label="recipe"
-                      ></Avatar>
+                        aria-label="recipe"></Avatar>
                     }
-                    title={<h5>{user.name}</h5>}
+                    title={
+                      <CardActionArea
+                        onClick={() => {
+                          generateTempId();
+                        }}>
+                        <h5>{user.name}</h5>
+                      </CardActionArea>
+                    }
                     subheader={
                       <div
                         style={{ cursor: "pointer" }}
                         onClick={() => {
                           navigator.clipboard.writeText(user.email);
                           alert("Your KorKao ID has been copied");
-                        }}
-                      >
+                        }}>
                         {"ID: " + user.email}{" "}
                         <ContentCopyIcon fontSize="small" sx={{ width: 15 }} />
                       </div>
@@ -1245,8 +1279,7 @@ const Acct = ({
                               : null,
                             "_blank"
                           )
-                        }
-                      >
+                        }>
                         <FontAwesomeIcon
                           icon={
                             user.sub.includes("google")
@@ -1264,14 +1297,13 @@ const Acct = ({
                   <CardActionArea
                     onClick={() => {
                       point != null && setPointView(true);
-                    }}
-                  >
+                    }}>
                     <Typography className="ml-3">
                       {point != null ? (
                         lang == "th" ? (
                           "KorKao Point ของคุณ: " + point + " คะแนน"
                         ) : (
-                          "KorKao Point: " + point + " point(s)"
+                          "Your KorKao Point: " + point + " point(s)"
                         )
                       ) : (
                         <Skeleton variant="text" />
@@ -1293,11 +1325,8 @@ const Acct = ({
                               "B9CEFA4286CD4D0398DCED46D64A495468BB7EBAA9AF324613D7C42FF8A6721A1094F7BD4CB0B3AC8030EDCBB493CBC4"
                             )
                           : setGetData(true)
-                      }
-                    >
-                      {lang == "th"
-                        ? "สแกนเพื่อเข้าร่วมกิจกรรม"
-                        : "Scan to join event"}
+                      }>
+                      {lang == "th" ? "สแกน QR Code" : "Scan QR Code"}
                     </Button>
                     {/* <Button onClick={() => setEdonate(true)}>
                       {lang == "th"
@@ -1316,8 +1345,7 @@ const Acct = ({
                           expired: "",
                           scale: 0,
                         });
-                      }}
-                    >
+                      }}>
                       {lang == "th"
                         ? "โอน KorKao Points ให้ผู้อื่น"
                         : "Transfer KorKao Points"}
@@ -1325,6 +1353,7 @@ const Acct = ({
                   </CardActions>
                   <CardContent sx={{ display: { xs: "block", md: "none" } }}>
                     <Button
+                      className="mb-1"
                       variant="outlined"
                       sx={{ display: { xs: "block", md: "none" } }}
                       onClick={() =>
@@ -1333,11 +1362,8 @@ const Acct = ({
                               "B9CEFA4286CD4D0398DCED46D64A495468BB7EBAA9AF324613D7C42FF8A6721A1094F7BD4CB0B3AC8030EDCBB493CBC4"
                             )
                           : setGetData(true)
-                      }
-                    >
-                      {lang == "th"
-                        ? "สแกนเพื่อเข้าร่วมกิจกรรม"
-                        : "Scan to join event"}
+                      }>
+                      {lang == "th" ? "สแกน QR Code" : "Scan QR Code"}
                     </Button>
                     {/* <Button onClick={() => setEdonate(true)}>
                       {lang == "th"
@@ -1356,8 +1382,7 @@ const Acct = ({
                           expired: "",
                           scale: 0,
                         });
-                      }}
-                    >
+                      }}>
                       {lang == "th"
                         ? "โอน KorKao Points ให้ผู้อื่น"
                         : "Transfer KorKao Points"}
@@ -1384,8 +1409,7 @@ const Acct = ({
                     sx={{
                       width: "100%",
                       bgcolor: "background.paper",
-                    }}
-                  >
+                    }}>
                     <ListItem className="mb-5">
                       <ListItemAvatar>
                         <Avatar className="iconchoice">
@@ -1450,8 +1474,7 @@ const Acct = ({
                               "&:last-child td, &:last-child th": {
                                 border: 0,
                               },
-                            }}
-                          >
+                            }}>
                             <TableCell component="th" scope="row">
                               {lang == "th"
                                 ? "ดูโปรไฟล์ของน้องหรือ เพลงและคอนเทนต์ต่างๆของน้องข้าวฟ่าง"
@@ -1469,8 +1492,7 @@ const Acct = ({
                               "&:last-child td, &:last-child th": {
                                 border: 0,
                               },
-                            }}
-                          >
+                            }}>
                             <TableCell component="th" scope="row">
                               {lang == "th"
                                 ? "ดูกิจกรรมของข้าวฟ่างและเปิดการแจ้งเตือนกิจกรรมแบบเรียลไทม์"
@@ -1488,8 +1510,7 @@ const Acct = ({
                               "&:last-child td, &:last-child th": {
                                 border: 0,
                               },
-                            }}
-                          >
+                            }}>
                             <TableCell component="th" scope="row">
                               {lang == "th"
                                 ? "เล่นมินิเกมส์พร้อมกับดูคะแนนเฉลี่ยจากผู้เล่นทั่วโลก"
@@ -1507,8 +1528,7 @@ const Acct = ({
                               "&:last-child td, &:last-child th": {
                                 border: 0,
                               },
-                            }}
-                          >
+                            }}>
                             <TableCell component="th" scope="row">
                               {lang == "th"
                                 ? "การเข้าร่วมกิจกรรมที่จัดขึ้นโดยบ้านกอข้าว"
@@ -1526,8 +1546,7 @@ const Acct = ({
                               "&:last-child td, &:last-child th": {
                                 border: 0,
                               },
-                            }}
-                          >
+                            }}>
                             <TableCell component="th" scope="row">
                               {lang == "th"
                                 ? "ดูคะแนนและประวัติการเล่นมินิเกมส์ของคุณได้สูงสุด 1 ปี"
@@ -1545,8 +1564,7 @@ const Acct = ({
                               "&:last-child td, &:last-child th": {
                                 border: 0,
                               },
-                            }}
-                          >
+                            }}>
                             <TableCell component="th" scope="row">
                               {lang == "th"
                                 ? "การสะสมคะแนนเพื่อลุ้นของรางวัล หรือการเข้าร่วมกิจกรรมที่ต้องใช้คะแนน (KorKao Points)"
@@ -1624,8 +1642,7 @@ const Acct = ({
                     sx={{
                       width: "100%",
                       bgcolor: "background.paper",
-                    }}
-                  >
+                    }}>
                     <ListItem className="mb-5">
                       <ListItemAvatar>
                         <Avatar className="iconchoice">
@@ -1740,7 +1757,9 @@ const Acct = ({
         </div>
         <Dialog open={getData} maxWidth="xl">
           <DialogTitle id="alert-dialog-title">
-            {lang == "th" ? "สแกนโค้ดกิจกรรม" : "Scan Event QR Code"}
+            {lang == "th"
+              ? "สแกนโค้ดกิจกรรมหรือข้อมูลสมาชิก"
+              : "Scan Event or KorKao ID QR Code"}
           </DialogTitle>
           <DialogContent>
             <Scanner
@@ -1750,7 +1769,20 @@ const Acct = ({
               components={{ audio: false }}
               scanDelay={-10000}
               formats={["qr_code"]}
-              onScan={(result) => setCheckevent(result[0].rawValue)}
+              onScan={(result) => {
+                if (result[0].rawValue.includes("kidr-")) {
+                  setTrans({
+                    sessionId: "",
+                    userId: user.email,
+                    target: result[0].rawValue,
+                    amount: 0,
+                    expired: "",
+                    scale: 0,
+                  });
+                } else {
+                  setCheckevent(result[0].rawValue);
+                }
+              }}
               onError={null}
             />
             {/* <Box sx={{ display: "none" }}>
@@ -1768,8 +1800,66 @@ const Acct = ({
             <Button
               onClick={() => {
                 setGetData(false);
+              }}>
+              {lang == "th" ? "ปิด" : "Close"}
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        <Dialog open={gen !== ""} maxWidth="xl">
+          <DialogTitle id="alert-dialog-title">KorKao ID QR Code</DialogTitle>
+          <Typography className="ml-4 mr-4">
+            {lang == "th"
+              ? "กรุณายื่น QR Code นี้ให้ผู้ที่ต้องการโอน Korkao Points ให้คุณ"
+              : "This is your QR Code, please show to other KorKao ID user to transfer points."}
+          </Typography>
+          <DialogContent className="d-flex justify-content-center">
+            <QRCode
+              value={gen.userId}
+              size={300}
+              logoImage="https://d3hhrps04devi8.cloudfront.net/kf/korfranglogo.webp"
+              logoWidth={100}
+              logoHeight={100}
+              style={{
+                width: 200,
+                height: 200,
+                filter: moment().utc() < moment(gen.expired) ? "" : "blur(5px)",
               }}
-            >
+              qrStyle="dots"
+              crossorigin="anonymous"
+            />
+          </DialogContent>
+          {moment().utc() < moment(gen.expired) ? (
+            <DialogContent className="d-flex justify-content-center">
+              {lang == "th"
+                ? "รหัส QR Code นี้จะหมดอายุภายในวันที่ "
+                : "This QR Code is expired in "}
+              {moment(gen.expired)
+                .local()
+                .lang(lang)
+                .format("DD MMMM YYYY HH:mm:ss")}
+            </DialogContent>
+          ) : (
+            <DialogContent className="text-center">
+              {lang == "th"
+                ? "รหัส QR Code นี้หมดอายุแล้ว"
+                : "This QR Code is expired"}
+            </DialogContent>
+          )}
+          <DialogActions>
+            {moment().utc() >= moment(gen.expired) && (
+              <Button
+                onClick={() => {
+                  setKfQRGen("");
+                  generateTempId();
+                }}>
+                {lang == "th" ? "สร้าง QR ใหม่" : "Re-Generate"}
+              </Button>
+            )}
+            <Button
+              onClick={() => {
+                setKfQRGen("");
+              }}>
               {lang == "th" ? "ปิด" : "Close"}
             </Button>
           </DialogActions>
@@ -1893,8 +1983,7 @@ const Acct = ({
                 <Button
                   onClick={() => {
                     setGetData2(null);
-                  }}
-                >
+                  }}>
                   {lang == "th" ? "ปิด" : "Close"}
                 </Button>
               </DialogActions>
@@ -1954,8 +2043,7 @@ const Acct = ({
                           key={row.activDate}
                           sx={{
                             "&:last-child td, &:last-child th": { border: 0 },
-                          }}
-                        >
+                          }}>
                           <TableCell component="th" scope="row">
                             {moment(row.activDate)
                               .lang(lang)
@@ -2014,8 +2102,7 @@ const Acct = ({
               <Button
                 onClick={() => {
                   setPointView(false);
-                }}
-              >
+                }}>
                 {lang == "th" ? "ปิด" : "Close"}
               </Button>
             </DialogActions>
@@ -2062,8 +2149,7 @@ const Acct = ({
                 className="mt-3"
                 role={undefined}
                 variant="contained"
-                tabIndex={-1}
-              >
+                tabIndex={-1}>
                 เลือกสลิปในคลังรูปภาพ
                 <VisuallyHiddenInput
                   type="file"
@@ -2125,8 +2211,7 @@ const Acct = ({
                 onClick={() => {
                   setEdonate(false);
                   setAmount(0);
-                }}
-              >
+                }}>
                 ปิด
               </Button>
             </DialogActions>
@@ -2261,8 +2346,7 @@ const Acct = ({
                 <Button
                   sx={{ display: { md: "initial", xs: "none" } }}
                   onClick={() => transHandle()}
-                  disabled={transbot == false || trans.amount <= 0}
-                >
+                  disabled={transbot == false || trans.amount <= 0}>
                   {lang == "th" ? "โอนคะแนน" : "Transfer"}
                 </Button>
               ) : (
@@ -2275,8 +2359,7 @@ const Acct = ({
                   setTransModel(false);
                   setTransReady(false);
                   setTransbot(false);
-                }}
-              >
+                }}>
                 {lang == "th" ? "ปิด" : "Close"}
               </Button>
             </DialogActions>
@@ -2285,8 +2368,7 @@ const Acct = ({
 
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={load}
-        >
+          open={load}>
           <CircularProgress />
         </Backdrop>
       </Box>
