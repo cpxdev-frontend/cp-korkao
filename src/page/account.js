@@ -474,10 +474,10 @@ const Acct = ({
     }
   }, [isAuthenticated]);
 
-  const verifyEmail = () => {
+  const verifyEmail = (pass = null) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const ev = emailRegex.test(trans.target);
-    if (!ev) {
+    if (pass == null && !ev) {
       Swal.fire({
         title:
           lang == "th"
@@ -1772,7 +1772,6 @@ const Acct = ({
               onScan={(result) => {
                 if (result[0].rawValue.includes("kidr-")) {
                   setGetData(false);
-                  setLoad(true);
                   setTrans({
                     sessionId: "",
                     userId: user.email,
@@ -1781,9 +1780,7 @@ const Acct = ({
                     expired: "",
                     scale: 0,
                   });
-                  setTimeout(() => {
-                    verifyEmail();
-                  }, 200);
+                  verifyEmail(true);
                 } else {
                   setCheckevent(result[0].rawValue);
                 }
