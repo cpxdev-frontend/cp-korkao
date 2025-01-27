@@ -487,7 +487,7 @@ const Acct = ({
       });
       return;
     }
-    if (trans.target == trans.userId) {
+    if (pass == null && trans.target == trans.userId) {
       Swal.fire({
         title:
           lang == "th"
@@ -524,6 +524,7 @@ const Acct = ({
           setTransReady(true);
           setTrans({
             ...trans,
+            userId: user.email,
             target: result.emailverify,
             sessionId: result.sessionId,
             expired: result.expired,
@@ -1802,7 +1803,7 @@ const Acct = ({
                     sessionId: "",
                     userId: user.email
                   });
-                  verifyEmail(true);
+                  verifyEmail(result[0].rawValue);
                 } else {
                   setCheckevent(result[0].rawValue);
                 }
