@@ -587,6 +587,16 @@ const Acct = ({
               });
               break;
             }
+            case 6: {
+              Swal.fire({
+                title:
+                  lang == "th"
+                    ? "คุณไม่สามารถโอน Points ไปยังไอดีเหมือนกันได้"
+                    : "You cannot use same KorKao ID to transfer your Korkao Points",
+                icon: "warning",
+              });
+              break;
+            }
             default: {
               Swal.fire({
                 title: result.message,
@@ -1795,7 +1805,9 @@ const Acct = ({
                     expired: "",
                     scale: 0,
                   });
-                  verifyEmail(true);
+                  setTimeout(() => {
+                    verifyEmail(true);
+                  }, 100);
                 } else {
                   setCheckevent(result[0].rawValue);
                 }
@@ -1835,8 +1847,8 @@ const Acct = ({
               value={gen.userId}
               size={300}
               logoImage="https://d3hhrps04devi8.cloudfront.net/kf/korfranglogo.webp"
-              logoWidth={50}
-              logoHeight={50}
+              logoWidth={80}
+              logoHeight={80}
               style={{
                 width: 250,
                 height: 250,
