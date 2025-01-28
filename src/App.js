@@ -504,7 +504,7 @@ function App({
 
   const fetchtime = () => {
     fetch(
-      (Math.floor(Math.random() * 10) + 1 < 5
+      (Math.floor(Math.random() * 10) + 1 < 4
         ? process.env.REACT_APP_APIE
         : process.env.REACT_APP_APIE_2) + "/kfsite/gettime",
       {}
