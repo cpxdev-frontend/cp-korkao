@@ -883,7 +883,11 @@ const Acct = ({
         if (result.status == true) {
           setKfQRGen(result);
           korkaoqr = setInterval(() => {
-            QRCheckValid(result.userId);
+            if (moment().utc() < moment(result.expired)) {
+              QRCheckValid(result.userId);
+            } else {
+              clearInterval(korkaoqr);
+            }
           }, 1500);
         } else {
           Swal.fire({
