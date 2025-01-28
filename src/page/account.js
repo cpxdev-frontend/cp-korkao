@@ -275,7 +275,7 @@ const Acct = ({
     myHeaders.append("Content-Type", "application/json");
 
     const raw = JSON.stringify({
-      userId: user.email,
+      userId: qrid,
     });
 
     const requestOptions = {
