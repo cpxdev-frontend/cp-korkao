@@ -284,14 +284,12 @@ const Acct = ({
       body: raw,
     };
 
-    setLoad(true);
     fetch(
       process.env.REACT_APP_APIE_2 + "/kfsite/checkkorkaoidvalid",
       requestOptions
     )
       .then((response) => response.json())
       .then((result) => {
-        setLoad(false);
         if (result.status == true) {
           if (result.data == false) {
             setKfQRGen("");
