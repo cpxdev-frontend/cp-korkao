@@ -888,7 +888,7 @@ const Acct = ({
             } else {
               clearInterval(korkaoqr);
             }
-          }, 1500);
+          }, 3000);
         } else {
           Swal.fire({
             title: "พบข้อผิดพลาด กรุณาลองใหม่อีกครั้ง",
