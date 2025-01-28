@@ -534,7 +534,7 @@ function App({
       .then((result) => {
         setInterval(() => {
           fetchtime();
-        }, 5000);
+        }, 10000);
       })
       .catch((error) => {
         document.title = "System Maintenance | KorKao FanSite";
