@@ -81,6 +81,8 @@ import { Scanner } from "@yudiel/react-qr-scanner";
 import BarcodeScannerComponent from "react-qr-barcode-scanner";
 import { QRCode } from "react-qrcode-logo";
 
+var korkaoqr;
+
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -266,6 +268,44 @@ const Acct = ({
       })
       .catch((error) => console.log("error", error));
     console.log(code);
+  };
+
+  const QRCheckValid = (qrid) => {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const raw = JSON.stringify({
+      userId: user.email,
+    });
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+    };
+
+    setLoad(true);
+    fetch(
+      process.env.REACT_APP_APIE_2 + "/kfsite/checkkorkaoidvalid",
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        setLoad(false);
+        if (result.status == true) {
+          if (result.data == false) {
+            setKfQRGen("");
+            clearInterval(korkaoqr);
+          }
+        } else {
+          Swal.fire({
+            title: "พบข้อผิดพลาด กรุณาลองใหม่อีกครั้ง",
+            icon: "warning",
+            footer: "ข้อผิดพลาดจากระบบ: " + result.message,
+          });
+        }
+      })
+      .catch((error) => console.error(error));
   };
 
   const getLogin = () => {
@@ -844,6 +884,9 @@ const Acct = ({
         setLoad(false);
         if (result.status == true) {
           setKfQRGen(result);
+          korkaoqr = setInterval(() => {
+            QRCheckValid(result.userId);
+          }, 1500);
         } else {
           Swal.fire({
             title: "พบข้อผิดพลาด กรุณาลองใหม่อีกครั้ง",
@@ -1801,7 +1844,7 @@ const Acct = ({
                   setTrans({
                     ...trans,
                     sessionId: "",
-                    userId: user.email
+                    userId: user.email,
                   });
                   verifyEmail(result[0].rawValue);
                 } else {
@@ -1877,6 +1920,7 @@ const Acct = ({
                 onClick={() => {
                   setKfQRGen("");
                   generateTempId();
+                  clearInterval(korkaoqr);
                 }}>
                 {lang == "th" ? "สร้าง QR ใหม่" : "Re-Generate"}
               </Button>
@@ -1884,6 +1928,7 @@ const Acct = ({
             <Button
               onClick={() => {
                 setKfQRGen("");
+                clearInterval(korkaoqr);
               }}>
               {lang == "th" ? "ปิด" : "Close"}
             </Button>
