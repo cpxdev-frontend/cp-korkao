@@ -285,7 +285,7 @@ const Acct = ({
     };
 
     fetch(
-      process.env.REACT_APP_APIE_2 + "/kfsite/checkkorkaoidvalid",
+      process.env.REACT_APP_APIE + "/kfsite/checkkorkaoidvalid",
       requestOptions
     )
       .then((response) => response.json())
