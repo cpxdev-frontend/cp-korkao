@@ -1305,7 +1305,7 @@ const Acct = ({
                       <div
                         style={{ cursor: "pointer" }}
                         onClick={() => {
-                          navigator.clipboard.writeText(user.email);
+                          navigator.clipboard.writeText(login._tokenResponse.email);
                           alert("Your KorKao ID has been copied");
                         }}>
                         {"ID: " + login._tokenResponse.email}{" "}
@@ -1386,7 +1386,7 @@ const Acct = ({
                         setTransModel(true);
                         setTrans({
                           sessionId: "",
-                          userId: user.email,
+                          userId: login._tokenResponse.email,
                           target: "",
                           amount: 0,
                           expired: "",
@@ -1423,7 +1423,7 @@ const Acct = ({
                         setTransModel(true);
                         setTrans({
                           sessionId: "",
-                          userId: user.email,
+                          userId: login._tokenResponse.email,
                           target: "",
                           amount: 0,
                           expired: "",
@@ -1822,7 +1822,7 @@ const Acct = ({
                   setTrans({
                     ...trans,
                     sessionId: "",
-                    userId: user.email,
+                    userId: login._tokenResponse.email,
                   });
                   verifyEmail(result[0].rawValue);
                 } else {
@@ -2266,7 +2266,7 @@ const Acct = ({
           </>
         </Dialog>
 
-        <Dialog open={transModel} maxWidth="xl">
+        <Dialog open={transModel} maxWidth={transReady ? "lg" : 'sm'}>
           <>
             <DialogTitle id="alert-dialog-title">
               <CardHeader

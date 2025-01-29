@@ -1781,7 +1781,7 @@ function App({
                   transitionDuration={400}
                   PaperProps={{ style: { width: "80%" } }}
                   onClose={() => {}}
-                  maxWidth="lg">
+                  maxWidth="md">
                   <DialogTitle>
                     {lang == "th"
                       ? "เลือกช่องทางการเข้าสู่ระบบ"
@@ -1805,8 +1805,8 @@ function App({
                     </CardActions>
                     <Typography className="mt-5 text-center">
                       {lang == "th"
-                        ? "1 แอคเคาท์รองรับทุกแพลตฟอร์ม"
-                        : "One Account, Whole Platform"}
+                        ? "บัญชี KorKao ID สามารถใช้งานร่วมกับแพลตฟอร์มเหล่านี้ได้"
+                        : "Your KorKao ID also can be use with these Web platforms"}
                     </Typography>
                     <div className="col-12 d-flex justify-content-center">
                       <Box
