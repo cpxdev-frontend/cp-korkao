@@ -86,6 +86,15 @@ import Account from "./page/account";
 import Err from "./page/error";
 
 import { useAuth0 } from "@auth0/auth0-react";
+import {
+  GoogleAuthProvider,
+  TwitterAuthProvider,
+  signInWithPopup,
+  signOut,
+  OAuthProvider,
+  deleteUser,
+} from "firebase/auth";
+import auth from "./fbindex";
 
 const DrawerBg = "rgba(220, 209, 215, 0.75)";
 
@@ -267,10 +276,31 @@ function App({
     }
   }, [isAuthenticated, isLoading]);
 
-  const getLogin = () => {
-    sessionStorage.setItem("auth0", location.pathname);
+  const getLogin = (action) => {
+    //sessionStorage.setItem("auth0", location.pathname);
     setTimeout(() => {
-      loginWithRedirect();
+      //loginWithRedirect();
+      let provider = null;
+      switch (action) {
+        case 1:
+          provider = new GoogleAuthProvider();
+          break;
+        case 2:
+          provider = new OAuthProvider("microsoft.com");
+          break;
+        default:
+          return;
+      }
+      setLoad(true);
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          setLoad(false);
+          localStorage.setItem("loged", JSON.stringify(result));
+        })
+        .catch((error) => {
+          // Handle error.
+          setLoad(false);
+        });
     }, 500);
   };
 
@@ -1075,19 +1105,20 @@ function App({
                     <Divider />
                     {!isLoading ? (
                       <Card className="mt-3 mb-3">
-                        {isAuthenticated && (
+                        {localStorage.getItem("loged") !== null && (
                           <CardContent>
                             <Typography>
                               {lang == "th"
                                 ? "ยินดีต้อนรับคุณ "
                                 : "Welcome back, "}{" "}
-                              {user.given_name != null
-                                ? user.given_name
-                                : user.name}
+                              {
+                                JSON.parse(localStorage.getItem("loged")).user
+                                  .displayName
+                              }
                             </Typography>
                           </CardContent>
                         )}
-                        {isAuthenticated ? (
+                        {localStorage.getItem("loged") !== null ? (
                           <CardActions sx={{ width: 270 }}>
                             <Button
                               onClick={() => {
@@ -1101,8 +1132,11 @@ function App({
                           </CardActions>
                         ) : (
                           <CardActions sx={{ width: 270 }}>
-                            <Button onClick={() => getLogin()}>
-                              Become or Log-in to KorKao ID
+                            <Button onClick={() => getLogin(1)}>
+                              Become or Log-in to KorKao ID via Google
+                            </Button>
+                            <Button onClick={() => getLogin(2)}>
+                              Become or Log-in to KorKao ID via Microsoft
                             </Button>
                             <Button
                               onClick={() => {
@@ -1437,19 +1471,20 @@ function App({
                     )}
                     {!isLoading ? (
                       <Card className="mt-3 mb-3">
-                        {isAuthenticated && (
+                        {localStorage.getItem("loged") !== null && (
                           <CardContent>
                             <Typography>
                               {lang == "th"
                                 ? "ยินดีต้อนรับคุณ "
                                 : "Welcome back, "}{" "}
-                              {user.given_name != null
-                                ? user.given_name
-                                : user.name}
+                              {
+                                JSON.parse(localStorage.getItem("loged")).user
+                                  .displayName
+                              }
                             </Typography>
                           </CardContent>
                         )}
-                        {isAuthenticated ? (
+                        {localStorage.getItem("loged") !== null ? (
                           <CardActions sx={{ width: 270 }}>
                             <Button
                               onClick={() => {
@@ -1669,19 +1704,20 @@ function App({
                                 xl: "initial",
                               },
                       }}>
-                      {isAuthenticated && (
+                      {localStorage.getItem("loged") !== null && (
                         <CardContent>
                           <Typography>
                             {lang == "th"
                               ? "ยินดีต้อนรับคุณ "
                               : "Welcome back, "}{" "}
-                            {user.given_name != null
-                              ? user.given_name
-                              : user.name}
+                            {
+                              JSON.parse(localStorage.getItem("loged")).user
+                                .displayName
+                            }
                           </Typography>
                         </CardContent>
                       )}
-                      {isAuthenticated ? (
+                      {localStorage.getItem("loged") !== null ? (
                         <CardActions sx={{ width: 270 }}>
                           <Button
                             onClick={() => {
