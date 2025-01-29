@@ -1808,35 +1808,39 @@ function App({
                         ? "1 แอคเคาท์รองรับทุกแพลตฟอร์ม"
                         : "One Account, Whole Platform"}
                     </Typography>
-                    <div className="row d-flex justify-content-center">
-                      <CardMedia
-                        onClick={() =>
-                          window.open("//cp-bnk48.pages.dev", "_blank")
-                        }
-                        src="https://d3hhrps04devi8.cloudfront.net/main/bnklogo.png"
-                        component="img"
-                        alt="BNK48 Fan Space"
-                        className="ml-0 mr-0 col-3"
-                      />
-                      <CardMedia
-                        onClick={() =>
-                          window.open("//cp-cgm48.pages.dev", "_blank")
-                        }
-                        src="https://d3hhrps04devi8.cloudfront.net/main/cgmlogo.png"
-                        alt="CGM48 Fan Space"
-                        component="img"
-                        className="ml-0 mr-0 col-3"
-                      />
-                      <CardMedia
-                        onClick={() =>
-                          window.open("//cp-tpop.pages.dev", "_blank")
-                        }
-                        src="https://d3hhrps04devi8.cloudfront.net/tpop/tpop.fulllogo.png"
-                        component="img"
-                        alt="TPOP Fan eX"
-                        className="ml-0 mr-0 col-3"
-                        sx={{ width: "100%" }}
-                      />
+                    <div className="col-12 d-flex justify-content-center">
+                      <Box
+                        sx={{ width: { xs: "100vw", sm: "50%" } }}
+                        className="row d-flex justify-content-center">
+                        <CardMedia
+                          onClick={() =>
+                            window.open("//cp-bnk48.pages.dev", "_blank")
+                          }
+                          src="https://d3hhrps04devi8.cloudfront.net/main/bnklogo.png"
+                          component="img"
+                          alt="BNK48 Fan Space"
+                          className="ml-0 mr-0 col-3"
+                        />
+                        <CardMedia
+                          onClick={() =>
+                            window.open("//cp-cgm48.pages.dev", "_blank")
+                          }
+                          src="https://d3hhrps04devi8.cloudfront.net/main/cgmlogo.png"
+                          alt="CGM48 Fan Space"
+                          component="img"
+                          className="ml-0 mr-0 col-3"
+                        />
+                        <CardMedia
+                          onClick={() =>
+                            window.open("//cp-tpop.pages.dev", "_blank")
+                          }
+                          src="https://d3hhrps04devi8.cloudfront.net/tpop/tpop.fulllogo.png"
+                          component="img"
+                          alt="TPOP Fan eX"
+                          className="ml-0 mr-0 col-3"
+                          sx={{ width: "100%" }}
+                        />
+                      </Box>
                     </div>
                   </DialogContent>
                   <DialogActions>
