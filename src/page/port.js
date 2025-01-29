@@ -127,7 +127,7 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
     setData1(null);
     setPage(lang == "th" ? "ผลงานเพลงและการแสดง" : "Discography and Acting");
     fetch(
-      process.env.REACT_APP_APIE + "/kfsite/kfspotplay?l=" + lang,
+      process.env.REACT_APP_APIE + "/kfsitenew/kfspotplay?l=" + lang,
       requestOptions
     )
       .then((response) => response.json())
@@ -147,7 +147,7 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
 
     window.addEventListener("resize", handleWindowResize);
     setData2(null);
-    fetch(process.env.REACT_APP_APIE_2 + "/kfsite/kfytplay", requestOptions)
+    fetch(process.env.REACT_APP_APIE_2 + "/kfsitenew/kfytplay", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         setData2(result.items);
@@ -165,7 +165,7 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
       setTimeout(() => {
         fetch(
           process.env.REACT_APP_APIE_2 +
-            "/kfsite/ytviewCount?id=" +
+            "/kfsitenew/ytviewCount?id=" +
             clip.snippet.resourceId.videoId,
           requestOptions
         )

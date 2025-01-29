@@ -67,7 +67,7 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
     };
 
     fetch(
-      process.env.REACT_APP_APIE + "/kfsite/getkaofrangwork",
+      process.env.REACT_APP_APIE + "/kfsitenew/getkaofrangwork",
       requestOptions
     )
       .then((response) => response.json())

@@ -80,6 +80,7 @@ const GameApp = ({
   currentCountry,
   setPage,
   setInGame,
+  login,
   guide,
   game,
 }) => {
@@ -156,19 +157,20 @@ const GameApp = ({
   }, []);
 
   React.useEffect(() => {
-    if (gamehis == true && isAuthenticated) {
+    if (gamehis == true && login) {
       var requestOptions = {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          user: user.email,
+          user: login._tokenResponse.email,
+          token: login._tokenResponse.idToken,
         }),
       };
 
       fetch(
-        process.env.REACT_APP_APIE + "/kfsite/kfgameHistory",
+        process.env.REACT_APP_APIE + "/kfsitenew/kfgameHistory",
         requestOptions
       )
         .then((response) => response.json())
@@ -207,7 +209,10 @@ const GameApp = ({
       }),
     };
 
-    fetch(process.env.REACT_APP_APIE_2 + "/kfsite/kffetchquiz", requestOptions)
+    fetch(
+      process.env.REACT_APP_APIE_2 + "/kfsitenew/kffetchquiz",
+      requestOptions
+    )
       .then((response) => response.json())
       .then((result) => {
         if (result.status) {
@@ -322,13 +327,16 @@ const GameApp = ({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: user.email,
-        notiId: atob(localStorage.getItem("osigIdPush")),
+        userId: login._tokenResponse.email,
+        token: login._tokenResponse.idToken,
+        notiId: localStorage.getItem("osigIdPush")
+          ? atob(localStorage.getItem("osigIdPush"))
+          : null,
       }),
     };
 
     fetch(
-      process.env.REACT_APP_APIE + "/kfsite/receiveairdropfromgame",
+      process.env.REACT_APP_APIE + "/kfsitenew/receiveairdropfromgame",
       requestOptions
     )
       .then((response) => response.json())
@@ -409,7 +417,7 @@ const GameApp = ({
         category: "User",
         action: "Game Over",
       });
-      fetch(process.env.REACT_APP_APIE + "/kfsite/kfkeep", {
+      fetch(process.env.REACT_APP_APIE + "/kfsitenew/kfkeep", {
         method: "put",
         headers: {
           "Content-Type": "application/json",
@@ -420,7 +428,8 @@ const GameApp = ({
           quizFrom: quesList.length,
           quizDuration: Math.floor((time % 6000) / 100),
           sessionId: session,
-          userId: isAuthenticated ? user.email : null,
+          token: login._tokenResponse.idToken,
+          userId: login !== null ? login._tokenResponse.email : null,
         }),
       })
         .then((response) => response.json())
@@ -618,7 +627,7 @@ const GameApp = ({
                 {lang == "th" ? "ดูคะแนนเฉลี่ย" : "View average score"}
               </Button>
               <br />
-              {isAuthenticated && (
+              {login && (
                 <Button
                   className="mt-2"
                   variant="outlined"
@@ -938,6 +947,7 @@ const mapStateToProps = (state) => ({
   currentPage: state.currentPage,
   game: state.game,
   guide: state.guide,
+  login: state.login,
   currentCountry: state.currentCountry,
 });
 const mapDispatchToProps = (dispatch) => ({

@@ -52,3 +52,11 @@ export function setLoad(val) {
       type: 'SETTUTOR'
     };
   }
+
+  export function setLogin(val) {
+    return {
+      type: 'SET_LOGIN',
+      val: val
+    };
+  }
+

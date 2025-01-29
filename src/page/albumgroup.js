@@ -74,7 +74,7 @@ const Album = ({ currentPage, lang, setLang, setLaunch, setPage, launch, guide }
     };
 
     setLoad(true);
-    fetch(process.env.REACT_APP_APIE + "/kfsite/gallerylinkgen", requestOptions)
+    fetch(process.env.REACT_APP_APIE + "/kfsitenew/gallerylinkgen", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         setLoad(false);
@@ -103,7 +103,7 @@ const Album = ({ currentPage, lang, setLang, setLaunch, setPage, launch, guide }
 
     setPage(lang == "th" ? "คลังรูปของข้าวฟ่าง" : "Gallery of Kaofrang");
     fetch(
-      process.env.REACT_APP_APIE_2 + "/kfsite/getgalleryevent",
+      process.env.REACT_APP_APIE_2 + "/kfsitenew/getgalleryevent",
       requestOptions
     )
       .then((response) => response.json())

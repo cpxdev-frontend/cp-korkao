@@ -38,6 +38,8 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import CakeIcon from "@mui/icons-material/Cake";
+import GoogleIcon from "@mui/icons-material/Google";
+import MicrosoftIcon from "@mui/icons-material/Microsoft";
 import Confetti from "react-confetti";
 import MenuIcon from "@mui/icons-material/Menu";
 import AOS from "aos";
@@ -57,6 +59,7 @@ import {
   setPage,
   setLaunch,
   setZone,
+  setLogin,
   switchTutor,
 } from "./redux/action";
 import "moment/locale/th"; // without this line it didn't work
@@ -85,7 +88,6 @@ import LIVE from "./page/livestream";
 import Account from "./page/account";
 import Err from "./page/error";
 
-import { useAuth0 } from "@auth0/auth0-react";
 import {
   GoogleAuthProvider,
   TwitterAuthProvider,
@@ -93,6 +95,8 @@ import {
   signOut,
   OAuthProvider,
   deleteUser,
+  getAuth,
+  getIdToken,
 } from "firebase/auth";
 import auth from "./fbindex";
 
@@ -210,18 +214,11 @@ function App({
   launch,
   game,
   guide,
+  login,
+  setLogin,
   switchTutor,
 }) {
   const [betabypass, setBetaMode] = React.useState(false);
-  const {
-    loginWithPopup,
-    loginWithRedirect,
-    user,
-    isAuthenticated,
-    isLoading,
-    getAccessTokenSilently,
-    logout,
-  } = useAuth0();
   const [transit, setTran] = React.useState(false);
   const [mainten, setOnMaintain] = React.useState(false);
 
@@ -242,6 +239,7 @@ function App({
   const [lockads, setLockads] = React.useState(true);
 
   const location = useLocation();
+  const [loginDialog, setloginDialog] = React.useState(false);
   const [opacity, setOpacity] = React.useState(1); // เริ่มต้น opacity เต็ม
   const scrollRef = React.useRef(null); // เก็บ reference ของ element ที่ scroll
   const history = useHistory();
@@ -265,28 +263,31 @@ function App({
     }
   }, [noti]);
 
-  React.useEffect(() => {
-    setLoad(true);
-    if (sessionStorage.getItem("auth0") != null && isAuthenticated) {
-      history.push(sessionStorage.getItem("auth0"));
-      setLoad(false);
-      sessionStorage.removeItem("auth0");
-    } else {
-      setLoad(false);
-    }
-  }, [isAuthenticated, isLoading]);
+  // React.useEffect(() => {
+  //   setLoad(true);
+  //   if (sessionStorage.getItem("auth0") != null && isAuthenticated) {
+  //     history.push(sessionStorage.getItem("auth0"));
+  //     setLoad(false);
+  //     sessionStorage.removeItem("auth0");
+  //   } else {
+  //     setLoad(false);
+  //   }
+  // }, [isAuthenticated, isLoading]);
 
   const getLogin = (action) => {
     //sessionStorage.setItem("auth0", location.pathname);
     setTimeout(() => {
       //loginWithRedirect();
       let provider = null;
+      setloginDialog(false);
       switch (action) {
         case 1:
           provider = new GoogleAuthProvider();
+          provider.addScope("email");
           break;
         case 2:
           provider = new OAuthProvider("microsoft.com");
+          provider.addScope("email");
           break;
         default:
           return;
@@ -294,11 +295,14 @@ function App({
       setLoad(true);
       signInWithPopup(auth, provider)
         .then((result) => {
+          console.log(result);
           setLoad(false);
+          setLogin(result);
           localStorage.setItem("loged", JSON.stringify(result));
         })
         .catch((error) => {
           // Handle error.
+          setloginDialog(true);
           setLoad(false);
         });
     }, 500);
@@ -328,26 +332,48 @@ function App({
   }, []);
 
   React.useEffect(() => {
-    if (localStorage.getItem("yuser") != null) {
-      if (!isAuthenticated) {
-        getAccessTokenSilently();
-        var m = setInterval(() => {
-          if (isLoading == false) {
-            clearInterval(m);
+    if (login !== null) {
+      try {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+        const urlencoded = new URLSearchParams();
+        urlencoded.append("grant_type", "refresh_token");
+        urlencoded.append("refresh_token", login._tokenResponse.refreshToken);
+
+        const requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: urlencoded,
+          redirect: "follow",
+        };
+
+        fetch(
+          "https://securetoken.googleapis.com/v1/token?key=AIzaSyDKomPdegFMDuvgJNYsPAzMtYtSRVzXWgM",
+          requestOptions
+        )
+          .then((response) => response.json())
+          .then((restoken) => {
+            let u = localStorage.getItem("loged");
+            u._tokenResponse.idToken = restoken.id_token;
+            setLogin(u);
+            localStorage.setItem("loged", u);
+            localStorage.setItem("yuser", "");
             var requestOptions = {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                userId: user.email,
+                userId: u._tokenResponse.email,
+                token: restoken.id_token,
               }),
             };
 
             fetch(
               (Math.floor(Math.random() * 10) + 1 < 5
                 ? process.env.REACT_APP_APIE
-                : process.env.REACT_APP_APIE_2) + "/kfsite/getairdrop",
+                : process.env.REACT_APP_APIE_2) + "/kfsitenew/getairdrop",
               requestOptions
             )
               .then((response) => response.json())
@@ -355,14 +381,14 @@ function App({
                 if (result.status) {
                   Swal.fire({
                     title: "Daily AirDrop is coming!",
-                    allowOutsideClick: false,
-                    showDenyButton: true,
+                    confirmButtonText:
+                      lang == "th" ? "เปิดกล่องเลย!" : "Open AirDrop Box!",
                     customClass: {
                       container: "airdropcontain",
                     },
-                    confirmButtonText:
-                      lang == "th" ? "เปิดกล่องเลย!" : "Open AirDrop Box!",
                     denyButtonText: lang == "th" ? "ไว้ทีหลัง" : "Get it Later",
+                    showDenyButton: true,
+                    allowOutsideClick: false,
                     html: '<div style="height: 100px;" class="mt-3 shake"><i class="fa-solid fa-gift fa-4x"></i></div>',
                   }).then((r) => {
                     if (r.isConfirmed) {
@@ -372,104 +398,22 @@ function App({
                 }
               })
               .catch((error) => console.log("error", error));
-          }
-        }, 100);
-        console.log("view user", user);
-      } else {
-        var requestOptions = {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId: user.email,
-          }),
-        };
-        fetch(
-          (Math.floor(Math.random() * 10) + 1 < 5
-            ? process.env.REACT_APP_APIE
-            : process.env.REACT_APP_APIE_2) + "/kfsite/getairdrop",
-          requestOptions
-        )
-          .then((response) => response.json())
-          .then((result) => {
-            if (result.status) {
-              Swal.fire({
-                title: "Daily AirDrop is coming!",
-                confirmButtonText:
-                  lang == "th" ? "เปิดกล่องเลย!" : "Open AirDrop Box!",
-                customClass: {
-                  container: "airdropcontain",
-                },
-                denyButtonText: lang == "th" ? "ไว้ทีหลัง" : "Get it Later",
-                showDenyButton: true,
-                allowOutsideClick: false,
-                html: '<div style="height: 100px;" class="mt-3 shake"><i class="fa-solid fa-gift fa-4x"></i></div>',
-              }).then((r) => {
-                if (r.isConfirmed) {
-                  getAirdrop();
-                }
-              });
-            }
           })
-          .catch((error) => console.log("error", error));
-      }
-    } else {
-      if (isAuthenticated) {
-        try {
-          getAccessTokenSilently();
-        } catch {
-          Swal.fire({
-            title: "Login session is expired",
-            icon: "error",
-            text: "Please sign-in to KorKao ID again.",
-          }).then((r) => {
-            getout();
-          });
-          return;
-        }
-        localStorage.setItem("yuser", "");
-        var requestOptions = {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId: user.email,
-          }),
-        };
-
-        fetch(
-          (Math.floor(Math.random() * 10) + 1 < 5
-            ? process.env.REACT_APP_APIE
-            : process.env.REACT_APP_APIE_2) + "/kfsite/getairdrop",
-          requestOptions
-        )
-          .then((response) => response.json())
-          .then((result) => {
-            if (result.status) {
-              Swal.fire({
-                title: "Daily AirDrop is coming!",
-                confirmButtonText:
-                  lang == "th" ? "เปิดกล่องเลย!" : "Open AirDrop Box!",
-                customClass: {
-                  container: "airdropcontain",
-                },
-                denyButtonText: lang == "th" ? "ไว้ทีหลัง" : "Get it Later",
-                showDenyButton: true,
-                allowOutsideClick: false,
-                html: '<div style="height: 100px;" class="mt-3 shake"><i class="fa-solid fa-gift fa-4x"></i></div>',
-              }).then((r) => {
-                if (r.isConfirmed) {
-                  getAirdrop();
-                }
-              });
-            }
-          })
-          .catch((error) => console.log("error", error));
+          .catch((error) => console.error(error));
+      } catch (ex) {
+        console.log(ex);
+        Swal.fire({
+          title: "Login session is expired",
+          icon: "error",
+          text: "Please sign-in to KorKao ID again.",
+        }).then((r) => {
+          alert(2);
+          //getout();
+        });
+        return;
       }
     }
-  }, [isAuthenticated]);
+  }, [login]);
 
   function calculateTimeLeft() {
     const difference = moment.unix(targetTime) - moment.unix(launchredis + adm);
@@ -536,7 +480,7 @@ function App({
     fetch(
       (Math.floor(Math.random() * 10) + 1 < 4
         ? process.env.REACT_APP_APIE
-        : process.env.REACT_APP_APIE_2) + "/kfsite/gettime",
+        : process.env.REACT_APP_APIE_2) + "/kfsitenew/gettime",
       {}
     )
       .then((response) => response.text())
@@ -574,7 +518,7 @@ function App({
       fetch(
         (Math.floor(Math.random() * 10) + 1 < 5
           ? process.env.REACT_APP_APIE
-          : process.env.REACT_APP_APIE_2) + "/kfsite/getkfliveinapp",
+          : process.env.REACT_APP_APIE_2) + "/kfsitenew/getkfliveinapp",
         { method: "POST" }
       )
         .then((response) => response.text())
@@ -589,7 +533,7 @@ function App({
       fetch(
         (Math.floor(Math.random() * 10) + 1 < 5
           ? process.env.REACT_APP_APIE
-          : process.env.REACT_APP_APIE_2) + "/kfsite/getkfliveinapp",
+          : process.env.REACT_APP_APIE_2) + "/kfsitenew/getkfliveinapp",
         { method: "POST" }
       )
         .then((response) => response.text())
@@ -635,7 +579,7 @@ function App({
     AOS.init({ duration: 800 });
     setLaunch(moment().unix());
     setLaunchd(moment().unix());
-    // fetch(process.env.REACT_APP_APIE_2 + "/kfsite/birthdayStatus?ok=kf", {
+    // fetch(process.env.REACT_APP_APIE_2 + "/kfsitenew/birthdayStatus?ok=kf", {
     //   method: "POST",
     // })
     //   .then((response) => response.json())
@@ -643,7 +587,7 @@ function App({
     //     setBirthday(result.response);
     //   })
     //   .catch((error) => console.log("error", error));
-    fetch(process.env.REACT_APP_APIE_2 + "/kfsite/birthdayStatus", {
+    fetch(process.env.REACT_APP_APIE_2 + "/kfsitenew/birthdayStatus", {
       method: "POST",
     })
       .then((response) => response.json())
@@ -658,17 +602,20 @@ function App({
   }, []);
 
   React.useEffect(() => {
-    if (isLoading == false && sessionStorage.getItem("ads") == null) {
+    if (sessionStorage.getItem("ads") == null) {
       var requestOptions = {
         method: "POST",
       };
       setLoadads(true);
-      fetch(process.env.REACT_APP_APIE_2 + "/kfsite/getevent", requestOptions)
+      fetch(
+        process.env.REACT_APP_APIE_2 + "/kfsitenew/getevent",
+        requestOptions
+      )
         .then((response) => response.json())
         .then((result) => {
           setLoadads(false);
           if (result.length > 0) {
-            if (isAuthenticated) {
+            if (login !== null) {
               setLockads(false);
             } else {
               setTimeout(() => {
@@ -682,7 +629,7 @@ function App({
         })
         .catch((error) => console.log("error", error));
     }
-  }, [isAuthenticated, isLoading]);
+  }, [login]);
 
   const [pages, setPage] = React.useState(lang == "th" ? pagesTh : pagesEn);
   const [appbarx, setApp] = React.useState(false);
@@ -771,12 +718,18 @@ function App({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: user.email,
-        notiId: atob(localStorage.getItem("osigIdPush")),
+        userId: login._tokenResponse.email,
+        token: login._tokenResponse.idToken,
+        notiId: localStorage.getItem("osigIdPush")
+          ? atob(localStorage.getItem("osigIdPush"))
+          : null,
       }),
     };
 
-    fetch(process.env.REACT_APP_APIE + "/kfsite/receiveairdrop", requestOptions)
+    fetch(
+      process.env.REACT_APP_APIE + "/kfsitenew/receiveairdrop",
+      requestOptions
+    )
       .then((response) => response.json())
       .then((result) => {
         setLoadPre(false);
@@ -835,20 +788,19 @@ function App({
   };
 
   const getout = () => {
+    setLoad(true);
+    setLogin(null);
     localStorage.removeItem("yuser");
-    // setTimeout(() => {
-    // }, 400);
-    logout({
-      logoutParams: {
-        returnTo: window.location.origin,
-      },
-    });
+    localStorage.removeItem("loged");
+    setLoad(false);
+    setAnchorElNav(false);
+    setAnchorElUser(false);
   };
 
   const handleCloseNavMenu = () => {
-    if (isLoading && localStorage.getItem("yuser") == null) {
-      return;
-    }
+    // if (localStorage.getItem("yuser") == null) {
+    //   return;
+    // }
     setAnchorElNav(null);
   };
 
@@ -1103,7 +1055,7 @@ function App({
                       ) : null
                     )}
                     <Divider />
-                    {!isLoading ? (
+                    {!load ? (
                       <Card className="mt-3 mb-3">
                         {localStorage.getItem("loged") !== null && (
                           <CardContent>
@@ -1132,11 +1084,8 @@ function App({
                           </CardActions>
                         ) : (
                           <CardActions sx={{ width: 270 }}>
-                            <Button onClick={() => getLogin(1)}>
-                              Become or Log-in to KorKao ID via Google
-                            </Button>
-                            <Button onClick={() => getLogin(2)}>
-                              Become or Log-in to KorKao ID via Microsoft
+                            <Button onClick={() => setloginDialog(true)}>
+                              Become or Log-in to KorKao ID
                             </Button>
                             <Button
                               onClick={() => {
@@ -1469,7 +1418,7 @@ function App({
                         </MenuItem>
                       ) : null
                     )}
-                    {!isLoading ? (
+                    {!load ? (
                       <Card className="mt-3 mb-3">
                         {localStorage.getItem("loged") !== null && (
                           <CardContent>
@@ -1498,7 +1447,7 @@ function App({
                           </CardActions>
                         ) : (
                           <CardActions sx={{ width: 270 }}>
-                            <Button onClick={() => getLogin()}>
+                            <Button onClick={() => setloginDialog(true)}>
                               Become or Log-in to KorKao ID
                             </Button>
                             <Button
@@ -1690,7 +1639,7 @@ function App({
                   <DialogTitle>
                     {lang == "th" ? "การตั้งค่า" : "Setting"}
                   </DialogTitle>
-                  {!isLoading ? (
+                  {!load ? (
                     <Card
                       className="m-4"
                       sx={{
@@ -1731,7 +1680,7 @@ function App({
                         </CardActions>
                       ) : (
                         <CardActions sx={{ width: 270 }}>
-                          <Button onClick={() => getLogin()}>
+                          <Button onClick={() => setloginDialog(true)}>
                             Become or Log-in to KorKao ID
                           </Button>
                           <Button
@@ -1825,6 +1774,77 @@ function App({
                     </>
                   )}
                 </Dialog>
+
+                <Dialog
+                  open={loginDialog}
+                  TransitionComponent={Transition}
+                  transitionDuration={400}
+                  PaperProps={{ style: { width: "80%" } }}
+                  onClose={() => {}}
+                  maxWidth="lg">
+                  <DialogTitle>
+                    {lang == "th"
+                      ? "เลือกช่องทางการเข้าสู่ระบบ"
+                      : "Select Login Provider"}
+                  </DialogTitle>
+                  <DialogContent>
+                    <CardActions className="d-flex justify-content-center">
+                      <Button
+                        size="large"
+                        variant="outlined"
+                        onClick={() => getLogin(1)}>
+                        <GoogleIcon className="mr-1" /> Google
+                      </Button>
+                      <Button
+                        size="large"
+                        variant="outlined"
+                        onClick={() => getLogin(2)}>
+                        <MicrosoftIcon className="mr-1" />
+                        Microsoft
+                      </Button>
+                    </CardActions>
+                    <Typography className="mt-5 text-center">
+                      {lang == "th"
+                        ? "1 แอคเคาท์รองรับทุกแพลตฟอร์ม"
+                        : "One Account, Whole Platform"}
+                    </Typography>
+                    <div className="row d-flex justify-content-center">
+                      <CardMedia
+                        onClick={() =>
+                          window.open("//cp-bnk48.pages.dev", "_blank")
+                        }
+                        src="https://d3hhrps04devi8.cloudfront.net/main/bnklogo.png"
+                        component="img"
+                        alt="BNK48 Fan Space"
+                        className="ml-0 mr-0 col-3"
+                      />
+                      <CardMedia
+                        onClick={() =>
+                          window.open("//cp-cgm48.pages.dev", "_blank")
+                        }
+                        src="https://d3hhrps04devi8.cloudfront.net/main/cgmlogo.png"
+                        alt="CGM48 Fan Space"
+                        component="img"
+                        className="ml-0 mr-0 col-3"
+                      />
+                      <CardMedia
+                        onClick={() =>
+                          window.open("//cp-tpop.pages.dev", "_blank")
+                        }
+                        src="https://d3hhrps04devi8.cloudfront.net/tpop/tpop.fulllogo.png"
+                        component="img"
+                        alt="TPOP Fan eX"
+                        className="ml-0 mr-0 col-3"
+                        sx={{ width: "100%" }}
+                      />
+                    </div>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={() => setloginDialog(false)}>
+                      {lang == "th" ? "ปิด" : "Close"}
+                    </Button>
+                  </DialogActions>
+                </Dialog>
               </Box>
             </Toolbar>
           </Container>
@@ -1908,7 +1928,7 @@ function App({
             <Route
               data-aos="fade-in"
               path="/account"
-              render={() => <Account />}
+              render={() => <Account setLoginD={() => setloginDialog(true)} />}
             />
             <Route
               exact
@@ -1997,6 +2017,7 @@ const mapStateToProps = (state) => ({
   launch: state.launch,
   currentPage: state.currentPage,
   game: state.game,
+  login: state.login,
   guide: state.guide,
 });
 const mapDispatchToProps = (dispatch) => ({
@@ -2007,5 +2028,6 @@ const mapDispatchToProps = (dispatch) => ({
   setPage: (val) => dispatch(setPage(val)),
   setZone: (val) => dispatch(setZone(val)),
   switchTutor: (val) => dispatch(switchTutor(val)),
+  setLogin: (val) => dispatch(setLogin(val)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(App);
