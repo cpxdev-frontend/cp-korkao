@@ -408,7 +408,7 @@ function App({
                 .then((result) => {
                   if (result.status) {
                     Swal.fire({
-                      title: "Daily AirDrop is coming!",
+                      title: "Weekly AirDrop is coming!",
                       confirmButtonText:
                         lang == "th" ? "เปิดกล่องเลย!" : "Open AirDrop Box!",
                       customClass: {
