@@ -1304,7 +1304,7 @@ const Acct = ({
                     avatar={
                       <Avatar
                         sx={{ width: 80, height: 80 }}
-                        src={login.user.providerData[0].providerId.includes("google") ? login.user.photoURL : decodeURI(login.user.photoURL)}
+                        src={login.user.photoURL}
                         className="mr-md-2 mr-0"
                         aria-label="recipe"></Avatar>
                     }
