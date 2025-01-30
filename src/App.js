@@ -996,7 +996,7 @@ function App({
                   <DialogContent
                     sx={{
                       width: {
-                        xs: login !== null && login !== false ? "65vw" : "100%",
+                        xs: login !== null && login !== false ? "75vw" : "100%",
                         sm: 340,
                       },
                     }}>
@@ -1366,7 +1366,7 @@ function App({
                   <DialogContent
                     sx={{
                       width: {
-                        xs: login !== null && login !== false ? "65vw" : "100%",
+                        xs: login !== null && login !== false ? "75vw" : "100%",
                         sm: 340,
                       },
                     }}>
