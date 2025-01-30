@@ -2003,10 +2003,7 @@ const initialState = {
       iso3166_2: "ISO 3166-2:SJ",
     },
   ],
-  login:
-    localStorage.getItem("loged") != null
-      ? JSON.parse(localStorage.getItem("loged"))
-      : null,
+  login: false,
   currentPage: "Loading",
 };
 

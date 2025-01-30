@@ -429,7 +429,10 @@ const GameApp = ({
           quizDuration: Math.floor((time % 6000) / 100),
           sessionId: session,
           token: login._tokenResponse.idToken,
-          userId: login !== null ? login._tokenResponse.email : null,
+          userId:
+            login !== null && login !== false
+              ? login._tokenResponse.email
+              : null,
         }),
       })
         .then((response) => response.json())

@@ -332,86 +332,96 @@ function App({
   }, []);
 
   React.useEffect(() => {
-    if (login !== null) {
-      try {
-        const myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+    if (localStorage.getItem("loged") !== null) {
+      if (login === false) {
+        try {
+          const myHeaders = new Headers();
+          myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
-        const urlencoded = new URLSearchParams();
-        urlencoded.append("grant_type", "refresh_token");
-        urlencoded.append("refresh_token", login._tokenResponse.refreshToken);
+          const urlencoded = new URLSearchParams();
+          urlencoded.append("grant_type", "refresh_token");
+          urlencoded.append(
+            "refresh_token",
+            JSON.parse(localStorage.getItem("loged"))._tokenResponse
+              .refreshToken
+          );
 
-        const requestOptions = {
-          method: "POST",
-          headers: myHeaders,
-          body: urlencoded,
-          redirect: "follow",
-        };
+          const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: urlencoded,
+            redirect: "follow",
+          };
 
-        fetch(
-          "https://securetoken.googleapis.com/v1/token?key=AIzaSyDKomPdegFMDuvgJNYsPAzMtYtSRVzXWgM",
-          requestOptions
-        )
-          .then((response) => response.json())
-          .then((restoken) => {
-            let u = localStorage.getItem("loged");
-            u._tokenResponse.idToken = restoken.id_token;
-            setLogin(u);
-            localStorage.setItem("loged", u);
-            localStorage.setItem("yuser", "");
-            var requestOptions = {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                userId: u._tokenResponse.email,
-                token: restoken.id_token,
-              }),
-            };
+          fetch(
+            "https://securetoken.googleapis.com/v1/token?key=AIzaSyDKomPdegFMDuvgJNYsPAzMtYtSRVzXWgM",
+            requestOptions
+          )
+            .then((response) => response.json())
+            .then((restoken) => {
+              let u = JSON.parse(localStorage.getItem("loged"));
+              u._tokenResponse.idToken = restoken.id_token;
+              setLogin(u);
+              console.log("deb", u);
+              localStorage.setItem("loged", JSON.stringify(u));
+              localStorage.setItem("yuser", "");
+              var requestOptions = {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  userId: u._tokenResponse.email,
+                  token: restoken.id_token,
+                }),
+              };
 
-            fetch(
-              (Math.floor(Math.random() * 10) + 1 < 5
-                ? process.env.REACT_APP_APIE
-                : process.env.REACT_APP_APIE_2) + "/kfsitenew/getairdrop",
-              requestOptions
-            )
-              .then((response) => response.json())
-              .then((result) => {
-                if (result.status) {
-                  Swal.fire({
-                    title: "Daily AirDrop is coming!",
-                    confirmButtonText:
-                      lang == "th" ? "เปิดกล่องเลย!" : "Open AirDrop Box!",
-                    customClass: {
-                      container: "airdropcontain",
-                    },
-                    denyButtonText: lang == "th" ? "ไว้ทีหลัง" : "Get it Later",
-                    showDenyButton: true,
-                    allowOutsideClick: false,
-                    html: '<div style="height: 100px;" class="mt-3 shake"><i class="fa-solid fa-gift fa-4x"></i></div>',
-                  }).then((r) => {
-                    if (r.isConfirmed) {
-                      getAirdrop();
-                    }
-                  });
-                }
-              })
-              .catch((error) => console.log("error", error));
-          })
-          .catch((error) => console.error(error));
-      } catch (ex) {
-        console.log(ex);
-        Swal.fire({
-          title: "Login session is expired",
-          icon: "error",
-          text: "Please sign-in to KorKao ID again.",
-        }).then((r) => {
-          alert(2);
-          //getout();
-        });
-        return;
+              fetch(
+                (Math.floor(Math.random() * 10) + 1 < 5
+                  ? process.env.REACT_APP_APIE
+                  : process.env.REACT_APP_APIE_2) + "/kfsitenew/getairdrop",
+                requestOptions
+              )
+                .then((response) => response.json())
+                .then((result) => {
+                  if (result.status) {
+                    Swal.fire({
+                      title: "Daily AirDrop is coming!",
+                      confirmButtonText:
+                        lang == "th" ? "เปิดกล่องเลย!" : "Open AirDrop Box!",
+                      customClass: {
+                        container: "airdropcontain",
+                      },
+                      denyButtonText:
+                        lang == "th" ? "ไว้ทีหลัง" : "Get it Later",
+                      showDenyButton: true,
+                      allowOutsideClick: false,
+                      html: '<div style="height: 100px;" class="mt-3 shake"><i class="fa-solid fa-gift fa-4x"></i></div>',
+                    }).then((r) => {
+                      if (r.isConfirmed) {
+                        getAirdrop();
+                      }
+                    });
+                  }
+                })
+                .catch((error) => console.log("error", error));
+            })
+            .catch((error) => console.error(error));
+        } catch (ex) {
+          console.log(ex);
+          Swal.fire({
+            title: "Login session is expired",
+            icon: "error",
+            text: "Please sign-in to KorKao ID again.",
+          }).then((r) => {
+            alert(ex);
+            //getout();
+          });
+          return;
+        }
       }
+    } else {
+      setLogin(localStorage.getItem("loged"));
     }
   }, [login]);
 
@@ -615,7 +625,7 @@ function App({
         .then((result) => {
           setLoadads(false);
           if (result.length > 0) {
-            if (login !== null) {
+            if (login !== null && login !== false) {
               setLockads(false);
             } else {
               setTimeout(() => {
@@ -638,7 +648,11 @@ function App({
     if (currentPage.includes("404 Not Found")) {
       setApp(false);
     } else {
-      setApp(location.pathname != "/" && unlock && !game ? true : false);
+      setApp(
+        location.pathname != "/" && unlock && login !== false && !game
+          ? true
+          : false
+      );
     }
   }, [currentPage, location.pathname, unlock, game]);
 
@@ -1057,7 +1071,7 @@ function App({
                     <Divider />
                     {!load ? (
                       <Card className="mt-3 mb-3">
-                        {localStorage.getItem("loged") !== null && (
+                        {login !== null && login !== false && (
                           <CardContent>
                             <Typography>
                               {lang == "th"
@@ -1070,7 +1084,7 @@ function App({
                             </Typography>
                           </CardContent>
                         )}
-                        {localStorage.getItem("loged") !== null ? (
+                        {login !== null && login !== false ? (
                           <CardActions sx={{ width: 270 }}>
                             <Button
                               onClick={() => {
@@ -1420,7 +1434,7 @@ function App({
                     )}
                     {!load ? (
                       <Card className="mt-3 mb-3">
-                        {localStorage.getItem("loged") !== null && (
+                        {login !== null && login !== false && (
                           <CardContent>
                             <Typography>
                               {lang == "th"
@@ -1433,7 +1447,7 @@ function App({
                             </Typography>
                           </CardContent>
                         )}
-                        {localStorage.getItem("loged") !== null ? (
+                        {login !== null && login !== false ? (
                           <CardActions sx={{ width: 270 }}>
                             <Button
                               onClick={() => {
@@ -1653,7 +1667,7 @@ function App({
                                 xl: "initial",
                               },
                       }}>
-                      {localStorage.getItem("loged") !== null && (
+                      {login !== null && login !== false && (
                         <CardContent>
                           <Typography>
                             {lang == "th"
@@ -1666,7 +1680,7 @@ function App({
                           </Typography>
                         </CardContent>
                       )}
-                      {localStorage.getItem("loged") !== null ? (
+                      {login !== null && login !== false ? (
                         <CardActions sx={{ width: 270 }}>
                           <Button
                             onClick={() => {

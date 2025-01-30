@@ -117,7 +117,7 @@ const Acct = ({
   setLoginD,
   login,
 }) => {
-  const [data, setData] = React.useState(null);
+  const [data, setData] = React.useState(false);
   const [event, setEventDetail] = React.useState(null);
   const [getData, setGetData] = React.useState(false);
   const [getData2, setGetData2] = React.useState(null);
@@ -455,7 +455,7 @@ const Acct = ({
   }, [currentPage]);
 
   const fetchpoint = () => {
-    if (login) {
+    if (login !== null && login !== false) {
       setData(login);
       var requestOptions = {
         method: "POST",
@@ -509,7 +509,7 @@ const Acct = ({
   React.useEffect(() => {
     setPage("KorKao ID");
     fetchpoint();
-    if (login) {
+    if (login !== null && login !== false) {
       var url = new URL(window.location.href);
       var c = url.searchParams.get("action");
       if (c != null && c == "korkaoslip") {
@@ -939,6 +939,21 @@ const Acct = ({
     },
   });
 
+  if (login === false) {
+    return (
+      <Card>
+        <CardContent>
+          <Skeleton variant="text" className="bg-m" sx={{ fontSize: "2rem" }} />
+          <Skeleton variant="text" className="bg-m" sx={{ fontSize: "1rem" }} />
+          <Skeleton variant="text" className="bg-m" sx={{ fontSize: "1rem" }} />
+          <Skeleton variant="text" className="bg-m" sx={{ fontSize: "1rem" }} />
+          <Skeleton variant="text" className="bg-m" sx={{ fontSize: "1rem" }} />
+          <Skeleton variant="text" className="bg-m" sx={{ fontSize: "1rem" }} />
+        </CardContent>
+      </Card>
+    );
+  }
+
   if (login === null) {
     return (
       <Fade in={open} timeout={300}>
@@ -1305,7 +1320,9 @@ const Acct = ({
                       <div
                         style={{ cursor: "pointer" }}
                         onClick={() => {
-                          navigator.clipboard.writeText(login._tokenResponse.email);
+                          navigator.clipboard.writeText(
+                            login._tokenResponse.email
+                          );
                           alert("Your KorKao ID has been copied");
                         }}>
                         {"ID: " + login._tokenResponse.email}{" "}
@@ -2266,7 +2283,7 @@ const Acct = ({
           </>
         </Dialog>
 
-        <Dialog open={transModel} maxWidth={transReady ? "lg" : 'sm'}>
+        <Dialog open={transModel} maxWidth={transReady ? "lg" : "sm"}>
           <>
             <DialogTitle id="alert-dialog-title">
               <CardHeader
