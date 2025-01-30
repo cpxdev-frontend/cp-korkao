@@ -993,7 +993,13 @@ function App({
                     }}>
                     {lang == "th" ? "เมนูหลัก" : "Main Menu"}
                   </DialogTitle>
-                  <DialogContent sx={{ width: { xs: "90%", sm: 340 } }}>
+                  <DialogContent
+                    sx={{
+                      width: {
+                        xs: login !== null && login !== false ? "90%" : "100%",
+                        sm: 340,
+                      },
+                    }}>
                     {pages.map((page, i) =>
                       pageSec[i] != "birthday" ? (
                         <MenuItem
@@ -1357,7 +1363,13 @@ function App({
                   <DialogTitle>
                     {lang == "th" ? "เมนูหลัก" : "Main Menu"}
                   </DialogTitle>
-                  <DialogContent sx={{ width: { xs: "90%", sm: 340 } }}>
+                  <DialogContent
+                    sx={{
+                      width: {
+                        xs: login !== null && login !== false ? "90%" : "100%",
+                        sm: 340,
+                      },
+                    }}>
                     {pages.map((page, i) =>
                       pageSec[i] != "birthday" ? (
                         <MenuItem
