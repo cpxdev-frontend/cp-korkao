@@ -295,10 +295,32 @@ function App({
       setLoad(true);
       signInWithPopup(auth, provider)
         .then((result) => {
-          console.log(result);
           setLoad(false);
-          setLogin(result);
-          localStorage.setItem("loged", JSON.stringify(result));
+          if (action == 1) {
+            setLogin(result);
+            localStorage.setItem("loged", JSON.stringify(result));
+            return;
+          }
+          fetch("https://graph.microsoft.com/v1.0/me/photo/$value", {
+            headers: {
+              Authorization: `Bearer ${result._tokenResponse.oauthAccessToken}`,
+              "Content-Type": "image/jpg",
+            },
+          })
+            .then(async function (response) {
+              return await response.blob();
+            })
+            .then(function (blob) {
+              var reader = new FileReader();
+              reader.readAsDataURL(blob); 
+              reader.onloadend = function() {
+                var base64data = reader.result;   
+                result.user.photoURL = base64data;
+                setLogin(result);
+                localStorage.setItem("loged", JSON.stringify(result));
+              }
+            })
+            .catch((e) => console.log("error injecting photo"));
         })
         .catch((error) => {
           // Handle error.
@@ -648,11 +670,7 @@ function App({
     if (currentPage.includes("404 Not Found")) {
       setApp(false);
     } else {
-      setApp(
-        location.pathname != "/" && unlock && login !== false && !game
-          ? true
-          : false
-      );
+      setApp(location.pathname != "/" && unlock && !game ? true : false);
     }
   }, [currentPage, location.pathname, unlock, game]);
 

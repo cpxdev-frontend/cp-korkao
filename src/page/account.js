@@ -941,7 +941,7 @@ const Acct = ({
 
   if (login === false) {
     return (
-      <Card>
+      <Card className="mt-5">
         <CardContent>
           <Skeleton variant="text" className="bg-m" sx={{ fontSize: "2rem" }} />
           <Skeleton variant="text" className="bg-m" sx={{ fontSize: "1rem" }} />
@@ -1304,7 +1304,7 @@ const Acct = ({
                     avatar={
                       <Avatar
                         sx={{ width: 80, height: 80 }}
-                        src={login.user.photoURL}
+                        src={login.user.providerData[0].providerId.includes("google") ? login.user.photoURL : decodeURI(login.user.photoURL)}
                         className="mr-md-2 mr-0"
                         aria-label="recipe"></Avatar>
                     }
@@ -1334,11 +1334,11 @@ const Acct = ({
                         aria-label="google"
                         onClick={() =>
                           window.open(
-                            login.user.providerData.includes("google")
+                            login.user.providerData[0].providerId.includes("google")
                               ? "https://myaccount.google.com/"
-                              : login.user.providerData.includes("microsoft")
+                              : login.user.providerData[0].providerId.includes("microsoft")
                               ? "https://account.microsoft.com"
-                              : login.user.providerData.includes("spotify")
+                              : login.user.providerData[0].providerId.includes("spotify")
                               ? "https://www.spotify.com/account/overview"
                               : null,
                             "_blank"
@@ -1346,11 +1346,11 @@ const Acct = ({
                         }>
                         <FontAwesomeIcon
                           icon={
-                            login.user.providerData.includes("google")
+                            login.user.providerData[0].providerId.includes("google")
                               ? faGoogle
-                              : login.user.providerData.includes("microsoft")
+                              : login.user.providerData[0].providerId.includes("microsoft")
                               ? faMicrosoft
-                              : login.user.providerData.includes("spotify")
+                              : login.user.providerData[0].providerId.includes("spotify")
                               ? faSpotify
                               : null
                           }
