@@ -38,12 +38,10 @@
   </sitemap>
   <sitemap>
     <loc>https://korkao.pages.dev/follow</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.7</priority>
+    <lastmod>2025-01-31</lastmod>
   </sitemap>
   <sitemap>
     <loc>https://korkao.pages.dev/donation</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2025-01-31</lastmod>
   </sitemap>
 </sitemapindex>
