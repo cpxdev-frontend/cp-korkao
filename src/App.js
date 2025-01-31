@@ -579,6 +579,14 @@ function App({
 
   React.useEffect(() => {
     ReactGA.initialize("G-HGFSHDZZMC");
+    if (
+      localStorage.getItem("yuser") !== null &&
+      localStorage.getItem("loged") == null
+    ) {
+      localStorage.removeItem("yuser");
+      alert('Login session changed. please login again.');
+      window.localStorage.reload();
+    }
     ReactGA.send({ hitType: "pageview", page: window.location.pathname });
     window.addEventListener("scroll", debounce(handleScroll, 200));
     fetch(process.env.REACT_APP_APIE + "/home/status", {})
@@ -685,10 +693,7 @@ function App({
         method: "POST",
       };
       setLoadads(true);
-      fetch(
-        process.env.REACT_APP_APIE_2 + "/kfsite/getevent",
-        requestOptions
-      )
+      fetch(process.env.REACT_APP_APIE_2 + "/kfsite/getevent", requestOptions)
         .then((response) => response.json())
         .then((result) => {
           setLoadads(false);
@@ -804,10 +809,7 @@ function App({
       }),
     };
 
-    fetch(
-      process.env.REACT_APP_APIE + "/kfsite/receiveairdrop",
-      requestOptions
-    )
+    fetch(process.env.REACT_APP_APIE + "/kfsite/receiveairdrop", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         setLoadPre(false);
@@ -888,7 +890,8 @@ function App({
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={true}
-        className="text-center">
+        className="text-center"
+      >
         {lang == "th"
           ? "เว็บไซต์นี้ไม่รองรับการแสดงแบบฝังบนเว็บไซต์อื่น"
           : "This site is not support on iframe tag"}
@@ -905,7 +908,8 @@ function App({
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-        }}>
+        }}
+      >
         <div className="col-12">
           <img
             src="https://niceillustrations.com/wp-content/uploads/2021/07/Connection-Lost-color-800px.png"
@@ -932,7 +936,8 @@ function App({
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-        }}>
+        }}
+      >
         <div className="col-12">
           <img
             src="https://niceillustrations.com/wp-content/uploads/2022/03/Police.png"
@@ -955,7 +960,8 @@ function App({
       />
       <div
         id="blockwhenland"
-        className="d-flex justify-content-center align-items-center text-center">
+        className="d-flex justify-content-center align-items-center text-center"
+      >
         <h5>
           <img
             src="https://cdn-icons-png.flaticon.com/512/6737/6737502.png"
@@ -971,13 +977,15 @@ function App({
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         sx={{ zIndex: 1200, marginTop: 10 }}
-        open={point}>
+        open={point}
+      >
         <Alert
           onClick={() => setDonatePoint(false)}
           icon={<CakeIcon />}
           severity="primary"
           variant="filled"
-          sx={{ width: "100%", color: "#fff", cursor: "pointer" }}>
+          sx={{ width: "100%", color: "#fff", cursor: "pointer" }}
+        >
           {lang == "th"
             ? "ร่วมอวยพรวันเกิดข้าวฟ่างในวัย " +
               (new Date().getFullYear() - 2002) +
@@ -994,13 +1002,15 @@ function App({
           location.pathname != "/" &&
           !game &&
           !currentPage.includes("404 Not Found")
-        }>
+        }
+      >
         <AppBar position="fixed" className="newmobileAppbar">
           <Container maxWidth="xl">
             <Toolbar disableGutters>
               <Box
                 className="justify-content-center"
-                sx={{ flexGrow: 0, display: { xs: "flex", lg: "none" } }}>
+                sx={{ flexGrow: 0, display: { xs: "flex", lg: "none" } }}
+              >
                 {location.pathname != "/" &&
                   !currentPage.includes("404 Not Found") && (
                     <Tooltip
@@ -1010,11 +1020,13 @@ function App({
                             ? "น้องข้าวฟ่างไลฟ์แล้ว มาดูกันเถอะ!"
                             : "Kaofrang BNK48 is LIVE now!"
                           : null
-                      }>
+                      }
+                    >
                       <StyledBadge
                         overlap="circular"
                         anchorOrigin={{ vertical: "top", horizontal: "right" }}
-                        variant="dot">
+                        variant="dot"
+                      >
                         <Avatar
                           data-aos="fade-in"
                           sx={{
@@ -1043,11 +1055,13 @@ function App({
                   }}
                   open={anchorElNav}
                   onClose={handleCloseNavMenu}
-                  sx={{ display: { xs: "initial", xl: "none" } }}>
+                  sx={{ display: { xs: "initial", xl: "none" } }}
+                >
                   <DialogTitle
                     sx={{
                       display: { xs: "initial", lg: "none", xl: "initial" },
-                    }}>
+                    }}
+                  >
                     {lang == "th"
                       ? "เมนูหลักและการตั้งค่า"
                       : "Main Menu and Settings"}
@@ -1055,7 +1069,8 @@ function App({
                   <DialogTitle
                     sx={{
                       display: { xs: "none", lg: "initial", xl: "none" },
-                    }}>
+                    }}
+                  >
                     {lang == "th" ? "เมนูหลัก" : "Main Menu"}
                   </DialogTitle>
                   <DialogContent
@@ -1064,14 +1079,16 @@ function App({
                         xs: login !== null && login !== false ? "75vw" : "100%",
                         sm: 340,
                       },
-                    }}>
+                    }}
+                  >
                     {pages.map((page, i) =>
                       pageSec[i] != "birthday" ? (
                         <MenuItem
                           component={Link}
                           key={page}
                           to={"/" + pageSec[i]}
-                          onClick={handleCloseNavMenu}>
+                          onClick={handleCloseNavMenu}
+                        >
                           <Typography
                             className={
                               (pageSec[i] == "quizgame" &&
@@ -1097,7 +1114,8 @@ function App({
                                   ? "#b802a8"
                                   : "#000",
                             }}
-                            component="p">
+                            component="p"
+                          >
                             {page}
                           </Typography>
                         </MenuItem>
@@ -1107,7 +1125,8 @@ function App({
                           component={Link}
                           key={page}
                           to={"/" + pageSec[i]}
-                          onClick={handleCloseNavMenu}>
+                          onClick={handleCloseNavMenu}
+                        >
                           <Typography
                             textAlign="center"
                             className={
@@ -1133,7 +1152,8 @@ function App({
                                   ? "#b802a8"
                                   : "#000",
                             }}
-                            component="p">
+                            component="p"
+                          >
                             {page}
                           </Typography>
                         </MenuItem>
@@ -1162,7 +1182,8 @@ function App({
                                 history.push("/account");
                                 handleCloseNavMenu();
                                 setAnchorElUser(false);
-                              }}>
+                              }}
+                            >
                               View Profile
                             </Button>
                             <Button onClick={() => getout()}>Sign-out</Button>
@@ -1176,7 +1197,8 @@ function App({
                               onClick={() => {
                                 history.push("/account");
                                 handleCloseNavMenu();
-                              }}>
+                              }}
+                            >
                               View Benefits
                             </Button>
                           </CardActions>
@@ -1195,11 +1217,13 @@ function App({
                           window.location.pathname != "/"
                             ? "initial"
                             : { xs: "none", xl: "initial" },
-                      }}>
+                      }}
+                    >
                       <Typography
                         sx={{
                           display: { xs: "block", lg: "none", xl: "block" },
-                        }}>
+                        }}
+                      >
                         Change Language
                       </Typography>
                       <ToggleButtonGroup
@@ -1213,12 +1237,14 @@ function App({
                         exclusive
                         onChange={(e) =>
                           e.target.value != lang && setLang(e.target.value)
-                        }>
+                        }
+                      >
                         {langList.map((option) => (
                           <ToggleButton
                             sx={{ borderRadius: 1 }}
                             value={option.value}
-                            key={option.value}>
+                            key={option.value}
+                          >
                             {option.label}
                           </ToggleButton>
                         ))}
@@ -1242,7 +1268,8 @@ function App({
                       <Typography
                         sx={{
                           display: { xs: "block", lg: "none", xl: "block" },
-                        }}>
+                        }}
+                      >
                         {lang == "th"
                           ? "สถานะการแจ้งเตือน: "
                           : "Notification Status: "}{" "}
@@ -1267,7 +1294,8 @@ function App({
                       right: 20,
                     }}
                     onClick={handleOpenNavMenu}
-                    color="inherit">
+                    color="inherit"
+                  >
                     <MenuIcon />
                   </IconButton>
                 )}
@@ -1280,7 +1308,8 @@ function App({
       <Slide
         direction="down"
         in={appbarx}
-        sx={{ display: { xs: "none", md: "initial" } }}>
+        sx={{ display: { xs: "none", md: "initial" } }}
+      >
         <AppBar position="fixed" className="newpcAppbar">
           <Container maxWidth="xl">
             <Toolbar disableGutters>
@@ -1291,7 +1320,8 @@ function App({
                       ? "น้องข้าวฟ่างไลฟ์แล้ว มาดูกันเถอะ!"
                       : "Kaofrang BNK48 is LIVE now!"
                     : null
-                }>
+                }
+              >
                 <Avatar
                   sx={{
                     width: 70,
@@ -1310,12 +1340,14 @@ function App({
                       ? "น้องข้าวฟ่างไลฟ์แล้ว มาดูกันเถอะ!"
                       : "Kaofrang BNK48 is LIVE now!"
                     : null
-                }>
+                }
+              >
                 <StyledBadge
                   overlap="circular"
                   anchorOrigin={{ vertical: "top", horizontal: "right" }}
                   sx={{ display: { xs: "none", lg: "flex" } }}
-                  variant="dot">
+                  variant="dot"
+                >
                   <Typography
                     variant="h6"
                     noWrap
@@ -1325,14 +1357,16 @@ function App({
 
                       color: "inherit",
                       textDecoration: "none",
-                    }}>
+                    }}
+                  >
                     <b>KorKao</b>
                   </Typography>
                 </StyledBadge>
               </Tooltip>
               <Box
                 className="justify-content-center"
-                sx={{ flexGrow: 0, display: { xs: "flex", xl: "none" } }}>
+                sx={{ flexGrow: 0, display: { xs: "flex", xl: "none" } }}
+              >
                 <IconButton
                   size="large"
                   aria-label="account of current user"
@@ -1340,7 +1374,8 @@ function App({
                   aria-haspopup="true"
                   onClick={handleOpenNavMenu}
                   sx={{ display: { md: "none", xl: "initial" } }}
-                  color="inherit">
+                  color="inherit"
+                >
                   <MenuIcon />
                 </IconButton>
 
@@ -1356,7 +1391,8 @@ function App({
                       right: 80,
                       top: 10,
                     }}
-                    color="inherit">
+                    color="inherit"
+                  >
                     <MenuIcon />
                   </IconButton>
                   <IconButton
@@ -1366,7 +1402,8 @@ function App({
                       position: "fixed",
                       right: 20,
                       top: 10,
-                    }}>
+                    }}
+                  >
                     <Avatar
                       sx={{ width: 30, height: 30 }}
                       variant="rounded"
@@ -1390,7 +1427,8 @@ function App({
                     right: 20,
                     top: -2,
                   }}
-                  color="inherit">
+                  color="inherit"
+                >
                   <MenuIcon />
                 </IconButton>
                 <IconButton
@@ -1400,7 +1438,8 @@ function App({
                     position: "fixed",
                     right: 60,
                     top: 10,
-                  }}>
+                  }}
+                >
                   <Avatar
                     sx={{ width: 30, height: 30 }}
                     variant="rounded"
@@ -1424,7 +1463,8 @@ function App({
                   }}
                   open={anchorElNav}
                   onClose={handleCloseNavMenu}
-                  sx={{ display: { xs: "none", xl: "initial" } }}>
+                  sx={{ display: { xs: "none", xl: "initial" } }}
+                >
                   <DialogTitle>
                     {lang == "th" ? "เมนูหลัก" : "Main Menu"}
                   </DialogTitle>
@@ -1434,14 +1474,16 @@ function App({
                         xs: login !== null && login !== false ? "75vw" : "100%",
                         sm: 340,
                       },
-                    }}>
+                    }}
+                  >
                     {pages.map((page, i) =>
                       pageSec[i] != "birthday" ? (
                         <MenuItem
                           component={Link}
                           key={page}
                           to={"/" + pageSec[i]}
-                          onClick={handleCloseNavMenu}>
+                          onClick={handleCloseNavMenu}
+                        >
                           <Typography
                             textAlign="center"
                             className={
@@ -1467,7 +1509,8 @@ function App({
                                   ? "#b802a8"
                                   : "#000",
                             }}
-                            component="p">
+                            component="p"
+                          >
                             {page}
                           </Typography>
                         </MenuItem>
@@ -1477,7 +1520,8 @@ function App({
                           component={Link}
                           key={page}
                           to={"/" + pageSec[i]}
-                          onClick={handleCloseNavMenu}>
+                          onClick={handleCloseNavMenu}
+                        >
                           <Typography
                             textAlign="center"
                             className={
@@ -1503,7 +1547,8 @@ function App({
                                   ? "#b802a8"
                                   : "#000",
                             }}
-                            component="p">
+                            component="p"
+                          >
                             {page}
                           </Typography>
                         </MenuItem>
@@ -1531,7 +1576,8 @@ function App({
                                 history.push("/account");
                                 handleCloseNavMenu();
                                 setAnchorElUser(false);
-                              }}>
+                              }}
+                            >
                               View Profile
                             </Button>
                             <Button onClick={() => getout()}>Sign-out</Button>
@@ -1545,7 +1591,8 @@ function App({
                               onClick={() => {
                                 history.push("/account");
                                 handleCloseNavMenu();
-                              }}>
+                              }}
+                            >
                               View Benefits
                             </Button>
                           </CardActions>
@@ -1575,12 +1622,14 @@ function App({
                         exclusive
                         onChange={(e) =>
                           e.target.value != lang && setLang(e.target.value)
-                        }>
+                        }
+                      >
                         {langList.map((option) => (
                           <ToggleButton
                             sx={{ borderRadius: 1 }}
                             value={option.value}
-                            key={option.value}>
+                            key={option.value}
+                          >
                             {option.label}
                           </ToggleButton>
                         ))}
@@ -1614,7 +1663,8 @@ function App({
                       ? "น้องข้าวฟ่างไลฟ์แล้ว มาดูกันเถอะ!"
                       : "Kaofrang BNK48 is LIVE now!"
                     : null
-                }>
+                }
+              >
                 <Avatar
                   sx={{
                     width: 70,
@@ -1634,12 +1684,14 @@ function App({
                       ? "น้องข้าวฟ่างไลฟ์แล้ว มาดูกันเถอะ!"
                       : "Kaofrang BNK48 is LIVE now!"
                     : null
-                }>
+                }
+              >
                 <StyledBadge
                   overlap="circular"
                   anchorOrigin={{ vertical: "top", horizontal: "right" }}
                   variant="dot"
-                  sx={{ display: { xs: "flex", lg: "none" } }}>
+                  sx={{ display: { xs: "flex", lg: "none" } }}
+                >
                   <Typography
                     variant="h6"
                     noWrap
@@ -1648,7 +1700,8 @@ function App({
                       mr: 2,
                       color: "inherit",
                       textDecoration: "none",
-                    }}>
+                    }}
+                  >
                     <b>KorKao</b>
                   </Typography>
                 </StyledBadge>
@@ -1675,7 +1728,8 @@ function App({
                             : "#000",
                         fontSize: lang == "th" ? 14 : 12,
                         display: "block",
-                      }}>
+                      }}
+                    >
                       {page}
                     </Button>
                   ) : pageSec[i] == "birthday" && birthdaycampain == true ? (
@@ -1698,7 +1752,8 @@ function App({
                             : "#000",
                         fontSize: lang == "th" ? 14 : 12,
                         display: "block",
-                      }}>
+                      }}
+                    >
                       {page}
                     </Button>
                   ) : null
@@ -1708,7 +1763,8 @@ function App({
                 <Tooltip title="Open settings">
                   <IconButton
                     onClick={() => setAnchorElUser(true)}
-                    sx={{ p: 0, display: { xs: "none", xl: "flex" } }}>
+                    sx={{ p: 0, display: { xs: "none", xl: "flex" } }}
+                  >
                     <Avatar
                       sx={{ width: 30, height: 30 }}
                       variant="rounded"
@@ -1726,7 +1782,8 @@ function App({
                   TransitionComponent={Transition}
                   transitionDuration={400}
                   onClose={() => setAnchorElUser(false)}
-                  maxWidth="xl">
+                  maxWidth="xl"
+                >
                   <DialogTitle>
                     {lang == "th" ? "การตั้งค่า" : "Setting"}
                   </DialogTitle>
@@ -1743,7 +1800,8 @@ function App({
                                 lg: "none",
                                 xl: "initial",
                               },
-                      }}>
+                      }}
+                    >
                       {login !== null && login !== false && (
                         <CardContent>
                           <Typography>
@@ -1764,7 +1822,8 @@ function App({
                               history.push("/account");
                               handleCloseNavMenu();
                               setAnchorElUser(false);
-                            }}>
+                            }}
+                          >
                             View Profile
                           </Button>
                           <Button onClick={() => getout()}>Sign-out</Button>
@@ -1778,7 +1837,8 @@ function App({
                             onClick={() => {
                               history.push("/account");
                               handleCloseNavMenu();
-                            }}>
+                            }}
+                          >
                             View Benefits
                           </Button>
                         </CardActions>
@@ -1801,12 +1861,14 @@ function App({
                       exclusive
                       onChange={(e) =>
                         e.target.value != lang && setLang(e.target.value)
-                      }>
+                      }
+                    >
                       {langList.map((option) => (
                         <ToggleButton
                           sx={{ borderRadius: 1 }}
                           value={option.value}
-                          key={option.value}>
+                          key={option.value}
+                        >
                           {option.label}
                         </ToggleButton>
                       ))}
@@ -1843,7 +1905,8 @@ function App({
                   TransitionComponent={Transition}
                   transitionDuration={400}
                   onClose={() => {}}
-                  maxWidth="md">
+                  maxWidth="md"
+                >
                   {news != null && (
                     <>
                       <DialogTitle>
@@ -1858,7 +1921,8 @@ function App({
                       <DialogActions>
                         <Button
                           disabled={lockads}
-                          onClick={() => setNewse(false)}>
+                          onClick={() => setNewse(false)}
+                        >
                           {lang == "th" ? "ปิด" : "Close"}
                         </Button>
                       </DialogActions>
@@ -1872,7 +1936,8 @@ function App({
                   transitionDuration={400}
                   PaperProps={{ style: { width: "80%" } }}
                   onClose={() => {}}
-                  maxWidth="md">
+                  maxWidth="md"
+                >
                   <DialogTitle>
                     {lang == "th"
                       ? "เลือกช่องทางการเข้าสู่ระบบ"
@@ -1883,13 +1948,15 @@ function App({
                       <Button
                         size="large"
                         variant="outlined"
-                        onClick={() => getLogin(1)}>
+                        onClick={() => getLogin(1)}
+                      >
                         <GoogleIcon className="mr-1" /> Google
                       </Button>
                       <Button
                         size="large"
                         variant="outlined"
-                        onClick={() => getLogin(2)}>
+                        onClick={() => getLogin(2)}
+                      >
                         <MicrosoftIcon className="mr-1" />
                         Microsoft
                       </Button>
@@ -1902,7 +1969,8 @@ function App({
                     <div className="col-12 d-flex justify-content-center">
                       <Box
                         sx={{ width: { xs: "100vw", sm: "50%" } }}
-                        className="row d-flex justify-content-center">
+                        className="row d-flex justify-content-center"
+                      >
                         <CardMedia
                           onClick={() =>
                             window.open("//cp-bnk48.pages.dev", "_blank")
@@ -1958,7 +2026,8 @@ function App({
                   : 0,
               md: 0,
             },
-          }}>
+          }}
+        >
           <BasicSwitch>
             <Route
               exact
@@ -2047,7 +2116,8 @@ function App({
             borderTopRightRadius: 0,
             fontSize: 14,
             lineHeight: 1.2,
-          }}>
+          }}
+        >
           &copy; Copyright {new Date().getFullYear()}, CPXDevStudio
           <br />
           <small style={{ fontSize: 10 }}>
@@ -2064,7 +2134,8 @@ function App({
                 "https://bsky.app/profile/cpxdevbot.bsky.social",
                 "_blank"
               )
-            }>
+            }
+          >
             Check latest system update
           </a>
         </Card>
@@ -2072,7 +2143,8 @@ function App({
 
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={load}>
+        open={load}
+      >
         <CircularProgress />
       </Backdrop>
       <Fade
@@ -2082,7 +2154,8 @@ function App({
           top: 0,
           position: "fixed",
         }}
-        in={loadPre}>
+        in={loadPre}
+      >
         <LinearProgress
           sx={{ height: 100, borderColor: "#b802a8" }}
           className="w-100"
@@ -2095,7 +2168,8 @@ function App({
           top: 0,
           position: "fixed",
         }}
-        in={loadads}>
+        in={loadads}
+      >
         <LinearProgress
           sx={{ height: 100, borderColor: "#b802a8" }}
           className="w-100"
