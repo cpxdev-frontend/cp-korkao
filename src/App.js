@@ -680,7 +680,7 @@ function App({
   }, []);
 
   React.useEffect(() => {
-    if (sessionStorage.getItem("ads") == null) {
+    if (sessionStorage.getItem("ads") == null && loadads == false) {
       var requestOptions = {
         method: "POST",
       };
