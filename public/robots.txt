@@ -1,3 +1,4 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
+Sitemap: http://korkao.pages.dev/sitemap.xml
 Disallow:
