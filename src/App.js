@@ -237,6 +237,7 @@ function App({
   const [loadPre, setLoadPre] = React.useState(false);
   const [loadads, setLoadads] = React.useState(false);
   const [lockads, setLockads] = React.useState(true);
+  const [justLogin, setLoginsess] = React.useState(false);
 
   const location = useLocation();
   const [loginDialog, setloginDialog] = React.useState(false);
@@ -296,6 +297,7 @@ function App({
       signInWithPopup(auth, provider)
         .then((result) => {
           setLoad(false);
+          setLoginsess(true);
           if (action == 1) {
             setLogin(result);
             localStorage.setItem("loged", JSON.stringify(result));
@@ -312,13 +314,13 @@ function App({
             })
             .then(function (blob) {
               var reader = new FileReader();
-              reader.readAsDataURL(blob); 
-              reader.onloadend = function() {
-                var base64data = reader.result;   
+              reader.readAsDataURL(blob);
+              reader.onloadend = function () {
+                var base64data = reader.result;
                 result.user.photoURL = base64data;
                 setLogin(result);
                 localStorage.setItem("loged", JSON.stringify(result));
-              }
+              };
             })
             .catch((e) => console.log("error injecting photo"));
         })
@@ -355,7 +357,7 @@ function App({
 
   React.useEffect(() => {
     if (localStorage.getItem("loged") !== null) {
-      if (login === false) {
+      if (login === false && justLogin == false) {
         try {
           const myHeaders = new Headers();
           myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
@@ -368,7 +370,7 @@ function App({
               .refreshToken
           );
 
-          const requestOptions = {
+          let requestOptions = {
             method: "POST",
             headers: myHeaders,
             body: urlencoded,
@@ -387,7 +389,7 @@ function App({
               console.log("deb", u);
               localStorage.setItem("loged", JSON.stringify(u));
               localStorage.setItem("yuser", "");
-              var requestOptions = {
+              requestOptions = {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
@@ -397,7 +399,7 @@ function App({
                   token: restoken.id_token,
                 }),
               };
-
+              setLoadPre(true);
               fetch(
                 (Math.floor(Math.random() * 10) + 1 < 5
                   ? process.env.REACT_APP_APIE
@@ -406,6 +408,7 @@ function App({
               )
                 .then((response) => response.json())
                 .then((result) => {
+                  setLoadPre(false);
                   if (result.status) {
                     Swal.fire({
                       title: "Weekly AirDrop is coming!",
@@ -445,7 +448,50 @@ function App({
     } else {
       setLogin(localStorage.getItem("loged"));
     }
-  }, [login]);
+    if (justLogin == true && login !== null && login !== false) {
+      setLoadPre(true);
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: login._tokenResponse.email,
+          token: login._tokenResponse.idToken,
+        }),
+      };
+
+      fetch(
+        (Math.floor(Math.random() * 10) + 1 < 5
+          ? process.env.REACT_APP_APIE
+          : process.env.REACT_APP_APIE_2) + "/kfsitenew/getairdrop",
+        requestOptions
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          setLoadPre(false);
+          if (result.status) {
+            Swal.fire({
+              title: "Weekly AirDrop is coming!",
+              confirmButtonText:
+                lang == "th" ? "เปิดกล่องเลย!" : "Open AirDrop Box!",
+              customClass: {
+                container: "airdropcontain",
+              },
+              denyButtonText: lang == "th" ? "ไว้ทีหลัง" : "Get it Later",
+              showDenyButton: true,
+              allowOutsideClick: false,
+              html: '<div style="height: 100px;" class="mt-3 shake"><i class="fa-solid fa-gift fa-4x"></i></div>',
+            }).then((r) => {
+              if (r.isConfirmed) {
+                getAirdrop();
+              }
+            });
+          }
+        })
+        .catch((error) => console.log("error", error));
+    }
+  }, [login, justLogin]);
 
   function calculateTimeLeft() {
     const difference = moment.unix(targetTime) - moment.unix(launchredis + adm);
@@ -750,8 +796,8 @@ function App({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: login._tokenResponse.email,
-        token: login._tokenResponse.idToken,
+        userId: JSON.parse(localStorage.getItem("loged"))._tokenResponse.email,
+        token: JSON.parse(localStorage.getItem("loged"))._tokenResponse.idToken,
         notiId: localStorage.getItem("osigIdPush")
           ? atob(localStorage.getItem("osigIdPush"))
           : null,
@@ -825,6 +871,7 @@ function App({
     localStorage.removeItem("yuser");
     localStorage.removeItem("loged");
     setLoad(false);
+    setLoginsess(false);
     setAnchorElNav(false);
     setAnchorElUser(false);
   };
