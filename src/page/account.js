@@ -114,8 +114,10 @@ const Acct = ({
   setPage,
   launch,
   guide,
+  setLoginD,
+  login,
 }) => {
-  const [data, setData] = React.useState(null);
+  const [data, setData] = React.useState(false);
   const [event, setEventDetail] = React.useState(null);
   const [getData, setGetData] = React.useState(false);
   const [getData2, setGetData2] = React.useState(null);
@@ -169,8 +171,9 @@ const Acct = ({
       },
       body: JSON.stringify({
         encId: code,
-        userId: user.email,
-        provider: user.sub,
+        userId: login._tokenResponse.email,
+        token: login._tokenResponse.idToken,
+        provider: null,
       }),
     };
 
@@ -326,10 +329,13 @@ const Acct = ({
       },
       body: JSON.stringify({
         encId: eventId,
-        userId: user.email,
-        userName: user.given_name != null ? user.given_name : user.name,
-        provider: user.sub,
-        notiId: atob(localStorage.getItem("osigIdPush")),
+        userId: login._tokenResponse.email,
+        token: login._tokenResponse.idToken,
+        userName: login.user.displayName,
+        provider: null,
+        notiId: localStorage.getItem("osigIdPush")
+          ? atob(localStorage.getItem("osigIdPush"))
+          : null,
       }),
     };
 
@@ -449,21 +455,27 @@ const Acct = ({
   }, [currentPage]);
 
   const fetchpoint = () => {
-    if (isAuthenticated) {
-      setData(user);
+    if (login !== null && login !== false) {
+      setData(login);
       var requestOptions = {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userId: user.email,
-          notiId: atob(localStorage.getItem("osigIdPush")),
+          userId: login._tokenResponse.email,
+          token: login._tokenResponse.idToken,
+          notiId: localStorage.getItem("osigIdPush")
+            ? atob(localStorage.getItem("osigIdPush"))
+            : null,
         }),
       };
 
       setPoint(null);
-      fetch(process.env.REACT_APP_APIE_2 + "/kfsite/getPoint", requestOptions)
+      fetch(
+        process.env.REACT_APP_APIE_2 + "/kfsite/getPoint",
+        requestOptions
+      )
         .then((response) => response.json())
         .then((result) => {
           if (result.status) {
@@ -497,7 +509,7 @@ const Acct = ({
   React.useEffect(() => {
     setPage("KorKao ID");
     fetchpoint();
-    if (!isLoading && isAuthenticated) {
+    if (login !== null && login !== false) {
       var url = new URL(window.location.href);
       var c = url.searchParams.get("action");
       if (c != null && c == "korkaoslip") {
@@ -510,7 +522,7 @@ const Acct = ({
         : (url.search = "?" + params.toString());
       window.history.replaceState({}, "", url.toString());
     }
-  }, [isAuthenticated]);
+  }, [login]);
 
   const verifyEmail = (pass = null) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -542,7 +554,8 @@ const Acct = ({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: user.email,
+        userId: login._tokenResponse.email,
+        token: login._tokenResponse.idToken,
         targetId: pass != null ? pass : trans.target,
       }),
     };
@@ -562,7 +575,7 @@ const Acct = ({
           setTransReady(true);
           setTrans({
             ...trans,
-            userId: user.email,
+            userId: login._tokenResponse.email,
             target: result.emailverify,
             sessionId: result.sessionId,
             expired: result.expired,
@@ -658,7 +671,9 @@ const Acct = ({
       body: JSON.stringify({
         sessionId: trans.sessionId,
         amount: trans.amount,
-        notiId: atob(localStorage.getItem("osigIdPush")),
+        notiId: localStorage.getItem("osigIdPush")
+          ? atob(localStorage.getItem("osigIdPush"))
+          : null,
       }),
     };
     if (trans.amount <= 0) {
@@ -687,7 +702,7 @@ const Acct = ({
         const email = trans.target;
         setTrans({
           sessionId: "",
-          userId: user.email,
+          userId: login._tokenResponse.email,
           target: "",
           amount: 0,
           expired: "",
@@ -767,10 +782,13 @@ const Acct = ({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: user.email,
-        provider: user.sub,
+        provider: null,
+        userId: login._tokenResponse.email,
+        token: login._tokenResponse.idToken,
         qrRef: slipFile,
-        notiId: atob(localStorage.getItem("osigIdPush")),
+        notiId: localStorage.getItem("osigIdPush")
+          ? atob(localStorage.getItem("osigIdPush"))
+          : null,
       }),
     };
     fetch(
@@ -863,7 +881,8 @@ const Acct = ({
     myHeaders.append("Content-Type", "application/json");
 
     const raw = JSON.stringify({
-      userId: user.email,
+      userId: login._tokenResponse.email,
+      token: login._tokenResponse.idToken,
     });
 
     const requestOptions = {
@@ -920,50 +939,22 @@ const Acct = ({
     },
   });
 
-  if (isLoading) {
+  if (login === false) {
     return (
-      <Box sx={{ marginTop: { xs: 0, md: 13 }, marginBottom: 15 }}>
-        <div className="container mt-3">
-          <Card>
-            <CardContent>
-              <Skeleton
-                variant="text"
-                className="bg-m"
-                sx={{ fontSize: "2rem" }}
-              />
-              <Skeleton
-                variant="text"
-                className="bg-m"
-                sx={{ fontSize: "1rem" }}
-              />
-              <Skeleton
-                variant="text"
-                className="bg-m"
-                sx={{ fontSize: "1rem" }}
-              />
-              <Skeleton
-                variant="text"
-                className="bg-m"
-                sx={{ fontSize: "1rem" }}
-              />
-              <Skeleton
-                variant="text"
-                className="bg-m"
-                sx={{ fontSize: "1rem" }}
-              />
-              <Skeleton
-                variant="text"
-                className="bg-m"
-                sx={{ fontSize: "1rem" }}
-              />
-            </CardContent>
-          </Card>
-        </div>
-      </Box>
+      <Card className="mt-5">
+        <CardContent>
+          <Skeleton variant="text" className="bg-m" sx={{ fontSize: "2rem" }} />
+          <Skeleton variant="text" className="bg-m" sx={{ fontSize: "1rem" }} />
+          <Skeleton variant="text" className="bg-m" sx={{ fontSize: "1rem" }} />
+          <Skeleton variant="text" className="bg-m" sx={{ fontSize: "1rem" }} />
+          <Skeleton variant="text" className="bg-m" sx={{ fontSize: "1rem" }} />
+          <Skeleton variant="text" className="bg-m" sx={{ fontSize: "1rem" }} />
+        </CardContent>
+      </Card>
     );
   }
 
-  if (!isAuthenticated) {
+  if (login === null) {
     return (
       <Fade in={open} timeout={300}>
         <Box sx={{ marginTop: { xs: 0, md: 13 }, marginBottom: 15 }}>
@@ -975,7 +966,7 @@ const Acct = ({
                 : "All you should know about KorKao ID"
             }
             action={
-              <Button variant="outlined" onClick={() => getLogin()}>
+              <Button variant="outlined" onClick={() => setLoginD()}>
                 <KeyIcon />
                 &nbsp;{lang == "th" ? "เข้าสู่ระบบ" : "Login now!"}
               </Button>
@@ -1313,7 +1304,7 @@ const Acct = ({
                     avatar={
                       <Avatar
                         sx={{ width: 80, height: 80 }}
-                        src={user.picture}
+                        src={login.user.photoURL}
                         className="mr-md-2 mr-0"
                         aria-label="recipe"></Avatar>
                     }
@@ -1322,17 +1313,19 @@ const Acct = ({
                         onClick={() => {
                           generateTempId();
                         }}>
-                        <h5>{user.name}</h5>
+                        <h5>{login.user.displayName}</h5>
                       </CardActionArea>
                     }
                     subheader={
                       <div
                         style={{ cursor: "pointer" }}
                         onClick={() => {
-                          navigator.clipboard.writeText(user.email);
+                          navigator.clipboard.writeText(
+                            login._tokenResponse.email
+                          );
                           alert("Your KorKao ID has been copied");
                         }}>
-                        {"ID: " + user.email}{" "}
+                        {"ID: " + login._tokenResponse.email}{" "}
                         <ContentCopyIcon fontSize="small" sx={{ width: 15 }} />
                       </div>
                     }
@@ -1341,11 +1334,11 @@ const Acct = ({
                         aria-label="google"
                         onClick={() =>
                           window.open(
-                            user.sub.includes("google")
+                            login.user.providerData[0].providerId.includes("google")
                               ? "https://myaccount.google.com/"
-                              : user.sub.includes("windowslive")
+                              : login.user.providerData[0].providerId.includes("microsoft")
                               ? "https://account.microsoft.com"
-                              : user.sub.includes("spotify")
+                              : login.user.providerData[0].providerId.includes("spotify")
                               ? "https://www.spotify.com/account/overview"
                               : null,
                             "_blank"
@@ -1353,11 +1346,11 @@ const Acct = ({
                         }>
                         <FontAwesomeIcon
                           icon={
-                            user.sub.includes("google")
+                            login.user.providerData[0].providerId.includes("google")
                               ? faGoogle
-                              : user.sub.includes("windowslive")
+                              : login.user.providerData[0].providerId.includes("microsoft")
                               ? faMicrosoft
-                              : user.sub.includes("spotify")
+                              : login.user.providerData[0].providerId.includes("spotify")
                               ? faSpotify
                               : null
                           }
@@ -1410,7 +1403,7 @@ const Acct = ({
                         setTransModel(true);
                         setTrans({
                           sessionId: "",
-                          userId: user.email,
+                          userId: login._tokenResponse.email,
                           target: "",
                           amount: 0,
                           expired: "",
@@ -1447,7 +1440,7 @@ const Acct = ({
                         setTransModel(true);
                         setTrans({
                           sessionId: "",
-                          userId: user.email,
+                          userId: login._tokenResponse.email,
                           target: "",
                           amount: 0,
                           expired: "",
@@ -1846,7 +1839,7 @@ const Acct = ({
                   setTrans({
                     ...trans,
                     sessionId: "",
-                    userId: user.email,
+                    userId: login._tokenResponse.email,
                   });
                   verifyEmail(result[0].rawValue);
                 } else {
@@ -2290,7 +2283,7 @@ const Acct = ({
           </>
         </Dialog>
 
-        <Dialog open={transModel} maxWidth="xl">
+        <Dialog open={transModel} maxWidth={transReady ? "lg" : "sm"}>
           <>
             <DialogTitle id="alert-dialog-title">
               <CardHeader
@@ -2454,6 +2447,7 @@ const mapStateToProps = (state) => ({
   lang: state.lang,
   launch: state.launch,
   guide: state.guide,
+  login: state.login,
   currentPage: state.currentPage,
 });
 const mapDispatchToProps = (dispatch) => ({

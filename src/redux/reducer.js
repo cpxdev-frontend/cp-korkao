@@ -2003,6 +2003,7 @@ const initialState = {
       iso3166_2: "ISO 3166-2:SJ",
     },
   ],
+  login: false,
   currentPage: "Loading",
 };
 
@@ -2022,6 +2023,8 @@ function Reducer(state = initialState, action) {
       return { ...state, launch: action.val };
     case "IN_GAME":
       return { ...state, game: action.val };
+    case "SET_LOGIN":
+      return { ...state, login: action.val };
     case "SETTUTOR":
       if (state.guide) {
         localStorage.setItem("skiptutor", new Date());

@@ -7,7 +7,6 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { BrowserRouter } from "react-router-dom";
-import { Auth0Provider } from "@auth0/auth0-react";
 
 const theme = createTheme({
   typography: {
@@ -30,20 +29,13 @@ const theme = createTheme({
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-  <Auth0Provider
-    domain="dev-d3z2gthipqxs3ba7.us.auth0.com"
-    clientId="yiu6OP37hDGjWt5ij1Y1ZAXKDOLM7Ex3"
-    authorizationParams={{
-      redirect_uri: window.location.origin,
-    }}>
-    <BrowserRouter>
-      <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <App />
-        </ThemeProvider>
-      </Provider>
-    </BrowserRouter>
-  </Auth0Provider>
+  <BrowserRouter>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+    </Provider>
+  </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function

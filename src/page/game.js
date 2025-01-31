@@ -80,6 +80,7 @@ const GameApp = ({
   currentCountry,
   setPage,
   setInGame,
+  login,
   guide,
   game,
 }) => {
@@ -156,14 +157,15 @@ const GameApp = ({
   }, []);
 
   React.useEffect(() => {
-    if (gamehis == true && isAuthenticated) {
+    if (gamehis == true && login) {
       var requestOptions = {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          user: user.email,
+          user: login._tokenResponse.email,
+          token: login._tokenResponse.idToken,
         }),
       };
 
@@ -207,7 +209,10 @@ const GameApp = ({
       }),
     };
 
-    fetch(process.env.REACT_APP_APIE_2 + "/kfsite/kffetchquiz", requestOptions)
+    fetch(
+      process.env.REACT_APP_APIE_2 + "/kfsite/kffetchquiz",
+      requestOptions
+    )
       .then((response) => response.json())
       .then((result) => {
         if (result.status) {
@@ -322,8 +327,11 @@ const GameApp = ({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: user.email,
-        notiId: atob(localStorage.getItem("osigIdPush")),
+        userId: login._tokenResponse.email,
+        token: login._tokenResponse.idToken,
+        notiId: localStorage.getItem("osigIdPush")
+          ? atob(localStorage.getItem("osigIdPush"))
+          : null,
       }),
     };
 
@@ -420,7 +428,11 @@ const GameApp = ({
           quizFrom: quesList.length,
           quizDuration: Math.floor((time % 6000) / 100),
           sessionId: session,
-          userId: isAuthenticated ? user.email : null,
+          token: login._tokenResponse.idToken,
+          userId:
+            login !== null && login !== false
+              ? login._tokenResponse.email
+              : null,
         }),
       })
         .then((response) => response.json())
@@ -618,7 +630,7 @@ const GameApp = ({
                 {lang == "th" ? "ดูคะแนนเฉลี่ย" : "View average score"}
               </Button>
               <br />
-              {isAuthenticated && (
+              {login && (
                 <Button
                   className="mt-2"
                   variant="outlined"
@@ -938,6 +950,7 @@ const mapStateToProps = (state) => ({
   currentPage: state.currentPage,
   game: state.game,
   guide: state.guide,
+  login: state.login,
   currentCountry: state.currentCountry,
 });
 const mapDispatchToProps = (dispatch) => ({
