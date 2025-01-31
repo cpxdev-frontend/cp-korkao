@@ -114,7 +114,7 @@ const About = ({ currentPage, lang, setLang, setPage, guide }) => {
 
     setPage(lang == "th" ? "เกี่ยวกับข้าวฟ่าง" : "All About Kaofrang");
     fetch(
-      process.env.REACT_APP_APIE + "/kfsitenew/getkaofranginfo",
+      process.env.REACT_APP_APIE + "/kfsite/getkaofranginfo",
       requestOptions
     )
       .then((response) => response.json())

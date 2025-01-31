@@ -170,7 +170,7 @@ const GameApp = ({
       };
 
       fetch(
-        process.env.REACT_APP_APIE + "/kfsitenew/kfgameHistory",
+        process.env.REACT_APP_APIE + "/kfsite/kfgameHistory",
         requestOptions
       )
         .then((response) => response.json())
@@ -210,7 +210,7 @@ const GameApp = ({
     };
 
     fetch(
-      process.env.REACT_APP_APIE_2 + "/kfsitenew/kffetchquiz",
+      process.env.REACT_APP_APIE_2 + "/kfsite/kffetchquiz",
       requestOptions
     )
       .then((response) => response.json())
@@ -336,7 +336,7 @@ const GameApp = ({
     };
 
     fetch(
-      process.env.REACT_APP_APIE + "/kfsitenew/receiveairdropfromgame",
+      process.env.REACT_APP_APIE + "/kfsite/receiveairdropfromgame",
       requestOptions
     )
       .then((response) => response.json())
@@ -417,7 +417,7 @@ const GameApp = ({
         category: "User",
         action: "Game Over",
       });
-      fetch(process.env.REACT_APP_APIE + "/kfsitenew/kfkeep", {
+      fetch(process.env.REACT_APP_APIE + "/kfsite/kfkeep", {
         method: "put",
         headers: {
           "Content-Type": "application/json",

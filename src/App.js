@@ -403,7 +403,7 @@ function App({
               fetch(
                 (Math.floor(Math.random() * 10) + 1 < 5
                   ? process.env.REACT_APP_APIE
-                  : process.env.REACT_APP_APIE_2) + "/kfsitenew/getairdrop",
+                  : process.env.REACT_APP_APIE_2) + "/kfsite/getairdrop",
                 requestOptions
               )
                 .then((response) => response.json())
@@ -464,7 +464,7 @@ function App({
       fetch(
         (Math.floor(Math.random() * 10) + 1 < 5
           ? process.env.REACT_APP_APIE
-          : process.env.REACT_APP_APIE_2) + "/kfsitenew/getairdrop",
+          : process.env.REACT_APP_APIE_2) + "/kfsite/getairdrop",
         requestOptions
       )
         .then((response) => response.json())
@@ -558,7 +558,7 @@ function App({
     fetch(
       (Math.floor(Math.random() * 10) + 1 < 4
         ? process.env.REACT_APP_APIE
-        : process.env.REACT_APP_APIE_2) + "/kfsitenew/gettime",
+        : process.env.REACT_APP_APIE_2) + "/kfsite/gettime",
       {}
     )
       .then((response) => response.text())
@@ -596,7 +596,7 @@ function App({
       fetch(
         (Math.floor(Math.random() * 10) + 1 < 5
           ? process.env.REACT_APP_APIE
-          : process.env.REACT_APP_APIE_2) + "/kfsitenew/getkfliveinapp",
+          : process.env.REACT_APP_APIE_2) + "/kfsite/getkfliveinapp",
         { method: "POST" }
       )
         .then((response) => response.text())
@@ -611,7 +611,7 @@ function App({
       fetch(
         (Math.floor(Math.random() * 10) + 1 < 5
           ? process.env.REACT_APP_APIE
-          : process.env.REACT_APP_APIE_2) + "/kfsitenew/getkfliveinapp",
+          : process.env.REACT_APP_APIE_2) + "/kfsite/getkfliveinapp",
         { method: "POST" }
       )
         .then((response) => response.text())
@@ -657,7 +657,7 @@ function App({
     AOS.init({ duration: 800 });
     setLaunch(moment().unix());
     setLaunchd(moment().unix());
-    // fetch(process.env.REACT_APP_APIE_2 + "/kfsitenew/birthdayStatus?ok=kf", {
+    // fetch(process.env.REACT_APP_APIE_2 + "/kfsite/birthdayStatus?ok=kf", {
     //   method: "POST",
     // })
     //   .then((response) => response.json())
@@ -665,7 +665,7 @@ function App({
     //     setBirthday(result.response);
     //   })
     //   .catch((error) => console.log("error", error));
-    fetch(process.env.REACT_APP_APIE_2 + "/kfsitenew/birthdayStatus", {
+    fetch(process.env.REACT_APP_APIE_2 + "/kfsite/birthdayStatus", {
       method: "POST",
     })
       .then((response) => response.json())
@@ -686,7 +686,7 @@ function App({
       };
       setLoadads(true);
       fetch(
-        process.env.REACT_APP_APIE_2 + "/kfsitenew/getevent",
+        process.env.REACT_APP_APIE_2 + "/kfsite/getevent",
         requestOptions
       )
         .then((response) => response.json())
@@ -805,7 +805,7 @@ function App({
     };
 
     fetch(
-      process.env.REACT_APP_APIE + "/kfsitenew/receiveairdrop",
+      process.env.REACT_APP_APIE + "/kfsite/receiveairdrop",
       requestOptions
     )
       .then((response) => response.json())

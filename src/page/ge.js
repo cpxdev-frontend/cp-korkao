@@ -210,7 +210,7 @@ const Ge = ({
     fetch(
       (Math.floor(Math.random() * 10) + 1 < 5
         ? process.env.REACT_APP_APIE
-        : process.env.REACT_APP_APIE_2) + "/kfsitenew/getge5result",
+        : process.env.REACT_APP_APIE_2) + "/kfsite/getge5result",
       {
         method: "post",
       }

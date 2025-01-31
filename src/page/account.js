@@ -180,7 +180,7 @@ const Acct = ({
     fetch(
       (Math.floor(Math.random() * 10) + 1 < 5
         ? process.env.REACT_APP_APIE
-        : process.env.REACT_APP_APIE_2) + "/kfsitenew/checkevent",
+        : process.env.REACT_APP_APIE_2) + "/kfsite/checkevent",
       requestOptions
     )
       .then((response) => response.json())
@@ -288,7 +288,7 @@ const Acct = ({
     };
 
     fetch(
-      process.env.REACT_APP_APIE + "/kfsitenew/checkkorkaoidvalid",
+      process.env.REACT_APP_APIE + "/kfsite/checkkorkaoidvalid",
       requestOptions
     )
       .then((response) => response.json())
@@ -342,7 +342,7 @@ const Acct = ({
     fetch(
       (Math.floor(Math.random() * 10) + 1 < 5
         ? process.env.REACT_APP_APIE
-        : process.env.REACT_APP_APIE_2) + "/kfsitenew/joinevent",
+        : process.env.REACT_APP_APIE_2) + "/kfsite/joinevent",
       requestOptions
     )
       .then((response) => response.json())
@@ -473,7 +473,7 @@ const Acct = ({
 
       setPoint(null);
       fetch(
-        process.env.REACT_APP_APIE_2 + "/kfsitenew/getPoint",
+        process.env.REACT_APP_APIE_2 + "/kfsite/getPoint",
         requestOptions
       )
         .then((response) => response.json())
@@ -484,7 +484,7 @@ const Acct = ({
         })
         .catch((error) => console.log("error", error));
       fetch(
-        process.env.REACT_APP_APIE + "/kfsitenew/getPointTransaction",
+        process.env.REACT_APP_APIE + "/kfsite/getPointTransaction",
         requestOptions
       )
         .then((response) => response.json())
@@ -564,7 +564,7 @@ const Acct = ({
     fetch(
       (Math.floor(Math.random() * 10) + 1 < 5
         ? process.env.REACT_APP_APIE
-        : process.env.REACT_APP_APIE_2) + "/kfsitenew/checkUserforTransfer",
+        : process.env.REACT_APP_APIE_2) + "/kfsite/checkUserforTransfer",
       requestOptions
     )
       .then((response) => response.json())
@@ -691,7 +691,7 @@ const Acct = ({
     fetch(
       (Math.floor(Math.random() * 10) + 1 < 5
         ? process.env.REACT_APP_APIE
-        : process.env.REACT_APP_APIE_2) + "/kfsitenew/gettransfer",
+        : process.env.REACT_APP_APIE_2) + "/kfsite/gettransfer",
       requestOptions
     )
       .then((response) => response.json())
@@ -794,7 +794,7 @@ const Acct = ({
     fetch(
       (Math.floor(Math.random() * 10) + 1 < 5
         ? process.env.REACT_APP_APIE
-        : process.env.REACT_APP_APIE_2) + "/kfsitenew/exchangedonation",
+        : process.env.REACT_APP_APIE_2) + "/kfsite/exchangedonation",
       requestOptions
     )
       .then((response) => response.json())
@@ -893,7 +893,7 @@ const Acct = ({
 
     setLoad(true);
     fetch(
-      process.env.REACT_APP_APIE_2 + "/kfsitenew/generateKorKaoId",
+      process.env.REACT_APP_APIE_2 + "/kfsite/generateKorKaoId",
       requestOptions
     )
       .then((response) => response.json())

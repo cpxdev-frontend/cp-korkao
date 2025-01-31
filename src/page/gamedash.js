@@ -137,7 +137,7 @@ const GameApp = ({
     }
     fetch(
       process.env.REACT_APP_APIE +
-        "/kfsitenew/kfrank?o=" +
+        "/kfsite/kfrank?o=" +
         (c == "all" ? c : c.toUpperCase()),
       {
         method: "post",
@@ -148,7 +148,7 @@ const GameApp = ({
         setAver(result);
       })
       .catch((error) => console.log("error", error));
-    fetch(process.env.REACT_APP_APIE_2 + "/kfsitenew/kflistall", {
+    fetch(process.env.REACT_APP_APIE_2 + "/kfsite/kflistall", {
       method: "post",
     })
       .then((response) => response.json())

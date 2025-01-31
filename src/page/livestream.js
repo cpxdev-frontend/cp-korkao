@@ -123,7 +123,7 @@ const LIVECom = ({ currentPage, lang, setLang, setPage, guide }) => {
 
     window.addEventListener("resize", handleWindowResize);
     setData2(null);
-    fetch(process.env.REACT_APP_APIE_2 + "/kfsitenew/kflive", requestOptions)
+    fetch(process.env.REACT_APP_APIE_2 + "/kfsite/kflive", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         setData2(result.res.items);
@@ -138,7 +138,7 @@ const LIVECom = ({ currentPage, lang, setLang, setPage, guide }) => {
     };
     fetch(
       process.env.REACT_APP_APIE_2 +
-        "/kfsitenew/ytviewCount?islive=true&id=" +
+        "/kfsite/ytviewCount?islive=true&id=" +
         clip.snippet.resourceId.videoId,
       requestOptions
     )
