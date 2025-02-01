@@ -584,7 +584,7 @@ function App({
       localStorage.getItem("loged") == null
     ) {
       localStorage.removeItem("yuser");
-      alert('Login session changed. please login again.');
+      alert("Login session changed. please login again.");
       window.localStorage.reload();
     }
     ReactGA.send({ hitType: "pageview", page: window.location.pathname });
@@ -698,12 +698,18 @@ function App({
         .then((result) => {
           setLoadads(false);
           if (result.length > 0) {
-            if (login !== null && login !== false) {
-              setLockads(false);
+            if (
+              login !== null &&
+              login !== false &&
+              localStorage.getItem("loged") !== null
+            ) {
+              setTimeout(() => {
+                setLockads(false);
+              }, 1100);
             } else {
               setTimeout(() => {
                 setLockads(false);
-              }, 3000);
+              }, 4000);
             }
             sessionStorage.setItem("ads", true);
             setNewse(true);
