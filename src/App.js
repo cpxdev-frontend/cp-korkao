@@ -665,6 +665,11 @@ function App({
     AOS.init({ duration: 800 });
     setLaunch(moment().unix());
     setLaunchd(moment().unix());
+    alert(
+      lang == "th"
+        ? "เว็บไซต์นี้อยู่ระหว่างการทดสอบฟีเจอร์ใหม่ อาจพบข้อผิดพลาดในขณะใช้งานได้ตลอดเวลา กรุณาไปที่ https://korkao.pages.dev เพื่อเข้าใช้งานสำหรับผู้ใช้ทั่วไป"
+        : "This site is under new features testing. You may encounter some bugs during use. Please go to https://korkao.pages.dev for general users."
+    );
     // fetch(process.env.REACT_APP_APIE_2 + "/kfsite/birthdayStatus?ok=kf", {
     //   method: "POST",
     // })
