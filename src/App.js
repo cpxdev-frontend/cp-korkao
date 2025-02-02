@@ -688,7 +688,11 @@ function App({
   }, []);
 
   React.useEffect(() => {
-    if (sessionStorage.getItem("ads") == null && loadads == false) {
+    if (
+      sessionStorage.getItem("ads") == null &&
+      loadads == false &&
+      login !== false
+    ) {
       var requestOptions = {
         method: "POST",
       };
@@ -698,11 +702,7 @@ function App({
         .then((result) => {
           setLoadads(false);
           if (result.length > 0) {
-            if (
-              login !== null &&
-              login !== false &&
-              localStorage.getItem("loged") !== null
-            ) {
+            if (login !== null && localStorage.getItem("loged") !== null) {
               setTimeout(() => {
                 setLockads(false);
               }, 1100);
