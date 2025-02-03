@@ -497,80 +497,83 @@ const Ge = ({
           }
         />
 
-        {(window.location.origin.includes("beta.korkao.pages.dev")
+        {(window.location.origin.includes("beta.korkao.pages.dev") ||
+        window.location.origin.includes("localhost")
           ? time < 1743091200
           : time >= 1739250000 && time < 1743091200) && (
-          <Card>
-            <CardContent className="row text-center">
-              <div className="col-12 mb-3">
-                <h5>
-                  {lang == "th"
-                    ? "นับถอยหลังระยะเวลาคงเหลือในการโหวต"
-                    : "Voting Period time remaining"}
-                </h5>
-              </div>
-              <div
-                className="col-3"
-                style={{
-                  color:
-                    compareTimestamps(time, 1743091200).days <= 7 &&
-                    compareTimestamps(time, 1743091200).days > 0
-                      ? "#fc7703"
-                      : compareTimestamps(time, 1743091200).days <= 0 &&
-                        compareTimestamps(time, 1743091200).hours <= 23
-                      ? "red"
-                      : "",
-                }}>
-                <p>{lang == "th" ? "วัน" : "Day(s)"}</p>
-                <h3>{compareTimestamps(time, 1743091200).days}</h3>
-              </div>
-              <div
-                className="col-3"
-                style={{
-                  color:
-                    compareTimestamps(time, 1743091200).days <= 7 &&
-                    compareTimestamps(time, 1743091200).days > 0
-                      ? "#fc7703"
-                      : compareTimestamps(time, 1743091200).days <= 0 &&
-                        compareTimestamps(time, 1743091200).hours <= 23
-                      ? "red"
-                      : "",
-                }}>
-                <p>{lang == "th" ? "ชั่วโมง" : "Hour(s)"}</p>
-                <h3>{compareTimestamps(time, 1743091200).hours}</h3>
-              </div>
-              <div
-                className="col-3"
-                style={{
-                  color:
-                    compareTimestamps(time, 1743091200).days <= 7 &&
-                    compareTimestamps(time, 1743091200).days > 0
-                      ? "#fc7703"
-                      : compareTimestamps(time, 1743091200).days <= 0 &&
-                        compareTimestamps(time, 1743091200).hours <= 23
-                      ? "red"
-                      : "",
-                }}>
-                <p>{lang == "th" ? "นาที" : "Minute(s)"}</p>
-                <h3>{compareTimestamps(time, 1743091200).minutes}</h3>
-              </div>
-              <div
-                className="col-3"
-                style={{
-                  color:
-                    compareTimestamps(time, 1743091200).days <= 7 &&
-                    compareTimestamps(time, 1743091200).days > 0
-                      ? "#fc7703"
-                      : compareTimestamps(time, 1743091200).days <= 0 &&
-                        compareTimestamps(time, 1743091200).hours <= 23
-                      ? "red"
-                      : "",
-                }}>
-                <p>{lang == "th" ? "วินาที" : "Second(s)"}</p>
-                <h3>{compareTimestamps(time, 1743091200).seconds}</h3>
-              </div>
-            </CardContent>
-          </Card>
+          <Box className="d-flex justify-content-center">
+            <Card sx={{ width: window.innerWidth < 500 ? "90%" : 500 }}>
+              <CardContent className="row text-center">
+                <div className="col-12 mb-3">
+                  <h5>
+                    {lang == "th"
+                      ? "นับถอยหลังระยะเวลาคงเหลือในการโหวต"
+                      : "Voting Period time remaining"}
+                  </h5>
+                </div>
+                <div
+                  className="col-3"
+                  style={{
+                    color:
+                      compareTimestamps(time, 1743091200).days <= 7 &&
+                      compareTimestamps(time, 1743091200).days > 0
+                        ? "#fc7703"
+                        : compareTimestamps(time, 1743091200).days <= 0 &&
+                          compareTimestamps(time, 1743091200).hours <= 23
+                        ? "red"
+                        : "",
+                  }}>
+                  <p>{lang == "th" ? "วัน" : "Day(s)"}</p>
+                  <h3>{compareTimestamps(time, 1743091200).days}</h3>
+                </div>
+                <div
+                  className="col-3"
+                  style={{
+                    color:
+                      compareTimestamps(time, 1743091200).days <= 7 &&
+                      compareTimestamps(time, 1743091200).days > 0
+                        ? "#fc7703"
+                        : compareTimestamps(time, 1743091200).days <= 0 &&
+                          compareTimestamps(time, 1743091200).hours <= 23
+                        ? "red"
+                        : "",
+                  }}>
+                  <p>{lang == "th" ? "ชั่วโมง" : "Hour(s)"}</p>
+                  <h3>{compareTimestamps(time, 1743091200).hours}</h3>
+                </div>
+                <div
+                  className="col-3"
+                  style={{
+                    color:
+                      compareTimestamps(time, 1743091200).days <= 7 &&
+                      compareTimestamps(time, 1743091200).days > 0
+                        ? "#fc7703"
+                        : compareTimestamps(time, 1743091200).days <= 0 &&
+                          compareTimestamps(time, 1743091200).hours <= 23
+                        ? "red"
+                        : "",
+                  }}>
+                  <p>{lang == "th" ? "นาที" : "Minute(s)"}</p>
+                  <h3>{compareTimestamps(time, 1743091200).minutes}</h3>
+                </div>
+                <div
+                  className="col-3"
+                  style={{
+                    color:
+                      compareTimestamps(time, 1743091200).days <= 7 &&
+                      compareTimestamps(time, 1743091200).days > 0
+                        ? "#fc7703"
+                        : compareTimestamps(time, 1743091200).days <= 0 &&
+                          compareTimestamps(time, 1743091200).hours <= 23
+                        ? "red"
+                        : "",
+                  }}>
+                  <p>{lang == "th" ? "วินาที" : "Second(s)"}</p>
+                  <h3>{compareTimestamps(time, 1743091200).seconds}</h3>
+                </div>
+              </CardContent>
+            </Card>
+          </Box>
         )}
 
         <Box className="m-3">
