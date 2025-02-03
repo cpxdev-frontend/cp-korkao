@@ -502,7 +502,7 @@ const Ge = ({
           ? time < 1743091200
           : time >= 1739250000 && time < 1743091200) && (
           <Box className="d-flex justify-content-center">
-            <Card sx={{ width: window.innerWidth < 500 ? "90%" : 500 }}>
+            <Card sx={{ width: window.innerWidth < 500 ? "95%" : 500 }}>
               <CardContent className="row text-center">
                 <div className="col-12 mb-3">
                   <h5>
