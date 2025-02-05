@@ -29,6 +29,7 @@ import {
   ToggleButtonGroup,
   CardActions,
   CardContent,
+  Menu,
   ToggleButton,
   Backdrop,
   CircularProgress,
@@ -113,7 +114,7 @@ const pageSec = [
   "ge5",
   "events",
   "feeds",
-  "quizgame",
+  "_game",
   "follow",
   "donation",
 ];
@@ -126,7 +127,7 @@ const pagesEn = [
   "General Election 2025",
   "Events of Frang",
   "Social Feeds",
-  "Quiz",
+  "Games",
   "Follow KorKao",
   "Donate",
 ];
@@ -219,6 +220,7 @@ function App({
   switchTutor,
 }) {
   const [betabypass, setBetaMode] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
   const [transit, setTran] = React.useState(false);
   const [mainten, setOnMaintain] = React.useState(false);
 
@@ -227,7 +229,7 @@ function App({
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const [birthdaycampain, setBirthday] = React.useState(false);
+  const [tab, setTab] = React.useState("");
   const [birthdayEff, setBirthdayEff] = React.useState(false);
   const [launchredis, setLaunchd] = React.useState(launch);
   const [noti, setNoti] = React.useState(0);
@@ -245,6 +247,7 @@ function App({
   const scrollRef = React.useRef(null); // เก็บ reference ของ element ที่ scroll
   const history = useHistory();
   const [point, setDonatePoint] = React.useState(false);
+  const [drop, setDroptab] = React.useState("");
 
   const targetTime = 1730448000;
 
@@ -665,7 +668,7 @@ function App({
     AOS.init({ duration: 800 });
     setLaunch(moment().unix());
     setLaunchd(moment().unix());
-    if (window.location.origin.includes('beta.korkao.pages.dev')) {
+    if (window.location.origin.includes("beta.korkao.pages.dev")) {
       alert(
         lang == "th"
           ? "เว็บไซต์นี้อยู่ระหว่างการทดสอบฟีเจอร์ใหม่ อาจพบข้อผิดพลาดในขณะใช้งานได้ตลอดเวลา กรุณาไปที่ https://korkao.pages.dev เพื่อเข้าใช้งานสำหรับผู้ใช้ทั่วไป"
@@ -887,24 +890,59 @@ function App({
     localStorage.removeItem("loged");
     setLoad(false);
     setLoginsess(false);
-    setAnchorElNav(false);
-    setAnchorElUser(false);
+    setAnchorElNav(null);
+    setAnchorElUser(null);
   };
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = (e = null, session = null) => {
     // if (localStorage.getItem("yuser") == null) {
     //   return;
     // }
-    setAnchorElNav(null);
+    setAnchorEl(e.currentTarget);
+    if (session == null) {
+      setAnchorElNav(null);
+    }
   };
+  const handleClose = () => {
+    setAnchorEl(null);
+    setTab("");
+  };
+
+  React.useEffect(() => {
+    if (location.pathname == undefined) {
+      return;
+    }
+    if (tab != "") {
+      setDroptab(tab.split("_")[1]);
+    }
+    if (
+      !location.pathname.includes("game") &&
+      !location.pathname.includes("gallery") &&
+      drop != ""
+    ) {
+      setDroptab("");
+      setAnchorEl(null);
+      setTab("");
+    }
+  }, [tab]);
+  React.useEffect(() => {
+    if (location.pathname == undefined) {
+      return;
+    }
+    if (location.pathname.includes("game") && drop == "") {
+      setDroptab("game");
+    }
+    if (location.pathname.includes("gallery") && drop == "") {
+      setDroptab("gallery");
+    }
+  }, []);
 
   if (isInIframe()) {
     return (
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={true}
-        className="text-center"
-      >
+        className="text-center">
         {lang == "th"
           ? "เว็บไซต์นี้ไม่รองรับการแสดงแบบฝังบนเว็บไซต์อื่น"
           : "This site is not support on iframe tag"}
@@ -921,8 +959,7 @@ function App({
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-        }}
-      >
+        }}>
         <div className="col-12">
           <img
             src="https://niceillustrations.com/wp-content/uploads/2021/07/Connection-Lost-color-800px.png"
@@ -949,8 +986,7 @@ function App({
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-        }}
-      >
+        }}>
         <div className="col-12">
           <img
             src="https://niceillustrations.com/wp-content/uploads/2022/03/Police.png"
@@ -973,8 +1009,7 @@ function App({
       />
       <div
         id="blockwhenland"
-        className="d-flex justify-content-center align-items-center text-center"
-      >
+        className="d-flex justify-content-center align-items-center text-center">
         <h5>
           <img
             src="https://cdn-icons-png.flaticon.com/512/6737/6737502.png"
@@ -990,15 +1025,13 @@ function App({
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         sx={{ zIndex: 1200, marginTop: 10 }}
-        open={point}
-      >
+        open={point}>
         <Alert
           onClick={() => setDonatePoint(false)}
           icon={<CakeIcon />}
           severity="primary"
           variant="filled"
-          sx={{ width: "100%", color: "#fff", cursor: "pointer" }}
-        >
+          sx={{ width: "100%", color: "#fff", cursor: "pointer" }}>
           {lang == "th"
             ? "ร่วมอวยพรวันเกิดข้าวฟ่างในวัย " +
               (new Date().getFullYear() - 2002) +
@@ -1015,15 +1048,13 @@ function App({
           location.pathname != "/" &&
           !game &&
           !currentPage.includes("404 Not Found")
-        }
-      >
+        }>
         <AppBar position="fixed" className="newmobileAppbar">
           <Container maxWidth="xl">
             <Toolbar disableGutters>
               <Box
                 className="justify-content-center"
-                sx={{ flexGrow: 0, display: { xs: "flex", lg: "none" } }}
-              >
+                sx={{ flexGrow: 0, display: { xs: "flex", lg: "none" } }}>
                 {location.pathname != "/" &&
                   !currentPage.includes("404 Not Found") && (
                     <Tooltip
@@ -1033,13 +1064,11 @@ function App({
                             ? "น้องข้าวฟ่างไลฟ์แล้ว มาดูกันเถอะ!"
                             : "Kaofrang BNK48 is LIVE now!"
                           : null
-                      }
-                    >
+                      }>
                       <StyledBadge
                         overlap="circular"
                         anchorOrigin={{ vertical: "top", horizontal: "right" }}
-                        variant="dot"
-                      >
+                        variant="dot">
                         <Avatar
                           data-aos="fade-in"
                           sx={{
@@ -1067,14 +1096,12 @@ function App({
                     },
                   }}
                   open={anchorElNav}
-                  onClose={handleCloseNavMenu}
-                  sx={{ display: { xs: "initial", xl: "none" } }}
-                >
+                  onClose={(e) => handleCloseNavMenu(e)}
+                  sx={{ display: { xs: "initial", xl: "none" } }}>
                   <DialogTitle
                     sx={{
                       display: { xs: "initial", lg: "none", xl: "initial" },
-                    }}
-                  >
+                    }}>
                     {lang == "th"
                       ? "เมนูหลักและการตั้งค่า"
                       : "Main Menu and Settings"}
@@ -1082,8 +1109,7 @@ function App({
                   <DialogTitle
                     sx={{
                       display: { xs: "none", lg: "initial", xl: "none" },
-                    }}
-                  >
+                    }}>
                     {lang == "th" ? "เมนูหลัก" : "Main Menu"}
                   </DialogTitle>
                   <DialogContent
@@ -1092,86 +1118,64 @@ function App({
                         xs: login !== null && login !== false ? "75vw" : "100%",
                         sm: 340,
                       },
-                    }}
-                  >
-                    {pages.map((page, i) =>
-                      pageSec[i] != "birthday" ? (
-                        <MenuItem
-                          component={Link}
-                          key={page}
-                          to={"/" + pageSec[i]}
-                          onClick={handleCloseNavMenu}
-                        >
-                          <Typography
-                            className={
-                              (pageSec[i] == "quizgame" &&
-                                location.pathname.includes(
-                                  "/quizgameresult/"
-                                )) ||
-                              (pageSec[i] == "gallery" &&
-                                location.pathname.includes("/gallery/")) ||
+                    }}>
+                    {pages.map((page, i) => (
+                      <MenuItem
+                        component={pageSec[i].includes("_") ? null : Link}
+                        key={page}
+                        to={pageSec[i].includes("_") ? null : "/" + pageSec[i]}
+                        onClick={(e) => {
+                          pageSec[i].includes("_") &&
+                            setTab("mob" + pageSec[i]);
+                          handleCloseNavMenu(
+                            e,
+                            pageSec[i].includes("_") ? "ok" : null
+                          );
+                        }}>
+                        <Typography
+                          className={
+                            (location.pathname.includes("game") &&
+                              pageSec[i] == "_game" &&
+                              drop == "game") ||
+                            location.pathname == "/" + pageSec[i]
+                              ? "text-bold"
+                              : ""
+                          }
+                          textAlign="center"
+                          sx={{
+                            color:
+                              (location.pathname.includes("game") &&
+                                pageSec[i] == "_game" &&
+                                drop == "game") ||
                               location.pathname == "/" + pageSec[i]
-                                ? "text-bold"
-                                : ""
-                            }
-                            textAlign="center"
-                            sx={{
-                              color:
-                                (pageSec[i] == "quizgame" &&
-                                  location.pathname.includes(
-                                    "/quizgameresult/"
-                                  )) ||
-                                (pageSec[i] == "gallery" &&
-                                  location.pathname.includes("/gallery/")) ||
-                                location.pathname == "/" + pageSec[i]
-                                  ? "#b802a8"
-                                  : "#000",
-                            }}
-                            component="p"
-                          >
-                            {page}
-                          </Typography>
-                        </MenuItem>
-                      ) : pageSec[i] == "birthday" &&
-                        birthdaycampain == true ? (
-                        <MenuItem
-                          component={Link}
-                          key={page}
-                          to={"/" + pageSec[i]}
-                          onClick={handleCloseNavMenu}
-                        >
-                          <Typography
-                            textAlign="center"
-                            className={
-                              (pageSec[i] == "quizgame" &&
-                                location.pathname.includes(
-                                  "/quizgameresult/"
-                                )) ||
-                              (pageSec[i] == "gallery" &&
-                                location.pathname.includes("/gallery/")) ||
-                              location.pathname == "/" + pageSec[i]
-                                ? "text-bold"
-                                : ""
-                            }
-                            sx={{
-                              color:
-                                (pageSec[i] == "quizgame" &&
-                                  location.pathname.includes(
-                                    "/quizgameresult/"
-                                  )) ||
-                                (pageSec[i] == "gallery" &&
-                                  location.pathname.includes("/gallery/")) ||
-                                location.pathname == "/" + pageSec[i]
-                                  ? "#b802a8"
-                                  : "#000",
-                            }}
-                            component="p"
-                          >
-                            {page}
-                          </Typography>
-                        </MenuItem>
-                      ) : null
-                    )}
+                                ? "#b802a8"
+                                : "#000",
+                          }}
+                          component="p">
+                          {page}
+                        </Typography>
+                      </MenuItem>
+                    ))}
+                    <Menu
+                      id="basic-menu"
+                      anchorEl={anchorEl}
+                      open={tab == "mob_game"}
+                      onClose={handleClose}
+                      MenuListProps={{
+                        "aria-labelledby": "basic-button",
+                      }}>
+                      <MenuItem
+                        onClick={handleClose}
+                        component={Link}
+                        to="/quizgame">
+                        {lang == "th" ? "กอข้าวควิชเกมส์" : "KorKao Quiz Game"}
+                      </MenuItem>
+                      <MenuItem onClick={handleClose}>
+                        {lang == "th"
+                          ? "ป็อปฟ่าง (เร็วๆนี้)"
+                          : "PopFrang (Coming soon)"}
+                      </MenuItem>
+                    </Menu>
                     <Divider />
                     {!load ? (
                       <Card className="mt-3 mb-3">
@@ -1195,8 +1199,7 @@ function App({
                                 history.push("/account");
                                 handleCloseNavMenu();
                                 setAnchorElUser(false);
-                              }}
-                            >
+                              }}>
                               View Profile
                             </Button>
                             <Button onClick={() => getout()}>Sign-out</Button>
@@ -1210,8 +1213,7 @@ function App({
                               onClick={() => {
                                 history.push("/account");
                                 handleCloseNavMenu();
-                              }}
-                            >
+                              }}>
                               View Benefits
                             </Button>
                           </CardActions>
@@ -1230,13 +1232,11 @@ function App({
                           window.location.pathname != "/"
                             ? "initial"
                             : { xs: "none", xl: "initial" },
-                      }}
-                    >
+                      }}>
                       <Typography
                         sx={{
                           display: { xs: "block", lg: "none", xl: "block" },
-                        }}
-                      >
+                        }}>
                         Change Language
                       </Typography>
                       <ToggleButtonGroup
@@ -1250,14 +1250,12 @@ function App({
                         exclusive
                         onChange={(e) =>
                           e.target.value != lang && setLang(e.target.value)
-                        }
-                      >
+                        }>
                         {langList.map((option) => (
                           <ToggleButton
                             sx={{ borderRadius: 1 }}
                             value={option.value}
-                            key={option.value}
-                          >
+                            key={option.value}>
                             {option.label}
                           </ToggleButton>
                         ))}
@@ -1281,8 +1279,7 @@ function App({
                       <Typography
                         sx={{
                           display: { xs: "block", lg: "none", xl: "block" },
-                        }}
-                      >
+                        }}>
                         {lang == "th"
                           ? "สถานะการแจ้งเตือน: "
                           : "Notification Status: "}{" "}
@@ -1307,8 +1304,7 @@ function App({
                       right: 20,
                     }}
                     onClick={handleOpenNavMenu}
-                    color="inherit"
-                  >
+                    color="inherit">
                     <MenuIcon />
                   </IconButton>
                 )}
@@ -1321,8 +1317,7 @@ function App({
       <Slide
         direction="down"
         in={appbarx}
-        sx={{ display: { xs: "none", md: "initial" } }}
-      >
+        sx={{ display: { xs: "none", md: "initial" } }}>
         <AppBar position="fixed" className="newpcAppbar">
           <Container maxWidth="xl">
             <Toolbar disableGutters>
@@ -1333,8 +1328,7 @@ function App({
                       ? "น้องข้าวฟ่างไลฟ์แล้ว มาดูกันเถอะ!"
                       : "Kaofrang BNK48 is LIVE now!"
                     : null
-                }
-              >
+                }>
                 <Avatar
                   sx={{
                     width: 70,
@@ -1353,14 +1347,12 @@ function App({
                       ? "น้องข้าวฟ่างไลฟ์แล้ว มาดูกันเถอะ!"
                       : "Kaofrang BNK48 is LIVE now!"
                     : null
-                }
-              >
+                }>
                 <StyledBadge
                   overlap="circular"
                   anchorOrigin={{ vertical: "top", horizontal: "right" }}
                   sx={{ display: { xs: "none", lg: "flex" } }}
-                  variant="dot"
-                >
+                  variant="dot">
                   <Typography
                     variant="h6"
                     noWrap
@@ -1370,16 +1362,14 @@ function App({
 
                       color: "inherit",
                       textDecoration: "none",
-                    }}
-                  >
+                    }}>
                     <b>KorKao</b>
                   </Typography>
                 </StyledBadge>
               </Tooltip>
               <Box
                 className="justify-content-center"
-                sx={{ flexGrow: 0, display: { xs: "flex", xl: "none" } }}
-              >
+                sx={{ flexGrow: 0, display: { xs: "flex", xl: "none" } }}>
                 <IconButton
                   size="large"
                   aria-label="account of current user"
@@ -1387,8 +1377,7 @@ function App({
                   aria-haspopup="true"
                   onClick={handleOpenNavMenu}
                   sx={{ display: { md: "none", xl: "initial" } }}
-                  color="inherit"
-                >
+                  color="inherit">
                   <MenuIcon />
                 </IconButton>
 
@@ -1404,8 +1393,7 @@ function App({
                       right: 80,
                       top: 10,
                     }}
-                    color="inherit"
-                  >
+                    color="inherit">
                     <MenuIcon />
                   </IconButton>
                   <IconButton
@@ -1415,8 +1403,7 @@ function App({
                       position: "fixed",
                       right: 20,
                       top: 10,
-                    }}
-                  >
+                    }}>
                     <Avatar
                       sx={{ width: 30, height: 30 }}
                       variant="rounded"
@@ -1440,8 +1427,7 @@ function App({
                     right: 20,
                     top: -2,
                   }}
-                  color="inherit"
-                >
+                  color="inherit">
                   <MenuIcon />
                 </IconButton>
                 <IconButton
@@ -1451,8 +1437,7 @@ function App({
                     position: "fixed",
                     right: 60,
                     top: 10,
-                  }}
-                >
+                  }}>
                   <Avatar
                     sx={{ width: 30, height: 30 }}
                     variant="rounded"
@@ -1475,9 +1460,8 @@ function App({
                     },
                   }}
                   open={anchorElNav}
-                  onClose={handleCloseNavMenu}
-                  sx={{ display: { xs: "none", xl: "initial" } }}
-                >
+                  onClose={(e) => handleCloseNavMenu(e)}
+                  sx={{ display: { xs: "none", xl: "initial" } }}>
                   <DialogTitle>
                     {lang == "th" ? "เมนูหลัก" : "Main Menu"}
                   </DialogTitle>
@@ -1487,86 +1471,64 @@ function App({
                         xs: login !== null && login !== false ? "75vw" : "100%",
                         sm: 340,
                       },
-                    }}
-                  >
-                    {pages.map((page, i) =>
-                      pageSec[i] != "birthday" ? (
-                        <MenuItem
-                          component={Link}
-                          key={page}
-                          to={"/" + pageSec[i]}
-                          onClick={handleCloseNavMenu}
-                        >
-                          <Typography
-                            textAlign="center"
-                            className={
-                              (pageSec[i] == "quizgame" &&
-                                location.pathname.includes(
-                                  "/quizgameresult/"
-                                )) ||
-                              (pageSec[i] == "gallery" &&
-                                location.pathname.includes("/gallery/")) ||
+                    }}>
+                    {pages.map((page, i) => (
+                      <MenuItem
+                        component={pageSec[i].includes("_") ? null : Link}
+                        key={page}
+                        to={pageSec[i].includes("_") ? null : "/" + pageSec[i]}
+                        onClick={(e) => {
+                          pageSec[i].includes("_") &&
+                            setTab("tab" + pageSec[i]);
+                          handleCloseNavMenu(
+                            e,
+                            pageSec[i].includes("_") ? "ok" : null
+                          );
+                        }}>
+                        <Typography
+                          textAlign="center"
+                          className={
+                            (location.pathname.includes("game") &&
+                              pageSec[i] == "_game" &&
+                              drop == "game") ||
+                            location.pathname == "/" + pageSec[i]
+                              ? "text-bold"
+                              : ""
+                          }
+                          sx={{
+                            color:
+                              (location.pathname.includes("game") &&
+                                pageSec[i] == "_game" &&
+                                drop == "game") ||
                               location.pathname == "/" + pageSec[i]
-                                ? "text-bold"
-                                : ""
-                            }
-                            sx={{
-                              color:
-                                (pageSec[i] == "quizgame" &&
-                                  location.pathname.includes(
-                                    "/quizgameresult/"
-                                  )) ||
-                                (pageSec[i] == "gallery" &&
-                                  location.pathname.includes("/gallery/")) ||
-                                location.pathname == "/" + pageSec[i]
-                                  ? "#b802a8"
-                                  : "#000",
-                            }}
-                            component="p"
-                          >
-                            {page}
-                          </Typography>
-                        </MenuItem>
-                      ) : pageSec[i] == "birthday" &&
-                        birthdaycampain == true ? (
-                        <MenuItem
-                          component={Link}
-                          key={page}
-                          to={"/" + pageSec[i]}
-                          onClick={handleCloseNavMenu}
-                        >
-                          <Typography
-                            textAlign="center"
-                            className={
-                              (pageSec[i] == "quizgame" &&
-                                location.pathname.includes(
-                                  "/quizgameresult/"
-                                )) ||
-                              (pageSec[i] == "gallery" &&
-                                location.pathname.includes("/gallery/")) ||
-                              location.pathname == "/" + pageSec[i]
-                                ? "text-bold"
-                                : ""
-                            }
-                            sx={{
-                              color:
-                                (pageSec[i] == "quizgame" &&
-                                  location.pathname.includes(
-                                    "/quizgameresult/"
-                                  )) ||
-                                (pageSec[i] == "gallery" &&
-                                  location.pathname.includes("/gallery/")) ||
-                                location.pathname == "/" + pageSec[i]
-                                  ? "#b802a8"
-                                  : "#000",
-                            }}
-                            component="p"
-                          >
-                            {page}
-                          </Typography>
-                        </MenuItem>
-                      ) : null
-                    )}
+                                ? "#b802a8"
+                                : "#000",
+                          }}
+                          component="p">
+                          {page}
+                        </Typography>
+                      </MenuItem>
+                    ))}
+                    <Menu
+                      id="basic-menu"
+                      anchorEl={anchorEl}
+                      open={tab == "tab_game"}
+                      onClose={handleClose}
+                      MenuListProps={{
+                        "aria-labelledby": "basic-button",
+                      }}>
+                      <MenuItem
+                        onClick={handleClose}
+                        component={Link}
+                        to="/quizgame">
+                        {lang == "th" ? "กอข้าวควิชเกมส์" : "KorKao Quiz Game"}
+                      </MenuItem>
+                      <MenuItem onClick={handleClose}>
+                        {lang == "th"
+                          ? "ป็อปฟ่าง (เร็วๆนี้)"
+                          : "PopFrang (Coming soon)"}
+                      </MenuItem>
+                    </Menu>
                     {!load ? (
                       <Card className="mt-3 mb-3">
                         {login !== null && login !== false && (
@@ -1589,8 +1551,7 @@ function App({
                                 history.push("/account");
                                 handleCloseNavMenu();
                                 setAnchorElUser(false);
-                              }}
-                            >
+                              }}>
                               View Profile
                             </Button>
                             <Button onClick={() => getout()}>Sign-out</Button>
@@ -1604,8 +1565,7 @@ function App({
                               onClick={() => {
                                 history.push("/account");
                                 handleCloseNavMenu();
-                              }}
-                            >
+                              }}>
                               View Benefits
                             </Button>
                           </CardActions>
@@ -1635,14 +1595,12 @@ function App({
                         exclusive
                         onChange={(e) =>
                           e.target.value != lang && setLang(e.target.value)
-                        }
-                      >
+                        }>
                         {langList.map((option) => (
                           <ToggleButton
                             sx={{ borderRadius: 1 }}
                             value={option.value}
-                            key={option.value}
-                          >
+                            key={option.value}>
                             {option.label}
                           </ToggleButton>
                         ))}
@@ -1676,8 +1634,7 @@ function App({
                       ? "น้องข้าวฟ่างไลฟ์แล้ว มาดูกันเถอะ!"
                       : "Kaofrang BNK48 is LIVE now!"
                     : null
-                }
-              >
+                }>
                 <Avatar
                   sx={{
                     width: 70,
@@ -1697,14 +1654,12 @@ function App({
                       ? "น้องข้าวฟ่างไลฟ์แล้ว มาดูกันเถอะ!"
                       : "Kaofrang BNK48 is LIVE now!"
                     : null
-                }
-              >
+                }>
                 <StyledBadge
                   overlap="circular"
                   anchorOrigin={{ vertical: "top", horizontal: "right" }}
                   variant="dot"
-                  sx={{ display: { xs: "flex", lg: "none" } }}
-                >
+                  sx={{ display: { xs: "flex", lg: "none" } }}>
                   <Typography
                     variant="h6"
                     noWrap
@@ -1713,71 +1668,67 @@ function App({
                       mr: 2,
                       color: "inherit",
                       textDecoration: "none",
-                    }}
-                  >
+                    }}>
                     <b>KorKao</b>
                   </Typography>
                 </StyledBadge>
               </Tooltip>
               <Box sx={{ flexGrow: 1, display: { xs: "none", xl: "flex" } }}>
-                {pages.map((page, i) =>
-                  pageSec[i] != "birthday" ? (
-                    <Button
-                      key={page}
-                      component={Link}
-                      to={"/" + pageSec[i]}
-                      size="medium"
-                      className="text-center"
-                      onClick={handleCloseNavMenu}
-                      sx={{
-                        my: 2,
-                        color:
-                          (pageSec[i] == "quizgame" &&
-                            location.pathname.includes("/quizgameresult/")) ||
-                          (pageSec[i] == "gallery" &&
-                            location.pathname.includes("/gallery/")) ||
-                          location.pathname == "/" + pageSec[i]
-                            ? "#fff"
-                            : "#000",
-                        fontSize: lang == "th" ? 14 : 12,
-                        display: "block",
-                      }}
-                    >
-                      {page}
-                    </Button>
-                  ) : pageSec[i] == "birthday" && birthdaycampain == true ? (
-                    <Button
-                      key={page}
-                      component={Link}
-                      to={"/" + pageSec[i]}
-                      size="medium"
-                      className="text-center"
-                      onClick={handleCloseNavMenu}
-                      sx={{
-                        my: 2,
-                        color:
-                          (pageSec[i] == "quizgame" &&
-                            location.pathname.includes("/quizgameresult/")) ||
-                          (pageSec[i] == "gallery" &&
-                            location.pathname.includes("/gallery/")) ||
-                          location.pathname == "/" + pageSec[i]
-                            ? "#fff"
-                            : "#000",
-                        fontSize: lang == "th" ? 14 : 12,
-                        display: "block",
-                      }}
-                    >
-                      {page}
-                    </Button>
-                  ) : null
-                )}
+                {pages.map((page, i) => (
+                  <Button
+                    key={page}
+                    component={pageSec[i].includes("_") ? null : Link}
+                    to={pageSec[i].includes("_") ? null : "/" + pageSec[i]}
+                    size="medium"
+                    className="text-center"
+                    onClick={(e) => {
+                      pageSec[i].includes("_") && setTab("pc" + pageSec[i]);
+                      handleCloseNavMenu(
+                        e,
+                        pageSec[i].includes("_") ? "ok" : null
+                      );
+                    }}
+                    sx={{
+                      my: 2,
+                      color:
+                        (location.pathname.includes("game") &&
+                          pageSec[i] == "_game" &&
+                          drop == "game") ||
+                        location.pathname == "/" + pageSec[i]
+                          ? "#fff"
+                          : "#000",
+                      fontSize: lang == "th" ? 14 : 12,
+                      display: "block",
+                    }}>
+                    {page}
+                  </Button>
+                ))}
+                <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={tab == "pc_game"}
+                  onClose={handleClose}
+                  MenuListProps={{
+                    "aria-labelledby": "basic-button",
+                  }}>
+                  <MenuItem
+                    onClick={handleClose}
+                    component={Link}
+                    to="/quizgame">
+                    {lang == "th" ? "กอข้าวควิชเกมส์" : "KorKao Quiz Game"}
+                  </MenuItem>
+                  <MenuItem onClick={handleClose}>
+                    {lang == "th"
+                      ? "ป็อปฟ่าง (เร็วๆนี้)"
+                      : "PopFrang (Coming soon)"}
+                  </MenuItem>
+                </Menu>
               </Box>
               <Box sx={{ right: 30, display: { xs: "none", lg: "flex" } }}>
                 <Tooltip title="Open settings">
                   <IconButton
                     onClick={() => setAnchorElUser(true)}
-                    sx={{ p: 0, display: { xs: "none", xl: "flex" } }}
-                  >
+                    sx={{ p: 0, display: { xs: "none", xl: "flex" } }}>
                     <Avatar
                       sx={{ width: 30, height: 30 }}
                       variant="rounded"
@@ -1795,8 +1746,7 @@ function App({
                   TransitionComponent={Transition}
                   transitionDuration={400}
                   onClose={() => setAnchorElUser(false)}
-                  maxWidth="xl"
-                >
+                  maxWidth="xl">
                   <DialogTitle>
                     {lang == "th" ? "การตั้งค่า" : "Setting"}
                   </DialogTitle>
@@ -1813,8 +1763,7 @@ function App({
                                 lg: "none",
                                 xl: "initial",
                               },
-                      }}
-                    >
+                      }}>
                       {login !== null && login !== false && (
                         <CardContent>
                           <Typography>
@@ -1835,8 +1784,7 @@ function App({
                               history.push("/account");
                               handleCloseNavMenu();
                               setAnchorElUser(false);
-                            }}
-                          >
+                            }}>
                             View Profile
                           </Button>
                           <Button onClick={() => getout()}>Sign-out</Button>
@@ -1850,8 +1798,7 @@ function App({
                             onClick={() => {
                               history.push("/account");
                               handleCloseNavMenu();
-                            }}
-                          >
+                            }}>
                             View Benefits
                           </Button>
                         </CardActions>
@@ -1874,14 +1821,12 @@ function App({
                       exclusive
                       onChange={(e) =>
                         e.target.value != lang && setLang(e.target.value)
-                      }
-                    >
+                      }>
                       {langList.map((option) => (
                         <ToggleButton
                           sx={{ borderRadius: 1 }}
                           value={option.value}
-                          key={option.value}
-                        >
+                          key={option.value}>
                           {option.label}
                         </ToggleButton>
                       ))}
@@ -1918,8 +1863,7 @@ function App({
                   TransitionComponent={Transition}
                   transitionDuration={400}
                   onClose={() => {}}
-                  maxWidth="md"
-                >
+                  maxWidth="md">
                   {news != null && (
                     <>
                       <DialogTitle>
@@ -1934,8 +1878,7 @@ function App({
                       <DialogActions>
                         <Button
                           disabled={lockads}
-                          onClick={() => setNewse(false)}
-                        >
+                          onClick={() => setNewse(false)}>
                           {lang == "th" ? "ปิด" : "Close"}
                         </Button>
                       </DialogActions>
@@ -1949,8 +1892,7 @@ function App({
                   transitionDuration={400}
                   PaperProps={{ style: { width: "80%" } }}
                   onClose={() => {}}
-                  maxWidth="md"
-                >
+                  maxWidth="md">
                   <DialogTitle>
                     {lang == "th"
                       ? "เลือกช่องทางการเข้าสู่ระบบ"
@@ -1961,15 +1903,13 @@ function App({
                       <Button
                         size="large"
                         variant="outlined"
-                        onClick={() => getLogin(1)}
-                      >
+                        onClick={() => getLogin(1)}>
                         <GoogleIcon className="mr-1" /> Google
                       </Button>
                       <Button
                         size="large"
                         variant="outlined"
-                        onClick={() => getLogin(2)}
-                      >
+                        onClick={() => getLogin(2)}>
                         <MicrosoftIcon className="mr-1" />
                         Microsoft
                       </Button>
@@ -1982,8 +1922,7 @@ function App({
                     <div className="col-12 d-flex justify-content-center">
                       <Box
                         sx={{ width: { xs: "100vw", sm: "50%" } }}
-                        className="row d-flex justify-content-center"
-                      >
+                        className="row d-flex justify-content-center">
                         <CardMedia
                           onClick={() =>
                             window.open("//cp-bnk48.pages.dev", "_blank")
@@ -2039,8 +1978,7 @@ function App({
                   : 0,
               md: 0,
             },
-          }}
-        >
+          }}>
           <BasicSwitch>
             <Route
               exact
@@ -2129,8 +2067,7 @@ function App({
             borderTopRightRadius: 0,
             fontSize: 14,
             lineHeight: 1.2,
-          }}
-        >
+          }}>
           &copy; Copyright {new Date().getFullYear()}, CPXDevStudio
           <br />
           <small style={{ fontSize: 10 }}>
@@ -2147,8 +2084,7 @@ function App({
                 "https://bsky.app/profile/cpxdevbot.bsky.social",
                 "_blank"
               )
-            }
-          >
+            }>
             Check latest system update
           </a>
         </Card>
@@ -2156,8 +2092,7 @@ function App({
 
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={load}
-      >
+        open={load}>
         <CircularProgress />
       </Backdrop>
       <Fade
@@ -2167,8 +2102,7 @@ function App({
           top: 0,
           position: "fixed",
         }}
-        in={loadPre}
-      >
+        in={loadPre}>
         <LinearProgress
           sx={{ height: 100, borderColor: "#b802a8" }}
           className="w-100"
@@ -2181,8 +2115,7 @@ function App({
           top: 0,
           position: "fixed",
         }}
-        in={loadads}
-      >
+        in={loadads}>
         <LinearProgress
           sx={{ height: 100, borderColor: "#b802a8" }}
           className="w-100"
