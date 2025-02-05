@@ -110,6 +110,7 @@ const moneyCurren = [
 ];
 
 const pp = [
+  "1887003216451154071",
   "1885553666683290061",
   "1883104527345418554",
   "1882775360976134475",
@@ -479,11 +480,13 @@ const Ge = ({
       : "<h5>Processing the result</h5>";
   };
 
-  const steps = [
-    "Candidate Acceptance Period",
-    "Voting Period",
-    "Final Announcement",
-  ];
+  React.useEffect(() => {
+    setqrCode(
+      generatePayload("004999166938497", {
+        amount: num,
+      })
+    );
+  }, [num]);
 
   return (
     <Fade in={open} timeout={300}>
