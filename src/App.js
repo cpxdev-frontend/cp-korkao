@@ -903,9 +903,12 @@ function App({
       setAnchorElNav(null);
     }
   };
-  const handleClose = () => {
+  const handleClose = (m = null) => {
     setAnchorEl(null);
     setTab("");
+    if (m == null) {
+      setAnchorElNav(null);
+    }
   };
 
   React.useEffect(() => {
@@ -1160,17 +1163,17 @@ function App({
                       id="basic-menu"
                       anchorEl={anchorEl}
                       open={tab == "mob_game"}
-                      onClose={handleClose}
+                      onClose={() => handleClose("ok")}
                       MenuListProps={{
                         "aria-labelledby": "basic-button",
                       }}>
                       <MenuItem
-                        onClick={handleClose}
+                        onClick={() => handleClose()}
                         component={Link}
                         to="/quizgame">
                         {lang == "th" ? "กอข้าวควิชเกมส์" : "KorKao Quiz Game"}
                       </MenuItem>
-                      <MenuItem onClick={handleClose}>
+                      <MenuItem onClick={() => handleClose()}>
                         {lang == "th"
                           ? "ป็อปฟ่าง (เร็วๆนี้)"
                           : "PopFrang (Coming soon)"}
