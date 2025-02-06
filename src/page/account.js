@@ -472,10 +472,7 @@ const Acct = ({
       };
 
       setPoint(null);
-      fetch(
-        process.env.REACT_APP_APIE_2 + "/kfsite/getPoint",
-        requestOptions
-      )
+      fetch(process.env.REACT_APP_APIE_2 + "/kfsite/getPoint", requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (result.status) {
@@ -1334,11 +1331,17 @@ const Acct = ({
                         aria-label="google"
                         onClick={() =>
                           window.open(
-                            login.user.providerData[0].providerId.includes("google")
+                            login.user.providerData[0].providerId.includes(
+                              "google"
+                            )
                               ? "https://myaccount.google.com/"
-                              : login.user.providerData[0].providerId.includes("microsoft")
+                              : login.user.providerData[0].providerId.includes(
+                                  "microsoft"
+                                )
                               ? "https://account.microsoft.com"
-                              : login.user.providerData[0].providerId.includes("spotify")
+                              : login.user.providerData[0].providerId.includes(
+                                  "spotify"
+                                )
                               ? "https://www.spotify.com/account/overview"
                               : null,
                             "_blank"
@@ -1346,11 +1349,17 @@ const Acct = ({
                         }>
                         <FontAwesomeIcon
                           icon={
-                            login.user.providerData[0].providerId.includes("google")
+                            login.user.providerData[0].providerId.includes(
+                              "google"
+                            )
                               ? faGoogle
-                              : login.user.providerData[0].providerId.includes("microsoft")
+                              : login.user.providerData[0].providerId.includes(
+                                  "microsoft"
+                                )
                               ? faMicrosoft
-                              : login.user.providerData[0].providerId.includes("spotify")
+                              : login.user.providerData[0].providerId.includes(
+                                  "spotify"
+                                )
                               ? faSpotify
                               : null
                           }
@@ -1873,8 +1882,8 @@ const Acct = ({
           <DialogTitle id="alert-dialog-title">KorKao ID QR Code</DialogTitle>
           <Typography className="ml-4 mr-4">
             {lang == "th"
-              ? "กรุณายื่น QR Code นี้ให้ผู้ที่ต้องการโอน Korkao Points ให้คุณ"
-              : "This is your QR Code, please show to other KorKao ID user to transfer points."}
+              ? "กรุณายื่น QR Code นี้ให้ผู้ที่ต้องการโอน Korkao Points เพียง 1 คนเท่านั้น และหลีกเลี่ยงการแชร์หรือแคปหน้าจอ QR Code นี้ลงช่องทางอื่นเพื่อป้องกันไม่ให้บุคคลอื่เข้าถึงข้อมูลส่วนบุคคลของคุณได้"
+              : "Please show this QR Code only to the person who wishes to transfer Korkao Points, and avoid sharing or taking a screenshot of this QR Code to any external platform to prevent unauthorized individuals from accessing your personal information."}
           </Typography>
           <DialogContent className="d-flex justify-content-center">
             <QRCode
