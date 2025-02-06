@@ -455,8 +455,8 @@ const GameApp = ({
                 allowOutsideClick: false,
                 footer:
                   lang == "th"
-                    ? "เนื่องจากคุณตอบคำถามได้มากกว่าผู้เล่นโดยเฉลี่ยทั่วโลก คุณจึงได้สิทธิ์การลุ้น AirDrop จากเรา (สูงสุด 5 ครั้งต่อ 12 ชั่วโมง นับจากวันและเวลาที่เล่นล่าสุด)"
-                    : "Because you have answered more questions than the average global player, you have earned the right to participate in our AirDrop. (Up to 5 times per 12 hours, starting from your last gameplay.)",
+                    ? "เนื่องจากคุณตอบคำถามได้มากกว่าผู้เล่นโดยเฉลี่ยทั่วโลก คุณจึงได้สิทธิ์การลุ้น AirDrop จากเรา (สูงสุด 3 ครั้งต่อ 12 ชั่วโมง นับจากวันและเวลาที่เล่นล่าสุด)"
+                    : "Because you have answered more questions than the average global player, you have earned the right to participate in our AirDrop. (Up to 3 times per 12 hours, starting from your last gameplay.)",
                 customClass: {
                   container: "airdropcontain",
                 },
