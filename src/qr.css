@@ -1,4 +1,4 @@
-#html5qr-code-full-region {
+#html5qr-code-full-region, #qr-shaded-region {
   border-radius: 20px !important;
 }
 #html5-qrcode-anchor-scan-type-change, span:has(select #html5-qrcode-select-camera) {
