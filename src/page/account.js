@@ -1418,13 +1418,7 @@ const Acct = ({
                     <Button
                       variant="outlined"
                       sx={{ display: { xs: "block", md: "none" } }}
-                      onClick={() =>
-                        window.location.href.includes("localhost")
-                          ? setCheckevent(
-                              "B9CEFA4286CD4D0398DCED46D64A495468BB7EBAA9AF324613D7C42FF8A6721A1094F7BD4CB0B3AC8030EDCBB493CBC4"
-                            )
-                          : setGetData(true)
-                      }>
+                      onClick={() => setGetData(true)}>
                       {lang == "th" ? "สแกน QR Code" : "Scan QR Code"}
                     </Button>
                     {/* <Button onClick={() => setEdonate(true)}>
@@ -1455,13 +1449,7 @@ const Acct = ({
                       className="mb-1"
                       variant="outlined"
                       sx={{ display: { xs: "block", md: "none" } }}
-                      onClick={() =>
-                        window.location.href.includes("localhost")
-                          ? setCheckevent(
-                              "B9CEFA4286CD4D0398DCED46D64A495468BB7EBAA9AF324613D7C42FF8A6721A1094F7BD4CB0B3AC8030EDCBB493CBC4"
-                            )
-                          : setGetData(true)
-                      }>
+                      onClick={() => setGetData(true)}>
                       {lang == "th" ? "สแกน QR Code" : "Scan QR Code"}
                     </Button>
                     {/* <Button onClick={() => setEdonate(true)}>

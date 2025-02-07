@@ -351,3 +351,9 @@ button .react-joyride__beacon {
 .muiLang > .Mui-selected, .text-pink {
   color: #b802a8 !important;
 }
+#html5qr-code-full-region {
+  border-radius: 20px !important;
+}
+#html5-qrcode-anchor-scan-type-change{
+  display: none !important;
+}
