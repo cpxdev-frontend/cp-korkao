@@ -761,9 +761,25 @@ const Ge = ({
           <div className="container" data-aos="fade-right">
             <Card>
               <CardMedia
-                sx={{ height: "50vh", width: "100%" }}
+                sx={{
+                  height: "50vh",
+                  width: "100%",
+                  display: { xs: "block", md: "none" },
+                }}
                 image="https://pbs.twimg.com/media/Ge0Am9Vb0AE5pVe?format=jpg&name=large"
                 title="kfge5begin"
+              />
+              <CardMedia
+                sx={{
+                  width: "100%",
+                  height: { md: "70vh", xs: "50vh" },
+                  position: "initial",
+                  display: { xs: "none", md: "block" },
+                  left: 0,
+                }}
+                component="iframe"
+                src={"https://youtube.com/embed/FbUgKp7DYWE"}
+                alt="kfgepromote"
               />
               <CardContent>
                 <Typography variant="body2" sx={{ color: "text.secondary" }}>
@@ -774,6 +790,7 @@ const Ge = ({
               </CardContent>
               <CardActions>
                 <Button
+                  variant="outlined"
                   onClick={() =>
                     window.open(
                       "https://www.facebook.com/bnk48official/posts/pfbid0JXgFZzmA6CLm9wx9cucESrgSZYk1qv8Yw1ZsoPe4EmkxuQJyL4FPLv8XfzoLmGqMl",
@@ -781,6 +798,16 @@ const Ge = ({
                     )
                   }>
                   {lang == "th" ? "ไปยังลิงก์" : "Go to external link"}
+                </Button>
+                <Button
+                  sx={{ display: { xs: "block", md: "none" } }}
+                  onClick={() =>
+                    window.open(
+                      "https://youtube.com/watch?v=FbUgKp7DYWE",
+                      "_blank"
+                    )
+                  }>
+                  {lang == "th" ? "ดูคลิปโปรโมท" : "Watch Promote Clip"}
                 </Button>
               </CardActions>
             </Card>
