@@ -1855,11 +1855,11 @@ const Acct = ({
               qrbox={250}
               disableFlip={false}
               qrCodeSuccessCallback={(decodedText, decodedResult) => {
+                setGetData(false);
                 if (getData == false) {
                   return;
                 }
                 if (decodedResult.decodedText.includes("kidr-")) {
-                  setGetData(false);
                   setTrans({
                     ...trans,
                     sessionId: "",
