@@ -77,7 +77,7 @@ import Joyride from "react-joyride";
 import stepEn from "../stepGuide/en/gallery";
 import stepTh from "../stepGuide/th/gallery";
 
-import Html5QrcodePlugin from './_qrscanner';
+import Html5QrcodePlugin from "./_qrscanner";
 import BarcodeScannerComponent from "react-qr-barcode-scanner";
 import { QRCode } from "react-qrcode-logo";
 
@@ -938,16 +938,42 @@ const Acct = ({
 
   if (login === false) {
     return (
-      <Card className="mt-5">
-        <CardContent>
-          <Skeleton variant="text" className="bg-m" sx={{ fontSize: "2rem" }} />
-          <Skeleton variant="text" className="bg-m" sx={{ fontSize: "1rem" }} />
-          <Skeleton variant="text" className="bg-m" sx={{ fontSize: "1rem" }} />
-          <Skeleton variant="text" className="bg-m" sx={{ fontSize: "1rem" }} />
-          <Skeleton variant="text" className="bg-m" sx={{ fontSize: "1rem" }} />
-          <Skeleton variant="text" className="bg-m" sx={{ fontSize: "1rem" }} />
-        </CardContent>
-      </Card>
+      <div className="container" style={{ marginTop: 100 }}>
+        <Card>
+          <CardContent>
+            <Skeleton
+              variant="text"
+              className="bg-m"
+              sx={{ fontSize: "2rem" }}
+            />
+            <Skeleton
+              variant="text"
+              className="bg-m"
+              sx={{ fontSize: "1rem" }}
+            />
+            <Skeleton
+              variant="text"
+              className="bg-m"
+              sx={{ fontSize: "1rem" }}
+            />
+            <Skeleton
+              variant="text"
+              className="bg-m"
+              sx={{ fontSize: "1rem" }}
+            />
+            <Skeleton
+              variant="text"
+              className="bg-m"
+              sx={{ fontSize: "1rem" }}
+            />
+            <Skeleton
+              variant="text"
+              className="bg-m"
+              sx={{ fontSize: "1rem" }}
+            />
+          </CardContent>
+        </Card>
+      </div>
     );
   }
 
@@ -1840,7 +1866,7 @@ const Acct = ({
               qrbox={250}
               disableFlip={false}
               qrCodeSuccessCallback={(decodedText, decodedResult) => {
-                alert(JSON.stringify(decodedResult))
+                alert(JSON.stringify(decodedResult));
                 // if (decodedText.includes("kidr-")) {
                 //   setGetData(false);
                 //   setTrans({
