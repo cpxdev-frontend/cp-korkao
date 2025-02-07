@@ -360,6 +360,7 @@ button .MuiToggleButton-root .Mui-selected {
   display: none !important;
 }
 .html5-qrcode-element {
+  margin-top: 10px;
   display: inline-block;
   font-weight: 400;
   text-align: center;
