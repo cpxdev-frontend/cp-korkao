@@ -18,6 +18,13 @@ const createConfig = (props) => {
     if (props.disableFlip !== undefined) {
         config.disableFlip = props.disableFlip;
     }
+    config.videoConstraints = {
+        advanced: [
+            {
+                facingMode: "environment"
+            }
+        ]
+    }
     return config;
 };
 
