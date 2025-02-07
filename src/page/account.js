@@ -77,7 +77,7 @@ import Joyride from "react-joyride";
 import stepEn from "../stepGuide/en/gallery";
 import stepTh from "../stepGuide/th/gallery";
 
-import { Scanner } from "@yudiel/react-qr-scanner";
+import { Html5QrcodeScanner } from 'html5-qrcode';
 import BarcodeScannerComponent from "react-qr-barcode-scanner";
 import { QRCode } from "react-qrcode-logo";
 
@@ -1835,24 +1835,21 @@ const Acct = ({
               : "Scan Event or KorKao ID QR Code"}
           </DialogTitle>
           <DialogContent>
-            <Scanner
-              classNames={{
-                container: "scanner",
-              }}
-              components={{ audio: false }}
-              scanDelay={-10000}
-              formats={["qr_code"]}
-              onScan={(result) => {
-                if (result[0].rawValue.includes("kidr-")) {
+            <Html5QrcodePlugin
+              fps={10}
+              qrbox={250}
+              disableFlip={false}
+              qrCodeSuccessCallback={(decodedText) => {
+                if (decodedText.includes("kidr-")) {
                   setGetData(false);
                   setTrans({
                     ...trans,
                     sessionId: "",
                     userId: login._tokenResponse.email,
                   });
-                  verifyEmail(result[0].rawValue);
+                  verifyEmail(decodedText);
                 } else {
-                  setCheckevent(result[0].rawValue);
+                  setCheckevent(decodedText);
                 }
               }}
               onError={null}
