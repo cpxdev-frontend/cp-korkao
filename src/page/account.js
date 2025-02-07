@@ -1854,6 +1854,9 @@ const Acct = ({
               qrbox={250}
               disableFlip={false}
               qrCodeSuccessCallback={(decodedText, decodedResult) => {
+                if (getData == false) {
+                  return;
+                }
                 if (decodedResult.decodedText.includes("kidr-")) {
                   setGetData(false);
                   setTrans({
