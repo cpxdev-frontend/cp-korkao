@@ -654,6 +654,7 @@ const Acct = ({
               break;
             }
           }
+          return;
         }
       })
       .catch((error) => console.log("error", error));
