@@ -1850,28 +1850,30 @@ const Acct = ({
               : "Scan Event or KorKao ID QR Code"}
           </DialogTitle>
           <DialogContent>
-            <Html5QrcodePlugin
-              fps={10}
-              qrbox={250}
-              disableFlip={false}
-              qrCodeSuccessCallback={(decodedText, decodedResult) => {
-                setGetData(false);
-                if (getData == false) {
-                  return;
-                }
-                if (decodedResult.decodedText.includes("kidr-")) {
-                  setTrans({
-                    ...trans,
-                    sessionId: "",
-                    userId: login._tokenResponse.email,
-                  });
-                  verifyEmail(decodedResult.decodedText);
-                } else {
-                  setCheckevent(decodedResult.decodedText);
-                }
-              }}
-              onError={null}
-            />
+            {getData && (
+              <Html5QrcodePlugin
+                fps={10}
+                qrbox={250}
+                disableFlip={false}
+                qrCodeSuccessCallback={(decodedText, decodedResult) => {
+                  setGetData(false);
+                  if (getData == false) {
+                    return;
+                  }
+                  if (decodedResult.decodedText.includes("kidr-")) {
+                    setTrans({
+                      ...trans,
+                      sessionId: "",
+                      userId: login._tokenResponse.email,
+                    });
+                    verifyEmail(decodedResult.decodedText);
+                  } else {
+                    setCheckevent(decodedResult.decodedText);
+                  }
+                }}
+                onError={null}
+              />
+            )}
             {/* <Box sx={{ display: "none" }}>
               <BarcodeScannerComponent
                 width={500}
