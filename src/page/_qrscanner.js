@@ -1,4 +1,4 @@
-import { Html5QrcodeScanner } from 'html5-qrcode';
+import { Html5QrcodeScanner, Html5QrcodeScanType, Html5QrcodeSupportedFormats } from 'html5-qrcode';
 import { useEffect } from 'react';
 
 const qrcodeRegionId = "html5qr-code-full-region";
@@ -25,6 +25,9 @@ const createConfig = (props) => {
             }
         ]
     }
+    config.formatsToSupport = [ Html5QrcodeSupportedFormats.QR_CODE ];
+    config.rememberLastUsedCamera = true;
+    config.Html5QrcodeScannerConfig = [ Html5QrcodeScanType.SCAN_TYPE_CAMERA ]
     return config;
 };
 
