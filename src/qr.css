@@ -1,5 +1,7 @@
 #html5qr-code-full-region,
-#html5qr-code-full-region__scan_region {
+#qr-shaded-region,
+#html5qr-code-full-region__scan_region > video,
+#html5qr-code-full-region__scan_region > canvas {
   border-radius: 20px !important;
 }
 #html5-qrcode-anchor-scan-type-change,
