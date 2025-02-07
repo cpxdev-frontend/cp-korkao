@@ -898,7 +898,9 @@ function App({
     // if (localStorage.getItem("yuser") == null) {
     //   return;
     // }
-    setAnchorEl(e.currentTarget);
+    if (e != null) {
+      setAnchorEl(e.currentTarget);
+    }
     if (session == null) {
       setAnchorElNav(null);
     }

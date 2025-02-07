@@ -1840,17 +1840,18 @@ const Acct = ({
               qrbox={250}
               disableFlip={false}
               qrCodeSuccessCallback={(decodedText) => {
-                if (decodedText.includes("kidr-")) {
-                  setGetData(false);
-                  setTrans({
-                    ...trans,
-                    sessionId: "",
-                    userId: login._tokenResponse.email,
-                  });
-                  verifyEmail(decodedText);
-                } else {
-                  setCheckevent(decodedText);
-                }
+                alert(JSON.stringify(decodedResult))
+                // if (decodedText.includes("kidr-")) {
+                //   setGetData(false);
+                //   setTrans({
+                //     ...trans,
+                //     sessionId: "",
+                //     userId: login._tokenResponse.email,
+                //   });
+                //   verifyEmail(decodedText);
+                // } else {
+                //   setCheckevent(decodedText);
+                // }
               }}
               onError={null}
             />
