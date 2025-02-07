@@ -1839,7 +1839,7 @@ const Acct = ({
               fps={10}
               qrbox={250}
               disableFlip={false}
-              qrCodeSuccessCallback={(decodedText) => {
+              qrCodeSuccessCallback={(decodedText, decodedResult) => {
                 alert(JSON.stringify(decodedResult))
                 // if (decodedText.includes("kidr-")) {
                 //   setGetData(false);
