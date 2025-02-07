@@ -33,6 +33,7 @@ import {
 import moment from "moment";
 import { RefreshRounded } from "@mui/icons-material";
 import usePagination from "../pagination";
+import PlaceCom from "./_location";
 
 import Joyride from "react-joyride";
 import stepEn from "../stepGuide/en/event";
@@ -400,6 +401,7 @@ const Event = ({
                           {lang == "th" ? "ประเภทกิจกรรม" : "Event Type"}:{" "}
                           {checkeventtype(item)}
                         </h6>
+
                         {item.timerange[0] > 0 &&
                         item.timerange[1] > 0 &&
                         moment
@@ -637,6 +639,9 @@ const Event = ({
                     "," +
                     getData.locate[1]
                   }></iframe>
+                {getData.locate != null && (
+                  <PlaceCom coodinate={getData.locate} lang={lang} i={0} />
+                )}
               </>
             ) : (
               <>
