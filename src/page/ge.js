@@ -110,6 +110,8 @@ const moneyCurren = [
 ];
 
 const pp = [
+  "1888090381193015677",
+  "1887727996083077573",
   "1887003216451154071",
   "1885553666683290061",
   "1883104527345418554",
@@ -525,7 +527,8 @@ const Ge = ({
                           compareTimestamps(time, 1743091200).hours <= 23
                         ? "red"
                         : "",
-                  }}>
+                  }}
+                >
                   <p>{lang == "th" ? "วัน" : "Day(s)"}</p>
                   <h3>{compareTimestamps(time, 1743091200).days}</h3>
                 </div>
@@ -540,7 +543,8 @@ const Ge = ({
                           compareTimestamps(time, 1743091200).hours <= 23
                         ? "red"
                         : "",
-                  }}>
+                  }}
+                >
                   <p>{lang == "th" ? "ชั่วโมง" : "Hour(s)"}</p>
                   <h3>{compareTimestamps(time, 1743091200).hours}</h3>
                 </div>
@@ -555,7 +559,8 @@ const Ge = ({
                           compareTimestamps(time, 1743091200).hours <= 23
                         ? "red"
                         : "",
-                  }}>
+                  }}
+                >
                   <p>{lang == "th" ? "นาที" : "Minute(s)"}</p>
                   <h3>{compareTimestamps(time, 1743091200).minutes}</h3>
                 </div>
@@ -570,7 +575,8 @@ const Ge = ({
                           compareTimestamps(time, 1743091200).hours <= 23
                         ? "red"
                         : "",
-                  }}>
+                  }}
+                >
                   <p>{lang == "th" ? "วินาที" : "Second(s)"}</p>
                   <h3>{compareTimestamps(time, 1743091200).seconds}</h3>
                 </div>
@@ -582,13 +588,16 @@ const Ge = ({
         <Box className="m-3">
           <CardHeader title="Event TimeLine" />
           <Stepper
-            orientation={window.innerWidth > 1100 ? "landscape" : "vertical"}>
+            orientation={window.innerWidth > 1100 ? "landscape" : "vertical"}
+          >
             <Step
               active={getsessionactive(0)}
-              completed={getsessioncomplete(0)}>
+              completed={getsessioncomplete(0)}
+            >
               <StepLabel
                 StepIconComponent={ScheduleIcon}
-                sx={{ backgroundColor: timeline > 0 ? "#58eb34" : "" }}>
+                sx={{ backgroundColor: timeline > 0 ? "#58eb34" : "" }}
+              >
                 <h6>
                   {lang == "th"
                     ? "เปิดลงทะเบียนการเข้าร่วมกิจกรรม (สำหรับเมมเบอร์ BNK48 และ CGM48)"
@@ -603,10 +612,12 @@ const Ge = ({
             </Step>
             <Step
               active={getsessionactive(1)}
-              completed={getsessioncomplete(1)}>
+              completed={getsessioncomplete(1)}
+            >
               <StepLabel
                 StepIconComponent={HowToVoteIcon}
-                sx={{ backgroundColor: timeline > 1 ? "#58eb34" : "" }}>
+                sx={{ backgroundColor: timeline > 1 ? "#58eb34" : "" }}
+              >
                 <h6>{lang == "th" ? "เปิดการโหวต" : "Voting Period"}</h6>
               </StepLabel>
               <StepContent>
@@ -617,10 +628,12 @@ const Ge = ({
             </Step>
             <Step
               active={getsessionactive(2)}
-              completed={getsessioncomplete(2)}>
+              completed={getsessioncomplete(2)}
+            >
               <StepLabel
                 StepIconComponent={PollIcon}
-                sx={{ backgroundColor: timeline > 2 ? "#58eb34" : "" }}>
+                sx={{ backgroundColor: timeline > 2 ? "#58eb34" : "" }}
+              >
                 <h6>
                   {lang == "th"
                     ? "ประกาศผลด่วน 24 ชั่วโมงแรก"
@@ -635,10 +648,12 @@ const Ge = ({
             </Step>
             <Step
               active={getsessionactive(3)}
-              completed={getsessioncomplete(3)}>
+              completed={getsessioncomplete(3)}
+            >
               <StepLabel
                 StepIconComponent={LiveTvIcon}
-                sx={{ backgroundColor: timeline > 3 ? "#58eb34" : "" }}>
+                sx={{ backgroundColor: timeline > 3 ? "#58eb34" : "" }}
+              >
                 <h6>
                   {lang == "th"
                     ? "ประกาศผลอย่างเป็นทางการ"
@@ -663,7 +678,8 @@ const Ge = ({
                   (lang == "th"
                     ? '<div class="mt-3">ข้อมูลโดยวิชมายวิช</div>'
                     : '<div class="mt-3">Provided by WithMyWish</div>'),
-              }}></p>
+              }}
+            ></p>
           }
           className="m-2 mt-5 border border-pink"
           sx={{ borderRadius: 6 }}
@@ -691,7 +707,8 @@ const Ge = ({
                   borderRadius: 5,
                   background:
                     "linear-gradient(180deg, rgba(203,150,194,1) 0%, rgba(73,197,168,1) 100%)",
-                }}>
+                }}
+              >
                 <p>General Election Candidated Members</p>
                 <h1>
                   <CountUp end={48} onEnd={() => {}} duration={4} />
@@ -710,7 +727,8 @@ const Ge = ({
                 sx={{
                   borderRadius: 5,
                   backgroundColor: "#cb96c2",
-                }}>
+                }}
+              >
                 <p>BNK48 Candidated Members</p>
                 <h1>
                   <CountUp end={30} onEnd={() => {}} duration={4} />
@@ -729,7 +747,8 @@ const Ge = ({
                 sx={{
                   borderRadius: 5,
                   backgroundColor: "#49c5a8",
-                }}>
+                }}
+              >
                 <p>CGM48 Candidated Members</p>
                 <h1>
                   <CountUp end={18} onEnd={() => {}} duration={4} />
@@ -746,7 +765,8 @@ const Ge = ({
                   borderRadius: 5,
                   backgroundColor: "#404040",
                   color: "#fff",
-                }}>
+                }}
+              >
                 <p>Song Selected by Candidated members</p>
                 <h1>
                   <CountUp end={70} onEnd={() => {}} duration={4} />
@@ -796,7 +816,8 @@ const Ge = ({
                       "https://www.facebook.com/bnk48official/posts/pfbid0JXgFZzmA6CLm9wx9cucESrgSZYk1qv8Yw1ZsoPe4EmkxuQJyL4FPLv8XfzoLmGqMl",
                       "_blank"
                     )
-                  }>
+                  }
+                >
                   {lang == "th" ? "ไปยังลิงก์" : "Go to external link"}
                 </Button>
                 <Button
@@ -806,7 +827,8 @@ const Ge = ({
                       "https://youtube.com/watch?v=FbUgKp7DYWE",
                       "_blank"
                     )
-                  }>
+                  }
+                >
                   {lang == "th" ? "ดูคลิปโปรโมท" : "Watch Promote Clip"}
                 </Button>
               </CardActions>
@@ -844,7 +866,8 @@ const Ge = ({
                       "https://youtube.com/watch?v=CGXwRIcnrJo",
                       "_blank"
                     )
-                  }>
+                  }
+                >
                   {lang == "th"
                     ? "รับชมมิวสิควีดีโอต้นฉบับ"
                     : "Watching original Music Video"}
@@ -855,7 +878,8 @@ const Ge = ({
                       "https://open.spotify.com/track/6wgJfy5bVOhEiKz08YaV64",
                       "_blank"
                     )
-                  }>
+                  }
+                >
                   {lang == "th" ? "รับฟังบน Spotify" : "Listen it on Spotify!"}
                 </Button>
               </CardActions>
@@ -880,7 +904,8 @@ const Ge = ({
                       "https://youtube.com/watch?v=0pKfxbCHLoU",
                       "_blank"
                     )
-                  }>
+                  }
+                >
                   {lang == "th"
                     ? "รับชมมิวสิควีดีโอต้นฉบับ"
                     : "Watching original Music Video"}
@@ -891,7 +916,8 @@ const Ge = ({
                       "https://open.spotify.com/track/1Paki9ZUoGAJCDfykNrHV8",
                       "_blank"
                     )
-                  }>
+                  }
+                >
                   {lang == "th" ? "รับฟังบน Spotify" : "Listen it on Spotify!"}
                 </Button>
               </CardActions>
@@ -916,7 +942,8 @@ const Ge = ({
                       "https://youtube.com/watch?v=tBFJFAP3GKU",
                       "_blank"
                     )
-                  }>
+                  }
+                >
                   {lang == "th"
                     ? "รับชมมิวสิควีดีโอต้นฉบับ"
                     : "Watching original Music Video"}
@@ -927,7 +954,8 @@ const Ge = ({
                       "https://open.spotify.com/track/0svM1S2Msb3aIfpf2Cf0YT",
                       "_blank"
                     )
-                  }>
+                  }
+                >
                   {lang == "th" ? "รับฟังบน Spotify" : "Listen it on Spotify!"}
                 </Button>
               </CardActions>
@@ -955,7 +983,8 @@ const Ge = ({
                 <Button
                   onClick={() =>
                     window.open("https://youtu.be/1cVvscOjruc", "_blank")
-                  }>
+                  }
+                >
                   {lang == "th" ? "ไปยังลิงก์" : "Go to external link"}
                 </Button>
               </CardActions>
@@ -992,10 +1021,12 @@ const Ge = ({
                 sx={{
                   width: "100%",
                   bgcolor: "background.paper",
-                }}>
+                }}
+              >
                 <ListItem
                   sx={{ cursor: "pointer" }}
-                  onClick={() => window.open("//app.bnk48.com/shop", "_blank")}>
+                  onClick={() => window.open("//app.bnk48.com/shop", "_blank")}
+                >
                   <ListItemAvatar>
                     <Avatar className="iconchoice">
                       <LocalShippingIcon />
@@ -1012,7 +1043,8 @@ const Ge = ({
                 </ListItem>
                 <ListItem
                   sx={{ cursor: "pointer" }}
-                  onClick={() => window.open("//app.bnk48.com", "_blank")}>
+                  onClick={() => window.open("//app.bnk48.com", "_blank")}
+                >
                   <ListItemAvatar>
                     <Avatar className="iconchoice">
                       <MonetizationOnIcon />
@@ -1029,7 +1061,8 @@ const Ge = ({
                 </ListItem>
                 <ListItem
                   sx={{ cursor: "pointer" }}
-                  onClick={() => setGeDonate(true)}>
+                  onClick={() => setGeDonate(true)}
+                >
                   <ListItemAvatar>
                     <Avatar className="iconchoice">
                       <RecommendIcon />
@@ -1045,6 +1078,25 @@ const Ge = ({
                   />
                 </ListItem>
               </List>
+              {lang == "th" && (
+                <p className="card-body">
+                  <small>
+                    หมายเหตุ: ทุกการสั่งซื้อซิงเกิ้ล BNK48 18th Single "Green
+                    Flash" และ/หรือ CGM48 9th Single "Totsuzen Do love me!
+                    และ/หรือสินค้าประเภทอื่น ผ่าน IAM48 Shop ในแอป IAM48
+                    สามารถเข้าร่วมโครงการ Easy E-Receipt 2.0
+                    เพื่อนำไปใช้ลดหย่อนภาษีได้สูงสุด 30,000 บาทจากภาครัฐฯ
+                    (เฉพาะออเดอร์ที่มีการชำระเงินสำเร็จก่อนหรือภายในวันที่ 28
+                    กุมภาพันธ์ 2568 เท่านั้น) ดูรายละเอียดเพิ่มเติมได้ที่
+                    <a
+                      href="https://www.rd.go.th/fileadmin/user_upload/lorkhor/newsbanner/2024/12/Q_A_Easy_E-Receipt_2.0_25122567.pdf"
+                      target="_blank"
+                    >
+                      เว็บไซต์กรมสรรพากร
+                    </a>
+                  </small>
+                </p>
+              )}
             </Card>
           </div>
         </Box>
@@ -1054,14 +1106,16 @@ const Ge = ({
           TransitionComponent={Transition}
           transitionDuration={400}
           onClose={() => {}}
-          maxWidth="lg">
+          maxWidth="lg"
+        >
           <DialogTitle>
             Donation for GE5 (BNK48 & CGM48 General Election 2025)
           </DialogTitle>
           <DialogContent>
             <div
               className="col-12 text-center w-100"
-              style={{ backgroundColor: print ? "#fff" : "" }}>
+              style={{ backgroundColor: print ? "#fff" : "" }}
+            >
               <div className="col-12 d-flex justify-content-center">
                 {print == false ? (
                   <QRCode
@@ -1102,7 +1156,8 @@ const Ge = ({
                               " " +
                               setexc.toUpperCase()) +
                           ")",
-                  }}></Typography>
+                  }}
+                ></Typography>
               )}
               {print && (
                 <>
@@ -1129,7 +1184,8 @@ const Ge = ({
                         : "Amount " +
                           comma(num) +
                           " THB<br />Please view exchange rate below.",
-                  }}></Typography>
+                  }}
+                ></Typography>
               )}
             </div>
             {lang != "th" && (
@@ -1151,7 +1207,8 @@ const Ge = ({
                 }}
                 SelectProps={{
                   native: true,
-                }}>
+                }}
+              >
                 <option value="-">Select your currency</option>
                 {moneyCurren.map((item) => (
                   <option value={item.val}>{item.lab}</option>
@@ -1207,13 +1264,15 @@ const Ge = ({
               }}
               SelectProps={{
                 native: true,
-              }}></TextField>
+              }}
+            ></TextField>
             <Stack
               className="d-flex justify-content-center"
               direction="row"
               spacing={1}
               useFlexGap
-              sx={{ flexWrap: "wrap" }}>
+              sx={{ flexWrap: "wrap" }}
+            >
               <Chip
                 onClick={() => setNum(10)}
                 label={lang == "th" ? "10 บาท" : "฿10"}
@@ -1274,7 +1333,8 @@ const Ge = ({
             <Button
               variant="outlined"
               onClick={() => ExportQR()}
-              className="m-2 mt-4">
+              className="m-2 mt-4"
+            >
               {lang == "th" ? "บันทึก QR Code นี้" : "Save this QR Payment"}
             </Button>
             <Divider />
@@ -1301,7 +1361,8 @@ const Ge = ({
                 QR Payment directly. Please click{" "}
                 <a
                   href="https://s7ap1.scene7.com/is/image/bot/2024_06_19_Crossborder%20QR%20Payment_Brochure_update%20(1)?ts=1718875185342&dpr=off"
-                  target="_blank">
+                  target="_blank"
+                >
                   here
                 </a>{" "}
                 to view Accepted international mobile banking with Thai QR
@@ -1331,7 +1392,8 @@ const Ge = ({
           style={{
             backgroundColor: print ? "#fff" : "",
             display: print ? "block" : "none",
-          }}>
+          }}
+        >
           <div className="col-12 d-flex justify-content-center">
             {print == false ? (
               <QRCode
@@ -1372,7 +1434,8 @@ const Ge = ({
                           " " +
                           setexc.toUpperCase()) +
                       ")",
-              }}></Typography>
+              }}
+            ></Typography>
           )}
           {print && (
             <>
@@ -1399,13 +1462,15 @@ const Ge = ({
                     : "Amount " +
                       comma(num) +
                       " THB<br />Please view exchange rate below.",
-              }}></Typography>
+              }}
+            ></Typography>
           )}
         </div>
 
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={load}>
+          open={load}
+        >
           <CircularProgress />
         </Backdrop>
       </Box>
