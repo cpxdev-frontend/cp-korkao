@@ -136,14 +136,18 @@ const Trend = ({
 
     setLoad(true);
     fetch(
-      process.env.REACT_APP_APIE + "/kfsite/trend?way=" + w + "&trendid=" + trend,
+      process.env.REACT_APP_APIE +
+        "/kfsite/trend?way=" +
+        w +
+        "&trendid=" +
+        trend,
       requestOptions
     )
       .then((response) => response.json())
       .then((result) => {
         setLoad(false);
         if (result.status) {
-          window.open(result.url, '_blank');
+          window.open(result.url, "_blank");
         } else {
           if (result.icon == "warning") {
             if (result.code == 2) {
@@ -208,16 +212,14 @@ const Trend = ({
                     key={item.trendId}
                     className="mb-3"
                     data-aos-delay="600"
-                    data-aos="zoom-in-right"
-                  >
+                    data-aos="zoom-in-right">
                     <CardContent
                       sx={{
                         opacity: item.end > 0 && launch >= item.end ? 0.4 : 1,
-                      }}
-                    >
+                      }}>
                       <CardHeader
                         className="pl-0 pb-0"
-                        title={<h4>{item.title}</h4>}
+                        title={<h4>{item.title.replaceAll('\\"', '"')}</h4>}
                         action={
                           unix < item.start && (
                             <Chip
@@ -390,12 +392,11 @@ const Trend = ({
                           )}
                           <p className="mt-4">
                             {lang == "th" ? "รายละเอียดกิจกรรม" : "Description"}
-                            : {item.desc[lang]}
+                            : {item.desc[lang].replaceAll('\\"', '"')}
                           </p>
                           <p
                             className="mt-4"
-                            style={{ wordWrap: "break-word" }}
-                          >
+                            style={{ wordWrap: "break-word" }}>
                             {lang == "th" ? "แท็กที่ใช้" : "Available Tags"}:
                             {unix >= item.start && (
                               <Box
@@ -404,8 +405,7 @@ const Trend = ({
                                     item.tags > 3
                                       ? "initial"
                                       : { xs: "initial", lg: "none" },
-                                }}
-                              >
+                                }}>
                                 <br />
                               </Box>
                             )}
@@ -418,8 +418,7 @@ const Trend = ({
                                     "?src=hashtag_click&f=live"
                                   }
                                   className="ml-1"
-                                  target="_blank"
-                                >
+                                  target="_blank">
                                   #{txt}
                                 </a>
                               ))
@@ -450,26 +449,24 @@ const Trend = ({
                                 action: "Trend link access",
                               });
                               setTid(item.trendId);
-                              setAnchorEl(e.currentTarget)
+                              setAnchorEl(e.currentTarget);
                             }}
-                            className="mt-3"
-                          >
+                            className="mt-3">
                             {lang == "th" ? "เริ่มเทรน" : "Start Trend"}
                           </Button>
                         </Grid>
                       </Grid>
-                    <Menu
-                      open={editor}
-                      anchorEl={anchorEl}
-                      onClick={() => setAnchorEl(null)}
-                    >
-                      <MenuItem onClick={() => startTrendData(tid, 'x')}>
-                        X (Twitter)
-                      </MenuItem>
-                      <MenuItem onClick={() => startTrendData(tid, 'face')}>
-                        Facebook
-                      </MenuItem>
-                    </Menu>
+                      <Menu
+                        open={editor}
+                        anchorEl={anchorEl}
+                        onClick={() => setAnchorEl(null)}>
+                        <MenuItem onClick={() => startTrendData(tid, "x")}>
+                          X (Twitter)
+                        </MenuItem>
+                        <MenuItem onClick={() => startTrendData(tid, "face")}>
+                          Facebook
+                        </MenuItem>
+                      </Menu>
                     </CardContent>
                     {/* {!(
                   checktime(item).prepare == 0 && checktime(item).launch == 0
@@ -534,8 +531,7 @@ const Trend = ({
         </div>
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={load}
-        >
+          open={load}>
           <CircularProgress />
         </Backdrop>
       </Box>

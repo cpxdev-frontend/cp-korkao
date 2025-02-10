@@ -270,7 +270,7 @@ const Event = ({
                     }}>
                     <CardHeader
                       className="pl-0 pb-0"
-                      title={<h4>{item.title}</h4>}
+                      title={<h4>{item.title.replaceAll('\\"', '"')}</h4>}
                       subheader={
                         <Chip
                           label={
@@ -362,7 +362,7 @@ const Event = ({
                           src={item.src}
                           variant="rounded"
                           sx={{
-                            width: { md: "400px", xs: "100%" },
+                            width: { lg: "400px", xs: "100%" },
                             height: "100%",
                           }}
                         />
@@ -379,15 +379,15 @@ const Event = ({
                             }}
                             label={
                               lang == "th"
-                                ? "คลิกที่นี่เพื่อดูวีดีโอ"
-                                : "Click here to watch video"
+                                ? "พบวีดีโอแนบพร้อมให้ใช้งาน คลิกที่นี่เพื่อรับชม"
+                                : "Video attached avaliable. Click here to watching!"
                             }
                             onClick={() => {
                               Swal.fire({
                                 title:
                                   lang == "th"
-                                    ? "ตัวอย่างกิจกรรม " + item.title
-                                    : "Event teaser of " + item.title,
+                                    ? "คลิปตัวอย่างกิจกรรม"
+                                    : "Event highlight video",
                                 html:
                                   '<iframe width="100%" height="300" src="' +
                                   item.video +
@@ -484,7 +484,9 @@ const Event = ({
                         )}
                         <p className="mt-4">
                           {lang == "th" ? "รายละเอียดกิจกรรม" : "Description"}:{" "}
-                          {lang == "th" ? item.desc2 : item.desc}
+                          {lang == "th"
+                            ? item.desc2.replaceAll('\\"', '"')
+                            : item.desc.replaceAll('\\"', '"')}
                         </p>
                         {item.timerange[0] > 0 && item.timerange[1] > 0 && (
                           <small>

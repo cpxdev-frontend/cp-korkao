@@ -1877,7 +1877,9 @@ function App({
                       <DialogContent>
                         <CardMedia src={news.src} component="img" />
                         <Typography className="mt-3">
-                          {lang == "th" ? news.desc2 : news.desc}
+                          {lang == "th"
+                            ? news.desc2.replaceAll('\\"', '"')
+                            : news.desc.replaceAll('\\"', '"')}
                         </Typography>
                       </DialogContent>
                       <DialogActions>
