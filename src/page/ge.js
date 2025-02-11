@@ -576,6 +576,19 @@ const Ge = ({
                   <p>{lang == "th" ? "วินาที" : "Second(s)"}</p>
                   <h3>{compareTimestamps(time, 1743091200).seconds}</h3>
                 </div>
+                <div className="container mt-4">
+                  {lang == "th"
+                    ? "คุณสามารถดูผลการทำรายการโหวตด้วย GE5 Token ผ่านเว็บไซต์ TokenX ได้"
+                    : "Check your previous transaction in TokenX Smart Contract "}
+                  <a
+                    href="https://scan.tokenx.finance/address/0x674Ab311C94780207a1357De9bcdd357d23f459E?tab=token_transfers"
+                    target="_blank">
+                    {lang == "th" ? "ที่นี่" : "here"}
+                  </a>
+                  {lang == "th"
+                    ? " - TokenX เป็นบริษัทดูแลแพลตฟอร์มสินทรัพย์ดิจิทัลภายใต้กลุ่มบริษัทเอสซีบี เอกซ์ จํากัด (มหาชน)"
+                    : " - TokenX is digital asset platform and management undered of SCB X PCL."}
+                </div>
               </CardContent>
             </Card>
           </Box>
