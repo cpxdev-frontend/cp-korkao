@@ -215,7 +215,8 @@ const LIVECom = ({ currentPage, lang, setLang, setPage, guide }) => {
                       component={Grid}
                       className="mb-3 ml-3 ml-lg-0"
                       container
-                      key={item.snippet.resourceId.videoId}>
+                      key={item.snippet.resourceId.videoId}
+                    >
                       <Grid xs={12}>
                         <CardMedia
                           sx={{ width: "100%" }}
@@ -227,12 +228,14 @@ const LIVECom = ({ currentPage, lang, setLang, setPage, guide }) => {
                       <Grid
                         item
                         md
-                        sx={{ display: "flex", flexDirection: "column" }}>
+                        sx={{ display: "flex", flexDirection: "column" }}
+                      >
                         <CardContent sx={{ flex: "1 0 auto" }}>
                           <Typography
                             component="div"
                             variant="h5"
-                            sx={{ fontSize: 22 }}>
+                            sx={{ fontSize: 22 }}
+                          >
                             <b>{item.snippet.title}</b>
                           </Typography>
                           <small className="text-muted">
@@ -244,7 +247,8 @@ const LIVECom = ({ currentPage, lang, setLang, setPage, guide }) => {
                             <Button
                               variant="outlined"
                               className="text-success border-success m-1"
-                              onClick={() => setClip(item)}>
+                              onClick={() => setClip(item)}
+                            >
                               {lang == "th" ? "รับชมคลิป" : "View Content"}
                             </Button>
                             <Button
@@ -256,7 +260,8 @@ const LIVECom = ({ currentPage, lang, setLang, setPage, guide }) => {
                                     item.snippet.videoOwnerChannelId,
                                   "_blank"
                                 )
-                              }>
+                              }
+                            >
                               {lang == "th"
                                 ? "รับชมรายการอื่น"
                                 : "View other contents"}
@@ -281,17 +286,24 @@ const LIVECom = ({ currentPage, lang, setLang, setPage, guide }) => {
                 <Card
                   component={Grid}
                   className="mb-3 text-center ml-3 ml-lg-0"
-                  container>
+                  container
+                >
                   <Grid
                     item
                     md
-                    sx={{ display: "flex", flexDirection: "column" }}>
+                    sx={{ display: "flex", flexDirection: "column" }}
+                  >
                     <CardContent sx={{ flex: "1 0 auto" }}>
                       <Typography
                         component="div"
                         variant="h5"
-                        sx={{ fontSize: 17 }}>
-                        <b>{lang == "th" ? "ยังไม่พบรายการสดในขณะนี้" : "LIVE streaming contents are not found"}</b>
+                        sx={{ fontSize: 17 }}
+                      >
+                        <b>
+                          {lang == "th"
+                            ? "ยังไม่พบรายการสดในขณะนี้"
+                            : "LIVE streaming contents are not found"}
+                        </b>
                       </Typography>
                     </CardContent>
                   </Grid>
@@ -356,7 +368,8 @@ const LIVECom = ({ currentPage, lang, setLang, setPage, guide }) => {
           PaperProps={{
             sx: { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 },
           }}
-          TransitionComponent={Transition}>
+          TransitionComponent={Transition}
+        >
           {clip != null && (
             <>
               <AppBar sx={{ position: "relative" }}>
@@ -375,7 +388,8 @@ const LIVECom = ({ currentPage, lang, setLang, setPage, guide }) => {
                     edge="end"
                     color="inherit"
                     onClick={() => setClip(null)}
-                    aria-label="close">
+                    aria-label="close"
+                  >
                     <CloseIcon />
                   </IconButton>
                 </Toolbar>
@@ -408,7 +422,8 @@ const LIVECom = ({ currentPage, lang, setLang, setPage, guide }) => {
                           <CountUp end={view} onEnd={() => {}} duration={3} />{" "}
                           Views on Youtube
                         </Box>
-                      }></Chip>
+                      }
+                    ></Chip>
                   ) : (
                     <Skeleton
                       variant="text"
@@ -428,7 +443,8 @@ const LIVECom = ({ currentPage, lang, setLang, setPage, guide }) => {
                         convertUrlsAndHashtagsToLinks(
                           clip.snippet.description.replace(/\n/g, "<br />")
                         ),
-                    }}></Typography>
+                    }}
+                  ></Typography>
                 </Card>
               </DialogContent>
             </>
