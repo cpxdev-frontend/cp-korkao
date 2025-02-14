@@ -74,6 +74,30 @@ function secondsToMinSec(totalSeconds) {
   return { minutes, seconds };
 }
 
+function CircularProgressWithLabel(props) {
+  return (
+    <Box sx={{ position: "relative", display: "inline-flex" }}>
+      <CircularProgress variant="determinate" {...props} />
+      <Box
+        sx={{
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          position: "absolute",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}>
+        <Typography
+          sx={{ color: props.labeldata <= 10 ? "red" : "text.primary" }}>
+          {`${Math.round(props.labeldata)}`}
+        </Typography>
+      </Box>
+    </Box>
+  );
+}
+
 const GameApp = ({
   currentPage,
   lang,
@@ -571,9 +595,11 @@ const GameApp = ({
           <div
             className="col-6"
             style={{ color: timeremain <= 10 ? "red" : "" }}>
-            {lang == "th"
-              ? "ระยะเวลาคงเหลือ " + timeremain + " วินาที"
-              : timeremain + " second(s) remaining"}
+            <CircularProgressWithLabel
+              variant="determinate"
+              value={(timeremain / 30) * 100}
+              labeldata={timeremain}
+            />
           </div>
           <div className="col-6 p-0 text-right">
             {correct} {lang == "th" ? "คะแนน" : "Score(s)"}
