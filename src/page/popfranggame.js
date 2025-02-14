@@ -633,6 +633,14 @@ const GameApp = ({
           <div
             className="d-flex justify-content-center"
             style={{ marginBottom: 7 }}>
+            {hearts.map((heart) => (
+              <div
+                key={heart.id}
+                className="heart"
+                style={{ left: heart.x, top: heart.y }}>
+                ❤️
+              </div>
+            ))}
             <Avatar
               onClick={(e) => SelectGame(e)}
               src={
@@ -649,14 +657,6 @@ const GameApp = ({
                 height: { md: "280px", xs: "60%" },
               }}
             />
-            {hearts.map((heart) => (
-              <div
-                key={heart.id}
-                className="heart"
-                style={{ left: heart.x, top: heart.y }}>
-                ❤️
-              </div>
-            ))}
           </div>
 
           <CardHeader
@@ -670,7 +670,7 @@ const GameApp = ({
         </CardContent>
       </Card>{" "}
       <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 10 }}
         open={airLoad}>
         <CircularProgress />
       </Backdrop>
