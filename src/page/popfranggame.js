@@ -621,75 +621,78 @@ const GameApp = ({
     );
   }
   return (
-    <div
-      data-aos="fade-in"
-      className="d-flex justify-content-center"
-      style={{ marginBottom: 130 }}>
-      <Card sx={{ marginTop: "5vh", width: { xs: "90%", md: "70%" } }}>
-        <div className="pr-0 row container mt-2">
-          <div
-            className="col-6"
-            style={{ color: timeremain <= 10 ? "red" : "" }}>
-            <CircularProgressWithLabel
-              variant="determinate"
-              value={(timeremain / 30) * 100}
-              labeldata={timeremain}
-            />
+    <>
+      <div
+        data-aos="fade-in"
+        className="d-flex justify-content-center"
+        style={{ marginBottom: 130 }}>
+        <Card sx={{ marginTop: "5vh", width: { xs: "90%", md: "70%" } }}>
+          <div className="pr-0 row container mt-2">
+            <div
+              className="col-6"
+              style={{ color: timeremain <= 10 ? "red" : "" }}>
+              <CircularProgressWithLabel
+                variant="determinate"
+                value={(timeremain / 30) * 100}
+                labeldata={timeremain}
+              />
+            </div>
+            <div className="col-6 p-0 text-right">
+              {correct} {lang == "th" ? "ครั้ง" : "time(s)"}
+            </div>
           </div>
-          <div className="col-6 p-0 text-right">
-            {correct} {lang == "th" ? "ครั้ง" : "time(s)"}
-          </div>
-        </div>
-        <CardContent>
-          <div
-            className="d-flex justify-content-center"
-            style={{ marginBottom: 7 }}>
-            <Avatar
-              onClick={(e) => SelectGame(e)}
-              src={
-                pop == -1
-                  ? "https://d3hhrps04devi8.cloudfront.net/kf/kfprofile.webp"
-                  : "https://d3hhrps04devi8.cloudfront.net/kf/pop" +
-                    pop +
-                    ".jpg"
-              }
-              sx={{
-                marginTop: 7,
-                display: "block",
-                width: { md: "280px", xs: "75%" },
-                height: { md: "280px", xs: "75%" },
-              }}
-            />
-            {hearts.map((heart) => (
-              <div
-                key={heart.id}
-                className="heart"
-                style={{ left: heart.x, top: heart.y - 5 }}>
-                ❤️
-              </div>
-            ))}
-          </div>
+          <CardContent>
+            <div
+              className="d-flex justify-content-center"
+              style={{ marginBottom: 7 }}>
+              <Avatar
+                onClick={(e) => SelectGame(e)}
+                src={
+                  pop == -1
+                    ? "https://d3hhrps04devi8.cloudfront.net/kf/kfprofile.webp"
+                    : "https://d3hhrps04devi8.cloudfront.net/kf/pop" +
+                      pop +
+                      ".jpg"
+                }
+                sx={{
+                  marginTop: 7,
+                  display: "block",
+                  width: { md: "280px", xs: "75%" },
+                  height: { md: "280px", xs: "75%" },
+                }}
+              />
+              {hearts.map((heart) => (
+                <div
+                  key={heart.id}
+                  className="heart"
+                  style={{ left: heart.x, top: heart.y - 5 }}>
+                  ❤️
+                </div>
+              ))}
+            </div>
 
-          <CardHeader
-            className="text-center"
-            title={
-              lang == "th"
-                ? "แสดงความรักต่อข้าวฟ่างด้วยกดที่รูปเลย!"
-                : "Are you waiting for? Let's show your heart!"
-            }
-          />
-        </CardContent>
-      </Card>{" "}
+            <CardHeader
+              className="text-center"
+              title={
+                lang == "th"
+                  ? "แสดงความรักต่อข้าวฟ่างด้วยกดที่รูปเลย!"
+                  : "Are you waiting for? Let's show your heart!"
+              }
+            />
+          </CardContent>
+        </Card>
+      </div>
+
       <Backdrop
         sx={{
           color: "#fff",
-          zIndex: (theme) => theme.zIndex.drawer + 10,
+          zIndex: (theme) => theme.zIndex.drawer,
           position: "fixed",
         }}
         open={airLoad}>
         <CircularProgress />
       </Backdrop>
-    </div>
+    </>
   );
 };
 
