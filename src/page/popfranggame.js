@@ -630,7 +630,9 @@ const GameApp = ({
           </div>
         </div>
         <CardContent>
-          <div className="d-flex justify-content-center">
+          <div
+            className="d-flex justify-content-center"
+            style={{ marginBottom: 7 }}>
             <Avatar
               onClick={(e) => SelectGame(e)}
               src={
@@ -642,7 +644,6 @@ const GameApp = ({
               }
               sx={{
                 marginTop: 7,
-                marginBottom: 7,
                 display: "block",
                 width: { md: "280px", xs: "60%" },
                 height: { md: "280px", xs: "60%" },
