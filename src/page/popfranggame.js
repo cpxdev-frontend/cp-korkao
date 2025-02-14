@@ -321,7 +321,9 @@ const GameApp = ({
         }
       }
       if (timeremain == 0) {
-        GameDone();
+        setTimeout(() => {
+          GameDone();
+        }, 600);
       } else {
         setTimeout(() => {
           setTimeRemain(timeremain - 1);
