@@ -656,8 +656,8 @@ const GameApp = ({
               sx={{
                 marginTop: 7,
                 display: "block",
-                width: { md: "280px", xs: "60%" },
-                height: { md: "280px", xs: "60%" },
+                width: { md: "280px", xs: "75%" },
+                height: { md: "280px", xs: "75%" },
               }}
             />
             {hearts.map((heart) => (
@@ -681,7 +681,11 @@ const GameApp = ({
         </CardContent>
       </Card>{" "}
       <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 10 }}
+        sx={{
+          color: "#fff",
+          zIndex: (theme) => theme.zIndex.drawer + 10,
+          position: "fixed",
+        }}
         open={airLoad}>
         <CircularProgress />
       </Backdrop>
