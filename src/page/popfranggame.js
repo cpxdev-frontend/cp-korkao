@@ -350,7 +350,10 @@ const GameApp = ({
         quizFrom: 0,
         quizDuration: Math.floor((time % 6000) / 100),
         sessionId: session,
-        token: login._tokenResponse.idToken,
+        token:
+          login !== null && login !== false
+            ? login._tokenResponse.idToken
+            : null,
         notiId: localStorage.getItem("osigIdPush")
           ? atob(localStorage.getItem("osigIdPush"))
           : null,
@@ -587,11 +590,17 @@ const GameApp = ({
                   : "You got a love to Kaofrang in " + correct + " time(s)!"
               }
             />
-            {login != null && login != undefined && (
+            {login != null && login != undefined ? (
               <Typography className="ml-3 mb-4">
                 {lang == "th"
                   ? "คะแนนที่ได้รับ " + aver.pointearn + " KorKao Points"
                   : "You earned " + aver.pointearn + " KorKao Points."}
+              </Typography>
+            ) : (
+              <Typography className="ml-3 mb-4">
+                {lang == "th"
+                  ? "คุณสามารถรับ KorKao Points จากการเล่นเกมนี้ได้เพียงแค่ลงทะเบียน KorKao ID"
+                  : "You can earn KorKao Points by register or login KorKao ID."}
               </Typography>
             )}
             <Button

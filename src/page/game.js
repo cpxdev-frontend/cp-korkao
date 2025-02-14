@@ -425,7 +425,10 @@ const GameApp = ({
           quizFrom: quesList.length,
           quizDuration: Math.floor((time % 6000) / 100),
           sessionId: session,
-          token: login._tokenResponse.idToken,
+          token:
+            login !== null && login !== false
+              ? login._tokenResponse.idToken
+              : null,
           userId:
             login !== null && login !== false
               ? login._tokenResponse.email
