@@ -81,6 +81,7 @@ import Album from "./page/albumgroup";
 import Gallery from "./page/gallery";
 import Ge from "./page/ge";
 import Game from "./page/game";
+import PopFrangGame from "./page/popfranggame";
 import GameD from "./page/gamedash";
 import Feed from "./page/update";
 import Donate from "./page/donate";
@@ -1175,10 +1176,11 @@ function App({
                         to="/quizgame">
                         {lang == "th" ? "กอข้าวควิชเกมส์" : "KorKao Quiz Game"}
                       </MenuItem>
-                      <MenuItem onClick={() => handleClose()}>
-                        {lang == "th"
-                          ? "ป็อปฟ่าง (เร็วๆนี้)"
-                          : "PopFrang (Coming soon)"}
+                      <MenuItem
+                        onClick={() => handleClose()}
+                        component={Link}
+                        to="/popfranggame">
+                        {lang == "th" ? "ป็อปฟ่าง" : "PopFrang"}
                       </MenuItem>
                     </Menu>
                     <Divider />
@@ -1528,10 +1530,11 @@ function App({
                         to="/quizgame">
                         {lang == "th" ? "กอข้าวควิชเกมส์" : "KorKao Quiz Game"}
                       </MenuItem>
-                      <MenuItem onClick={handleClose}>
-                        {lang == "th"
-                          ? "ป็อปฟ่าง (เร็วๆนี้)"
-                          : "PopFrang (Coming soon)"}
+                      <MenuItem
+                        onClick={() => handleClose()}
+                        component={Link}
+                        to="/popfranggame">
+                        {lang == "th" ? "ป็อปฟ่าง" : "PopFrang"}
                       </MenuItem>
                     </Menu>
                     {!load ? (
@@ -1722,10 +1725,11 @@ function App({
                     to="/quizgame">
                     {lang == "th" ? "กอข้าวควิชเกมส์" : "KorKao Quiz Game"}
                   </MenuItem>
-                  <MenuItem onClick={handleClose}>
-                    {lang == "th"
-                      ? "ป็อปฟ่าง (เร็วๆนี้)"
-                      : "PopFrang (Coming soon)"}
+                  <MenuItem
+                    component={Link}
+                    onClick={() => handleClose()}
+                    to="/popfranggame">
+                    {lang == "th" ? "ป็อปฟ่าง" : "PopFrang"}
                   </MenuItem>
                 </Menu>
               </Box>
@@ -2024,6 +2028,11 @@ function App({
               data-aos="fade-in"
               path="/quizgame"
               render={() => <Game />}
+            />
+            <Route
+              data-aos="fade-in"
+              path="/popfranggame"
+              render={() => <PopFrangGame />}
             />
             <Route
               data-aos="fade-in"
