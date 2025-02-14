@@ -353,3 +353,26 @@ button .MuiToggleButton-root .Mui-selected {
 .text-pink {
   color: #b802a8 !important;
 }
+
+.container-heart {
+  position: relative;
+  display: inline-block;
+}
+
+.heart {
+  position: absolute;
+  pointer-events: none;
+  font-size: 26px;
+  animation: floatUp 1s ease-out forwards;
+}
+
+@keyframes floatUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-50px) scale(1.5);
+  }
+}

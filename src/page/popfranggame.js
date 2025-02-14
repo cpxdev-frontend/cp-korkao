@@ -280,16 +280,36 @@ const GameApp = ({
       .catch((error) => console.log("error", error));
   };
 
-  const SelectGame = () => {
+  const [hearts, setHearts] = React.useState([]);
+
+  const SelectGame = (e) => {
     if (timeremain == 0) {
       return;
     }
+    const x = e.clientX;
+    const y = e.clientY;
+    const newHeart = {
+      id: Date.now(),
+      x,
+      y,
+    };
+
+    setHearts((prev) => [...prev, newHeart]);
+
+    setTimeout(() => {
+      setHearts((prev) => prev.filter((heart) => heart.id !== newHeart.id));
+    }, 1000);
     setPop(Math.floor(Math.random() * 4) + 1);
     setCorrect(correct + 1);
-    setTimeout(() => {
-      setPop(-1);
-    }, 1000);
   };
+
+  React.useEffect(() => {
+    if (hearts.length == 0 && pop > -1) {
+      setTimeout(() => {
+        setPop(-1);
+      }, 300);
+    }
+  }, [hearts]);
 
   React.useEffect(() => {
     if (gamemeet == 1) {
@@ -301,7 +321,7 @@ const GameApp = ({
         }
       }
       if (timeremain == 0) {
-        // Game timeout
+        GameDone();
       } else {
         setTimeout(() => {
           setTimeRemain(timeremain - 1);
@@ -309,6 +329,48 @@ const GameApp = ({
       }
     }
   }, [gamemeet, timeremain]);
+
+  const GameDone = () => {
+    // Game timeout
+    ReactGA.event({
+      category: "User",
+      action: "Game Over",
+    });
+    setLoadAir(true);
+    fetch(process.env.REACT_APP_APIE + "/kfsite/kfkeeppop", {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        quesText: "",
+        quizScore: correct,
+        quizFrom: 0,
+        quizDuration: Math.floor((time % 6000) / 100),
+        sessionId: session,
+        token: login._tokenResponse.idToken,
+        notiId: localStorage.getItem("osigIdPush")
+          ? atob(localStorage.getItem("osigIdPush"))
+          : null,
+        userId:
+          login !== null && login !== false ? login._tokenResponse.email : null,
+      }),
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.status == true) {
+          ReactGA.event({
+            category: "User",
+            action: "Result Ready",
+          });
+          setAver(result);
+          setLoadAir(false);
+          setGame(2);
+          setInGame(false);
+        }
+      })
+      .catch((error) => console.log("error", error));
+  };
 
   if (gamemeet == 0) {
     return (
@@ -506,68 +568,29 @@ const GameApp = ({
       <div
         className="d-flex justify-content-center"
         style={{ marginBottom: 100 }}>
-        <Card sx={{ marginTop: "10vh", width: { xs: "90%", md: "70%" } }}>
+        <Card
+          sx={{
+            marginTop: { xs: 3, md: "15vh" },
+            width: { xs: "90%", md: "70%" },
+          }}>
           <CardContent>
             <CardHeader
               title="Result"
               data-aos="fade-right"
               subheader={
                 lang == "th"
-                  ? "คุณตอบคำถามถูกไป " + correct + " ข้อ (คะแนน)"
-                  : "You are correct " + correct + " answers (points)"
+                  ? "คุณได้แสดงความรักไปกับน้องข้าวฟ่างถึง " +
+                    correct +
+                    " ครั้ง"
+                  : "You got a love to Kaofrang in " + correct + " time(s)!"
               }
             />
-            {aver != null ? (
-              <>
-                {/* <LinearProgress
-                  sx={{
-                    width: "100%",
-                    height: 5,
-                  }}
-                  variant="buffer"
-                  value={(correct / 10) * 100}
-                  valueBuffer={(aver.average / 10) * 100}
-                /> */}
-                <Typography className="ml-3 mt-3" data-aos="zoom-in-down">
-                  {lang == "th"
-                    ? "คะแนนเฉลี่ยจากผู้เล่นทั่วโลก " +
-                      aver.average +
-                      " คะแนนจากทั้งหมด " +
-                      aver.fromAll +
-                      " คะแนน"
-                    : "Average scores from worldwide are " +
-                      aver.average +
-                      " points from all " +
-                      aver.fromAll +
-                      " points."}
-                </Typography>
-                <Typography className="ml-3" data-aos="zoom-in-down">
-                  {lang == "th"
-                    ? "เวลาที่ใช้ไปโดยเฉลี่ยทั่วโลก " +
-                      (secondsToMinSec(aver.time).minutes > 0
-                        ? secondsToMinSec(aver.time).minutes +
-                          " นาที " +
-                          secondsToMinSec(aver.time).seconds +
-                          " วินาที"
-                        : secondsToMinSec(aver.time).seconds + " วินาที")
-                    : "Worldwide average time duration " +
-                      (secondsToMinSec(aver.time).minutes > 0
-                        ? secondsToMinSec(aver.time).minutes +
-                          " minutes " +
-                          secondsToMinSec(aver.time).seconds +
-                          " seconds"
-                        : secondsToMinSec(aver.time).seconds + " seconds")}
-                </Typography>
-                {/* <Button
-                  className="mt-4"
-                  variant="outlined"
-                  onClick={() => his.push("/quizgameresult/all")}>
-                  {lang == "th" ? "ดูคะแนนเฉลี่ย" : "View average score"}
-                </Button> */}
-                <br />
-              </>
-            ) : (
-              <Skeleton height={500} />
+            {login != null && login != undefined && (
+              <Typography className="ml-3 mb-4">
+                {lang == "th"
+                  ? "คะแนนที่ได้รับ " + aver.pointearn + " KorKao Points"
+                  : "You earned " + aver.pointearn + " KorKao Points."}
+              </Typography>
             )}
             <Button
               className="mt-1"
@@ -588,6 +611,7 @@ const GameApp = ({
   }
   return (
     <div
+      data-aos="fade-in"
       className="d-flex justify-content-center"
       style={{ marginBottom: 130 }}>
       <Card sx={{ marginTop: "5vh", width: { xs: "90%", md: "70%" } }}>
@@ -602,13 +626,13 @@ const GameApp = ({
             />
           </div>
           <div className="col-6 p-0 text-right">
-            {correct} {lang == "th" ? "คะแนน" : "Score(s)"}
+            {correct} {lang == "th" ? "ครั้ง" : "time(s)"}
           </div>
         </div>
         <CardContent>
           <div className="d-flex justify-content-center">
             <Avatar
-              onClick={() => SelectGame()}
+              onClick={(e) => SelectGame(e)}
               src={
                 pop == -1
                   ? "https://d3hhrps04devi8.cloudfront.net/kf/kfprofile.webp"
@@ -624,9 +648,31 @@ const GameApp = ({
                 height: { md: "280px", xs: "60%" },
               }}
             />
+            {hearts.map((heart) => (
+              <div
+                key={heart.id}
+                className="heart"
+                style={{ left: heart.x, top: heart.y }}>
+                ❤️
+              </div>
+            ))}
           </div>
+
+          <CardHeader
+            className="text-center"
+            title={
+              lang == "th"
+                ? "แสดงความรักต่อข้าวฟ่างด้วยกดที่รูปเลย!"
+                : "Are you waiting for? Let's show your heart!"
+            }
+          />
         </CardContent>
-      </Card>
+      </Card>{" "}
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={airLoad}>
+        <CircularProgress />
+      </Backdrop>
     </div>
   );
 };

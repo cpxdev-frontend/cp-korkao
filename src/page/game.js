@@ -209,10 +209,7 @@ const GameApp = ({
       }),
     };
 
-    fetch(
-      process.env.REACT_APP_APIE_2 + "/kfsite/kffetchquiz",
-      requestOptions
-    )
+    fetch(process.env.REACT_APP_APIE_2 + "/kfsite/kffetchquiz", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.status) {
@@ -749,7 +746,11 @@ const GameApp = ({
       <div
         className="d-flex justify-content-center"
         style={{ marginBottom: 100 }}>
-        <Card sx={{ marginTop: "10vh", width: { xs: "90%", md: "70%" } }}>
+        <Card
+          sx={{
+            marginTop: { xs: 3, md: "15vh" },
+            width: { xs: "90%", md: "70%" },
+          }}>
           <CardContent>
             <CardHeader
               title="Result"
@@ -771,7 +772,7 @@ const GameApp = ({
                   value={(correct / 10) * 100}
                   valueBuffer={(aver.average / 10) * 100}
                 /> */}
-                <Typography className="ml-3 mt-3" data-aos="zoom-in-down">
+                <Typography className="ml-3 mt-3" data-aos="fade-in">
                   {lang == "th"
                     ? "คะแนนเฉลี่ยจากผู้เล่นทั่วโลก " +
                       aver.average +
@@ -784,7 +785,7 @@ const GameApp = ({
                       aver.fromAll +
                       " points."}
                 </Typography>
-                <Typography className="ml-3" data-aos="zoom-in-down">
+                <Typography className="ml-3" data-aos="fade-in">
                   {lang == "th"
                     ? "เวลาที่ใช้ไปโดยเฉลี่ยทั่วโลก " +
                       (secondsToMinSec(aver.time).minutes > 0
