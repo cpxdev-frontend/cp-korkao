@@ -489,7 +489,7 @@ const GameApp = ({
             {hisgame != null ? (
               <>
                 <DialogTitle>
-                  {lang == "th" ? "ประวัติการเล่น" : "Quiz Game History"}
+                  {lang == "th" ? "ประวัติการเล่น" : "PopFrang Game History"}
                 </DialogTitle>
                 <TableContainer component={Paper} className="mb-5">
                   <Table sx={{ minWidth: 650 }}>
@@ -498,13 +498,13 @@ const GameApp = ({
                         <TableCell>
                           {lang == "th"
                             ? "วันเวลาที่เล่น"
-                            : "Quiz Play Timestamp"}
+                            : "PopFrang Play Timestamp"}
                         </TableCell>
                         <TableCell align="right">
                           {lang == "th" ? "สถานที่เข้าถึง" : "Access Country"}
                         </TableCell>
                         <TableCell align="right">
-                          {lang == "th" ? "คะแนนที่ได้" : "Scores"}
+                          {lang == "th" ? "คะแนนที่ได้" : "Pop Times (Scores)"}
                         </TableCell>
                       </TableRow>
                     </TableHead>
