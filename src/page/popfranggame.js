@@ -190,7 +190,7 @@ const GameApp = ({
       };
 
       fetch(
-        process.env.REACT_APP_APIE + "/kfsite/kfgameHistory",
+        process.env.REACT_APP_APIE + "/kfsite/kfpopgameHistory",
         requestOptions
       )
         .then((response) => response.json())
@@ -413,8 +413,8 @@ const GameApp = ({
                   <ListItemText
                     primary={
                       lang == "th"
-                        ? "2. ทุก 20 คะแนนคุณจะได้รับ 1 KorKao Points โดยคะแนนส่วนเกินที่ไม่เกิน 20 คะแนนจะไม่ถูกคำนวน (คุณต้องเข้าสู่ระบบ KorKao ID ก่อนเล่น)"
-                        : "2. Get every 20 scores to earn 1 KorKao points. The excess points are less than 20 points will not be affected. (KorKao ID login required)"
+                        ? "2. ทุก 30 คะแนนคุณจะได้รับ 1 KorKao Points โดยคะแนนส่วนเกินที่ไม่เกิน 30 คะแนนจะไม่ถูกคำนวน (คุณต้องเข้าสู่ระบบ KorKao ID ก่อนเล่น)"
+                        : "2. Get every 30 scores to earn 1 KorKao points. The excess points are less than 30 points will not be affected. (KorKao ID login required)"
                     }
                   />
                 </ListItem>
@@ -422,8 +422,8 @@ const GameApp = ({
                   <ListItemText
                     primary={
                       lang == "th"
-                        ? "3. หากคะแนนรวมตลอดทั้งเกมคุณได้อย่างน้อย 1 คะแนน แต่ไม่เกิน 20 คะแนน จะได้รับ 1 KorKao Points (คุณต้องเข้าสู่ระบบ KorKao ID ก่อนเล่น)"
-                        : "3. Get at least 1 score but less than 20 scores on a game will earn 1 KorKao Points. (KorKao ID login required)"
+                        ? "3. หากคะแนนรวมตลอดทั้งเกมคุณได้อย่างน้อย 1 คะแนน แต่ไม่เกิน 30 คะแนน จะได้รับ 1 KorKao Points (คุณต้องเข้าสู่ระบบ KorKao ID ก่อนเล่น)"
+                        : "3. Get at least 1 score but less than 30 scores on a game will earn 1 KorKao Points. (KorKao ID login required)"
                     }
                   />
                 </ListItem>
