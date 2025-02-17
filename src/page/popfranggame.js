@@ -117,6 +117,7 @@ const GameApp = ({
   const [airLoad, setLoadAir] = React.useState(false);
   const [ip, setIP] = React.useState("");
   const [session, setSession] = React.useState("");
+  const [finishwithlogin, setFinishwithlogin] = React.useState(false);
   const his = useHistory();
   const {
     loginWithPopup,
@@ -368,6 +369,11 @@ const GameApp = ({
             category: "User",
             action: "Result Ready",
           });
+          if (login !== null && login !== false) {
+            setFinishwithlogin(true);
+          } else {
+            setFinishwithlogin(false);
+          }
           setAver(result);
           setLoadAir(false);
           setGame(2);
@@ -590,7 +596,7 @@ const GameApp = ({
                   : "You got a love to Kaofrang in " + correct + " time(s)!"
               }
             />
-            {login != null && login != undefined ? (
+            {finishwithlogin ? (
               <Typography className="ml-3 mb-4">
                 {lang == "th"
                   ? "คะแนนที่ได้รับ " + aver.pointearn + " KorKao Points"
