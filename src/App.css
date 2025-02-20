@@ -102,7 +102,7 @@ body {
 .text-container {
   position: absolute;
   top: 30%;
-  width: 50vw;
+  width: 38vw;
   left: 5%;
   background-color: transparent !important;
   backdrop-filter: blur(8px);
@@ -113,14 +113,24 @@ body {
 .overlaytext {
   color: #fff;
 }
-
+@media only screen and (max-width: 1300px) {
+  .text-container {
+    position: absolute;
+    top: 30%;
+    width: 50vw;
+    left: 5%;
+    background-color: transparent !important;
+    backdrop-filter: blur(8px);
+    color: white;
+  }
+}
 @media only screen and (max-width: 900px) {
   .text-container {
     position: absolute;
     top: 63%;
     left: 50%;
     background-color: transparent !important;
-    width: 98%;
+    width: 95%;
     backdrop-filter: blur(15px);
     transform: translate(-50%, -50%);
     text-align: center;

@@ -26,13 +26,52 @@ const Home = ({
   setMenu,
   setLangMod,
   launch,
-  guide
+  guide,
 }) => {
-  const [index, setIndex] = React.useState(0);
-
   const history = useHistory();
   const [data, setData] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+  const videoRef = React.useRef(null);
+  const canvasRef = React.useRef(null);
+  const [isDark, setIsDark] = React.useState(true);
+
+  React.useEffect(() => {
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    const context = canvas.getContext("2d");
+
+    const analyzeFrame = () => {
+      if (video.paused || video.ended) return;
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const frame = context.getImageData(0, 0, canvas.width, canvas.height);
+      const length = frame.data.length;
+      let totalLuminance = 0;
+      for (let i = 0; i < length; i += 4) {
+        const r = frame.data[i];
+        const g = frame.data[i + 1];
+        const b = frame.data[i + 2];
+        const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
+        totalLuminance += luminance;
+      }
+
+      const averageLuminance = totalLuminance / (length / 4);
+      const luminanceThreshold = 128;
+      setIsDark(averageLuminance < luminanceThreshold);
+
+      requestAnimationFrame(analyzeFrame);
+    };
+
+    video.addEventListener("play", () => {
+      analyzeFrame();
+    });
+
+    return () => {
+      video.removeEventListener("play", analyzeFrame);
+    };
+  }, []);
+
   React.useState(() => {
     setTimeout(() => {
       setOpen(true);
@@ -68,8 +107,10 @@ const Home = ({
                 filter: "brightness(80%)",
                 backgroundImage:
                   "url(https://d3hhrps04devi8.cloudfront.net/kf/kaofrang.webp)",
-              }}></div>
+              }}
+            ></div>
             <video
+              crossOrigin="anonymous"
               className="d-none d-lg-block vdo overflow-hidden"
               disablePictureInPicture
               controlsList="nodownload nofullscreen noremoteplayback"
@@ -86,142 +127,79 @@ const Home = ({
                 height: "auto",
                 transform: "translate(-50%,-50%)",
               }}
+              ref={videoRef}
               loop
-              playsInline>
+              playsInline
+            >
               <source
                 src="https://d3hhrps04devi8.cloudfront.net/kf/vdo.webm"
                 type="video/webm"
               />
               Your browser does not support the video tag.
             </video>
+            <canvas ref={canvasRef} style={{ display: "none" }} />
           </div>
         </Fade>
-        {data ? (
-          <Card className="text-container">
-            <CardContent className="p-2">
-              <CardHeader
-                title={
-                  <h3
-                    style={{
-                      color: "#fb61ee",
-                      textShadow: "2px 2px 2px #fae6f9",
-                    }}>
-                    Welcome to KorKao FanSite
-                  </h3>
-                }
-                subheader={
-                  <p className="overlaytext">
-                    {lang == "th"
-                      ? 'เว็บไซต์ที่จะทำให้คุณรู้จัก "น้องข้าวฟ่าง" มากขึ้น มาร่วมโดนตก (หลุมรัก) ข้าวฟ่างไปด้วยกัน'
-                      : "This is your space for Kaofrang Yanisa or Kaofrang BNK48 fans. Come to enjoy with us!"}
-                  </p>
-                }
-              />
-              <Button
-                className="ml-2"
-                data-tour="home-1"
-                variant="contained"
-                onClick={() => history.push("/aboutkf")}>
-                Get Started
-              </Button>
-              <Button
-                className="ml-2"
-                data-tour="home-2"
-                variant="outlined"
-                onClick={() => setMenu(true)}>
-                Go to Menu
-              </Button>
-              <br />
-              <Button
-                className="ml-2 mt-3"
-                data-tour="home-3"
-                onClick={() => setLangMod(true)}>
-                Choose Language
-              </Button>
-            </CardContent>
-            <Joyride
-              steps={lang == "th" ? stepTh : stepEn}
-              continuous
-              run={guide}
-              styles={{
-                options: {
-                  arrowColor: '#fb61ee',
-                  backgroundColor: '#f1cef2',
-                  primaryColor: '#f526fc',
-                  textColor: '#000'
-                },
-              }}
+        <Card className="text-container">
+          <CardContent className="p-2">
+            <CardHeader
+              title={
+                <h3
+                  style={{
+                    color: "#fb61ee",
+                    textShadow: "2px 2px 2px #fae6f9",
+                  }}
+                >
+                  Welcome to KorKao FanSite
+                </h3>
+              }
+              subheader={
+                <p style={{ color: isDark ? "white" : "black" }}>
+                  {lang == "th"
+                    ? 'เว็บไซต์ที่จะทำให้คุณรู้จัก "น้องข้าวฟ่าง" มากขึ้น มาร่วมโดนตก (หลุมรัก) ข้าวฟ่างไปด้วยกัน'
+                    : "This is your space for Kaofrang Yanisa or Kaofrang BNK48 fans. Come to enjoy with us!"}
+                </p>
+              }
             />
-          </Card>
-        ) : (
-          <Card className="text-container">
-            <CardContent className="p-2">
-              <CardHeader
-                title={
-                  <h3
-                    style={{
-                      color: "#fb61ee",
-                      textShadow: "2px 2px 2px #fae6f9",
-                    }}>
-                    Welcome to KorKao FanSite
-                  </h3>
-                }
-                subheader={
-                  <p className="overlaytext">
-                    {lang == "th"
-                      ? 'เว็บไซต์ที่จะทำให้คุณรู้จัก "น้องข้าวฟ่าง" มากขึ้น มาร่วมโดนตก (หลุมรัก) ข้าวฟ่างไปด้วยกัน เร็วๆนี้'
-                      : "This is your space for Kaofrang Yanisa or Kaofrang BNK48 fans. Come to enjoy with us soon!"}
-                  </p>
-                }
-              />
-              <h5 className="text-center text-md-left text-light ml-0 ml-md-3">
-                {lang == "th"
-                  ? "พบกันได้ ในวันที่ " +
-                    moment.unix(timeready).lang(lang).local().format("D MMMM") +
-                    " 2567"
-                  : "Let's meet this website soon in " +
-                    moment.unix(timeready).lang(lang).local().format("MMMM D") +
-                    ", 2024"}
-              </h5>
-              <p className="text-center text-md-left text-light ml-0 ml-md-3">
-                {lang == "th"
-                  ? "เวลา " +
-                    moment.unix(timeready).lang(lang).local().format("HH:mm") +
-                    " เป็นต้นไป" +
-                    " ตามโซนเวลา " +
-                    momentTz.tz.guess()
-                  : "In " +
-                    moment.unix(timeready).lang(lang).local().format("h:mm A") +
-                    ". Based on " +
-                    momentTz.tz.guess() +
-                    " timezone."}
-              </p>
-              <br />
-              <Button className="ml-2 mt-1" onClick={() => setLangMod(true)}>
-                Choose Language
-              </Button>
-              <Button
-                className="ml-2 mt-1"
-                onClick={() => {
-                  let person = prompt(
-                    "Enter your passkey hash to ready for testing."
-                  );
-                  if (
-                    person != null &&
-                    person === "1967fe1d511c1de55dc3379b515df6f2"
-                  ) {
-                    localStorage.setItem(
-                      "1967fe1d511c1de55dc3379b515df6f2",
-                      "56f006fb7a76776e1e08eac264bd491aa1a066a1"
-                    );
-                    window.location.reload();
-                  }
-                }}>
-                Developer mode
-              </Button>
-            </CardContent>
-          </Card>
-        )}
+            <Button
+              className="ml-2"
+              data-tour="home-1"
+              variant="contained"
+              onClick={() => history.push("/aboutkf")}
+            >
+              Get Started
+            </Button>
+            <Button
+              className="ml-2"
+              data-tour="home-2"
+              variant="outlined"
+              onClick={() => setMenu(true)}
+            >
+              Go to Menu
+            </Button>
+            <br />
+            <Button
+              className="ml-2 mt-3"
+              data-tour="home-3"
+              onClick={() => setLangMod(true)}
+            >
+              Choose Language
+            </Button>
+          </CardContent>
+          <Joyride
+            steps={lang == "th" ? stepTh : stepEn}
+            continuous
+            run={guide}
+            styles={{
+              options: {
+                arrowColor: "#fb61ee",
+                backgroundColor: "#f1cef2",
+                primaryColor: "#f526fc",
+                textColor: "#000",
+              },
+            }}
+          />
+        </Card>
       </div>
     </Fade>
   );
