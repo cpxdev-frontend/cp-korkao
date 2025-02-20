@@ -300,7 +300,7 @@ const GameApp = ({
     setTimeout(() => {
       setHearts((prev) => prev.filter((heart) => heart.id !== newHeart.id));
     }, 1000);
-    setPop(Math.floor(Math.random() * 4) + 1);
+    setPop(Math.floor(Math.random() * 9) + 1);
     setCorrect(correct + 1);
   };
 
