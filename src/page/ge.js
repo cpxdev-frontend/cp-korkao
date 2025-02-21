@@ -383,7 +383,7 @@ const Ge = ({
       case 3: {
         if (
           moment.unix(launch) > moment.unix(1743224400) &&
-          moment.unix(launch) <= moment.unix(1743253200)
+          moment.unix(launch) <= moment.unix(1743260400)
         ) {
           return true;
         }
@@ -412,7 +412,7 @@ const Ge = ({
         return false;
       }
       case 3: {
-        if (moment.unix(launch) > moment.unix(1743253200)) {
+        if (moment.unix(launch) > moment.unix(1743260400)) {
           return true;
         }
         return false;
