@@ -34,6 +34,8 @@ const Home = ({
   const videoRef = React.useRef(null);
   const canvasRef = React.useRef(null);
   const [isDark, setIsDark] = React.useState(true);
+  const [isDarkImg, setIsDarkImg] = React.useState(true);
+  const mobileTheme = "https://d3hhrps04devi8.cloudfront.net/kf/kaofrang.webp";
 
   React.useEffect(() => {
     const video = videoRef.current;
@@ -72,6 +74,34 @@ const Home = ({
     };
   }, []);
 
+  React.useEffect(() => {
+    const img = new Image();
+    img.src = mobileTheme;
+    img.crossOrigin = "Anonymous"; // สำคัญสำหรับการดึงข้อมูลรูป (ถ้าโดเมนต่างกัน)
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      let colorSum = 0;
+      const data = imageData.data;
+
+      for (let i = 0; i < data.length; i += 4) {
+        // คำนวณค่าเฉลี่ยของ R, G, B
+        const r = data[i];
+        const g = data[i + 1];
+        const b = data[i + 2];
+        const avg = (r + g + b) / 3;
+        colorSum += avg;
+      }
+
+      const brightness = colorSum / (img.width * img.height);
+      setIsDarkImg(brightness > 128);
+    };
+  }, [mobileTheme]);
+
   React.useState(() => {
     setTimeout(() => {
       setOpen(true);
@@ -105,10 +135,8 @@ const Home = ({
               className="d-block d-lg-none img"
               style={{
                 filter: "brightness(80%)",
-                backgroundImage:
-                  "url(https://d3hhrps04devi8.cloudfront.net/kf/kaofrang.webp)",
-              }}
-            ></div>
+                backgroundImage: "url(" + mobileTheme + ")",
+              }}></div>
             <video
               crossOrigin="anonymous"
               className="d-none d-lg-block vdo overflow-hidden"
@@ -129,8 +157,7 @@ const Home = ({
               }}
               ref={videoRef}
               loop
-              playsInline
-            >
+              playsInline>
               <source
                 src="https://d3hhrps04devi8.cloudfront.net/kf/vdo.webm"
                 type="video/webm"
@@ -143,13 +170,32 @@ const Home = ({
         <Card className="text-container">
           <CardContent className="p-2">
             <CardHeader
+              className="d-block d-lg-none"
               title={
                 <h3
                   style={{
                     color: "#fb61ee",
                     textShadow: "2px 2px 2px #fae6f9",
-                  }}
-                >
+                  }}>
+                  Welcome to KorKao FanSite
+                </h3>
+              }
+              subheader={
+                <p style={{ color: isDarkImg ? "white" : "black" }}>
+                  {lang == "th"
+                    ? 'เว็บไซต์ที่จะทำให้คุณรู้จัก "น้องข้าวฟ่าง" มากขึ้น มาร่วมโดนตก (หลุมรัก) ข้าวฟ่างไปด้วยกัน'
+                    : "This is your space for Kaofrang Yanisa or Kaofrang BNK48 fans. Come to enjoy with us!"}
+                </p>
+              }
+            />
+            <CardHeader
+              className="d-none d-lg-block"
+              title={
+                <h3
+                  style={{
+                    color: "#fb61ee",
+                    textShadow: "2px 2px 2px #fae6f9",
+                  }}>
                   Welcome to KorKao FanSite
                 </h3>
               }
@@ -165,24 +211,21 @@ const Home = ({
               className="ml-2"
               data-tour="home-1"
               variant="contained"
-              onClick={() => history.push("/aboutkf")}
-            >
+              onClick={() => history.push("/aboutkf")}>
               Get Started
             </Button>
             <Button
               className="ml-2"
               data-tour="home-2"
               variant="outlined"
-              onClick={() => setMenu(true)}
-            >
+              onClick={() => setMenu(true)}>
               Go to Menu
             </Button>
             <br />
             <Button
               className="ml-2 mt-3"
               data-tour="home-3"
-              onClick={() => setLangMod(true)}
-            >
+              onClick={() => setLangMod(true)}>
               Choose Language
             </Button>
           </CardContent>
