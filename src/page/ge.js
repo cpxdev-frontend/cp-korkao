@@ -110,7 +110,6 @@ const moneyCurren = [
 ];
 
 const pp = [
-  "1897497368603263369",
   "1889661044085178474",
   "1888090381193015677",
   "1887727996083077573",
@@ -673,6 +672,9 @@ const Ge = ({
           title="General Election Result"
           subheader={
             <p
+              onClick={() =>
+                window.open("//withmywish.com/ge-2025", "_blank")
+              }
               dangerouslySetInnerHTML={{
                 __html:
                   getGEResulttext() +
@@ -702,7 +704,10 @@ const Ge = ({
               <ListItem
                 sx={{ cursor: "pointer" }}
                 onClick={() =>
-                  window.open("//withmywish.com/ge-2025/#candicate", "_blank")
+                  window.open(
+                    "//withmywish.com/ge-2025/#1st-pre-result",
+                    "_blank"
+                  )
                 }>
                 <ListItemAvatar>
                   <Avatar className="iconchoice">
@@ -741,7 +746,7 @@ const Ge = ({
               <Box
                 onClick={() =>
                   window.open(
-                    "https://withmywish.com/ge-2025/#candicate",
+                    "https://withmywish.com/ge-2025/#candidate",
                     "_blank"
                   )
                 }
@@ -761,7 +766,7 @@ const Ge = ({
               <Box
                 onClick={() =>
                   window.open(
-                    "https://withmywish.com/ge-2025/#candicate",
+                    "https://withmywish.com/ge-2025/#candidate",
                     "_blank"
                   )
                 }
@@ -780,7 +785,7 @@ const Ge = ({
               <Box
                 onClick={() =>
                   window.open(
-                    "https://withmywish.com/ge-2025/#candicate",
+                    "https://withmywish.com/ge-2025/#candidate",
                     "_blank"
                   )
                 }
@@ -798,7 +803,7 @@ const Ge = ({
             <Grid item lg={3} md={6} xs={12} className="text-center">
               <Box
                 onClick={() =>
-                  window.open("https://withmywish.com/ge-2025/#songs", "_blank")
+                  window.open("//withmywish.com/ge-2025/#candidate", "_blank")
                 }
                 className="p-3"
                 sx={{
