@@ -299,17 +299,15 @@ const Ge = ({
         ? "กิจกรรมการเลือกตั้งเซมบัดซึทั่วไปของ BNK48 และ CGM48 ครั้งที่ 5"
         : "BNK48 & CGM48 Senbatsu General Election 2025"
     );
-    setInterval(() => {
-      if (votehispromote == 3) {
-        setpromote(0);
-      } else {
-        setpromote(votehispromote + 1);
-      }
-    }, 2000);
   }, []);
 
   React.useEffect(() => {
     setTime(moment().unix());
+    setTimeout(() => {
+      setInterval(() => {
+        setpromote((prevVote) => (prevVote == 3 ? 0 : prevVote + 1));
+      }, 1500);
+    }, 2000);
     fetch(
       (Math.floor(Math.random() * 10) + 1 < 4
         ? process.env.REACT_APP_APIE
@@ -731,13 +729,13 @@ const Ge = ({
                 <ListItemAvatar>
                   <Avatar className="iconchoice">
                     <small style={{ fontSize: 15 }}>
-                      {votehispromote == 1
+                      {votehispromote == 0
                         ? "(?)st"
-                        : votehispromote == 2
+                        : votehispromote == 1
                         ? "(?)nd"
-                        : votehispromote == 3
+                        : votehispromote == 2
                         ? "(?)rd"
-                        : "25(?)th"}
+                        : "(?)th"}
                     </small>
                   </Avatar>
                 </ListItemAvatar>
