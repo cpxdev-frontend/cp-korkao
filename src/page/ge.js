@@ -199,6 +199,8 @@ const Ge = ({
   const [load, setLoad] = React.useState(false);
   const [timeline, setCurrentTimeline] = React.useState(0);
 
+  const [votehispromote, setpromote] = React.useState(0);
+
   function comma(number) {
     const formatter = new Intl.NumberFormat("en-US");
     const formattedNumber = formatter.format(number);
@@ -297,6 +299,13 @@ const Ge = ({
         ? "กิจกรรมการเลือกตั้งเซมบัดซึทั่วไปของ BNK48 และ CGM48 ครั้งที่ 5"
         : "BNK48 & CGM48 Senbatsu General Election 2025"
     );
+    setInterval(() => {
+      if (votehispromote == 3) {
+        setpromote(0);
+      } else {
+        setpromote(votehispromote + 1);
+      }
+    }, 2000);
   }, []);
 
   React.useEffect(() => {
@@ -531,7 +540,8 @@ const Ge = ({
                           compareTimestamps(time, 1743091200).hours <= 23
                         ? "red"
                         : "",
-                  }}>
+                  }}
+                >
                   <p>{lang == "th" ? "วัน" : "Day(s)"}</p>
                   <h3>{compareTimestamps(time, 1743091200).days}</h3>
                 </div>
@@ -546,7 +556,8 @@ const Ge = ({
                           compareTimestamps(time, 1743091200).hours <= 23
                         ? "red"
                         : "",
-                  }}>
+                  }}
+                >
                   <p>{lang == "th" ? "ชั่วโมง" : "Hour(s)"}</p>
                   <h3>{compareTimestamps(time, 1743091200).hours}</h3>
                 </div>
@@ -561,7 +572,8 @@ const Ge = ({
                           compareTimestamps(time, 1743091200).hours <= 23
                         ? "red"
                         : "",
-                  }}>
+                  }}
+                >
                   <p>{lang == "th" ? "นาที" : "Minute(s)"}</p>
                   <h3>{compareTimestamps(time, 1743091200).minutes}</h3>
                 </div>
@@ -576,7 +588,8 @@ const Ge = ({
                           compareTimestamps(time, 1743091200).hours <= 23
                         ? "red"
                         : "",
-                  }}>
+                  }}
+                >
                   <p>{lang == "th" ? "วินาที" : "Second(s)"}</p>
                   <h3>{compareTimestamps(time, 1743091200).seconds}</h3>
                 </div>
@@ -586,7 +599,8 @@ const Ge = ({
                     : "Check your previous transaction in TokenX Smart Contract "}
                   <a
                     href="https://scan.tokenx.finance/address/0x674Ab311C94780207a1357De9bcdd357d23f459E?tab=token_transfers"
-                    target="_blank">
+                    target="_blank"
+                  >
                     {lang == "th" ? "ที่นี่" : "here"}
                   </a>
                   {lang == "th"
@@ -601,13 +615,16 @@ const Ge = ({
         <Box className="m-3">
           <CardHeader title="Event TimeLine" />
           <Stepper
-            orientation={window.innerWidth > 1100 ? "landscape" : "vertical"}>
+            orientation={window.innerWidth > 1100 ? "landscape" : "vertical"}
+          >
             <Step
               active={getsessionactive(0)}
-              completed={getsessioncomplete(0)}>
+              completed={getsessioncomplete(0)}
+            >
               <StepLabel
                 StepIconComponent={ScheduleIcon}
-                sx={{ backgroundColor: timeline > 0 ? "#58eb34" : "" }}>
+                sx={{ backgroundColor: timeline > 0 ? "#58eb34" : "" }}
+              >
                 <h6>
                   {lang == "th"
                     ? "เปิดลงทะเบียนการเข้าร่วมกิจกรรม (สำหรับเมมเบอร์ BNK48 และ CGM48)"
@@ -622,10 +639,12 @@ const Ge = ({
             </Step>
             <Step
               active={getsessionactive(1)}
-              completed={getsessioncomplete(1)}>
+              completed={getsessioncomplete(1)}
+            >
               <StepLabel
                 StepIconComponent={HowToVoteIcon}
-                sx={{ backgroundColor: timeline > 1 ? "#58eb34" : "" }}>
+                sx={{ backgroundColor: timeline > 1 ? "#58eb34" : "" }}
+              >
                 <h6>{lang == "th" ? "เปิดการโหวต" : "Voting Period"}</h6>
               </StepLabel>
               <StepContent>
@@ -636,10 +655,12 @@ const Ge = ({
             </Step>
             <Step
               active={getsessionactive(2)}
-              completed={getsessioncomplete(2)}>
+              completed={getsessioncomplete(2)}
+            >
               <StepLabel
                 StepIconComponent={PollIcon}
-                sx={{ backgroundColor: timeline > 2 ? "#58eb34" : "" }}>
+                sx={{ backgroundColor: timeline > 2 ? "#58eb34" : "" }}
+              >
                 <h6>
                   {lang == "th"
                     ? "ประกาศผลด่วน 24 ชั่วโมงแรก"
@@ -654,10 +675,12 @@ const Ge = ({
             </Step>
             <Step
               active={getsessionactive(3)}
-              completed={getsessioncomplete(3)}>
+              completed={getsessioncomplete(3)}
+            >
               <StepLabel
                 StepIconComponent={LiveTvIcon}
-                sx={{ backgroundColor: timeline > 3 ? "#58eb34" : "" }}>
+                sx={{ backgroundColor: timeline > 3 ? "#58eb34" : "" }}
+              >
                 <h6>
                   {lang == "th"
                     ? "ประกาศผลอย่างเป็นทางการ"
@@ -675,9 +698,7 @@ const Ge = ({
           title="General Election Result"
           subheader={
             <p
-              onClick={() =>
-                window.open("//withmywish.com/ge-2025", "_blank")
-              }
+              onClick={() => window.open("//withmywish.com/ge-2025", "_blank")}
               dangerouslySetInnerHTML={{
                 __html:
                   getGEResulttext() +
@@ -685,7 +706,8 @@ const Ge = ({
                   (lang == "th"
                     ? '<div class="mt-3">ข้อมูลโดยวิชมายวิช</div>'
                     : '<div class="mt-3">Provided by WithMyWish</div>'),
-              }}></p>
+              }}
+            ></p>
           }
           className="m-2 mt-5 border border-pink"
           sx={{ borderRadius: 6 }}
@@ -703,7 +725,56 @@ const Ge = ({
               sx={{
                 width: "100%",
                 bgcolor: "background.paper",
-              }}>
+              }}
+            >
+              <ListItem sx={{ cursor: "pointer" }} onClick={() => {}}>
+                <ListItemAvatar>
+                  <Avatar className="iconchoice">
+                    <small style={{ fontSize: 15 }}>
+                      {votehispromote == 1
+                        ? "(?)st"
+                        : votehispromote == 2
+                        ? "(?)nd"
+                        : votehispromote == 3
+                        ? "(?)rd"
+                        : "25(?)th"}
+                    </small>
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary="Your vote will determine her destiny!"
+                  secondary="การโหวตใกล้จะสิ้นสุดแล้ว ลำดับของข้าวฟ่างจะเป็นอย่างไร อยู่ที่คุณกำหนด"
+                />
+              </ListItem>
+              <ListItem
+                sx={{ cursor: "pointer" }}
+                onClick={() =>
+                  window.open("//withmywish.com/ge-2025", "_blank")
+                }
+              >
+                <ListItemAvatar>
+                  <Avatar className="iconchoice">
+                    <small style={{ fontSize: 15 }}>31th</small>
+                  </Avatar>
+                </ListItemAvatar>
+                {lang == "th" ? (
+                  <ListItemText
+                    primary="ผลด่วนรอบที่สอง - ผลด่วนรอบนี้จะไม่มีการประกาศยอดโทเคนที่ได้รับ"
+                    secondary={
+                      "ข้อมูลวันที่ " +
+                      moment("2025-03-09").lang(lang).format("DD MMMM YYYY")
+                    }
+                  />
+                ) : (
+                  <ListItemText
+                    primary="2nd Preliminary Result - This result will not show tokens"
+                    secondary={
+                      "Latest result in " +
+                      moment("2025-03-09").lang(lang).format("DD MMMM YYYY")
+                    }
+                  />
+                )}
+              </ListItem>
               <ListItem
                 sx={{ cursor: "pointer" }}
                 onClick={() =>
@@ -711,7 +782,8 @@ const Ge = ({
                     "//withmywish.com/ge-2025/#1st-pre-result",
                     "_blank"
                   )
-                }>
+                }
+              >
                 <ListItemAvatar>
                   <Avatar className="iconchoice">
                     <small style={{ fontSize: 15 }}>29th</small>
@@ -758,7 +830,8 @@ const Ge = ({
                   borderRadius: 5,
                   background:
                     "linear-gradient(180deg, rgba(203,150,194,1) 0%, rgba(73,197,168,1) 100%)",
-                }}>
+                }}
+              >
                 <p>General Election Candidated Members</p>
                 <h1>
                   <CountUp end={48} onEnd={() => {}} duration={4} />
@@ -777,7 +850,8 @@ const Ge = ({
                 sx={{
                   borderRadius: 5,
                   backgroundColor: "#cb96c2",
-                }}>
+                }}
+              >
                 <p>BNK48 Candidated Members</p>
                 <h1>
                   <CountUp end={30} onEnd={() => {}} duration={4} />
@@ -796,7 +870,8 @@ const Ge = ({
                 sx={{
                   borderRadius: 5,
                   backgroundColor: "#49c5a8",
-                }}>
+                }}
+              >
                 <p>CGM48 Candidated Members</p>
                 <h1>
                   <CountUp end={18} onEnd={() => {}} duration={4} />
@@ -813,7 +888,8 @@ const Ge = ({
                   borderRadius: 5,
                   backgroundColor: "#404040",
                   color: "#fff",
-                }}>
+                }}
+              >
                 <p>Song Selected by Candidated members</p>
                 <h1>
                   <CountUp end={70} onEnd={() => {}} duration={4} />
@@ -863,7 +939,8 @@ const Ge = ({
                       "https://www.facebook.com/bnk48official/posts/pfbid0JXgFZzmA6CLm9wx9cucESrgSZYk1qv8Yw1ZsoPe4EmkxuQJyL4FPLv8XfzoLmGqMl",
                       "_blank"
                     )
-                  }>
+                  }
+                >
                   {lang == "th" ? "ไปยังลิงก์" : "Go to external link"}
                 </Button>
                 <Button
@@ -873,7 +950,8 @@ const Ge = ({
                       "https://youtube.com/watch?v=FbUgKp7DYWE",
                       "_blank"
                     )
-                  }>
+                  }
+                >
                   {lang == "th" ? "ดูคลิปโปรโมท" : "Watch Promote Clip"}
                 </Button>
               </CardActions>
@@ -911,7 +989,8 @@ const Ge = ({
                       "https://youtube.com/watch?v=CGXwRIcnrJo",
                       "_blank"
                     )
-                  }>
+                  }
+                >
                   {lang == "th"
                     ? "รับชมมิวสิควีดีโอต้นฉบับ"
                     : "Watching original Music Video"}
@@ -922,7 +1001,8 @@ const Ge = ({
                       "https://open.spotify.com/track/6wgJfy5bVOhEiKz08YaV64",
                       "_blank"
                     )
-                  }>
+                  }
+                >
                   {lang == "th" ? "รับฟังบน Spotify" : "Listen it on Spotify!"}
                 </Button>
               </CardActions>
@@ -947,7 +1027,8 @@ const Ge = ({
                       "https://youtube.com/watch?v=0pKfxbCHLoU",
                       "_blank"
                     )
-                  }>
+                  }
+                >
                   {lang == "th"
                     ? "รับชมมิวสิควีดีโอต้นฉบับ"
                     : "Watching original Music Video"}
@@ -958,7 +1039,8 @@ const Ge = ({
                       "https://open.spotify.com/track/1Paki9ZUoGAJCDfykNrHV8",
                       "_blank"
                     )
-                  }>
+                  }
+                >
                   {lang == "th" ? "รับฟังบน Spotify" : "Listen it on Spotify!"}
                 </Button>
               </CardActions>
@@ -983,7 +1065,8 @@ const Ge = ({
                       "https://youtube.com/watch?v=tBFJFAP3GKU",
                       "_blank"
                     )
-                  }>
+                  }
+                >
                   {lang == "th"
                     ? "รับชมมิวสิควีดีโอต้นฉบับ"
                     : "Watching original Music Video"}
@@ -994,7 +1077,8 @@ const Ge = ({
                       "https://open.spotify.com/track/0svM1S2Msb3aIfpf2Cf0YT",
                       "_blank"
                     )
-                  }>
+                  }
+                >
                   {lang == "th" ? "รับฟังบน Spotify" : "Listen it on Spotify!"}
                 </Button>
               </CardActions>
@@ -1022,7 +1106,8 @@ const Ge = ({
                 <Button
                   onClick={() =>
                     window.open("https://youtu.be/1cVvscOjruc", "_blank")
-                  }>
+                  }
+                >
                   {lang == "th" ? "ไปยังลิงก์" : "Go to external link"}
                 </Button>
               </CardActions>
@@ -1059,10 +1144,12 @@ const Ge = ({
                 sx={{
                   width: "100%",
                   bgcolor: "background.paper",
-                }}>
+                }}
+              >
                 <ListItem
                   sx={{ cursor: "pointer" }}
-                  onClick={() => window.open("//app.bnk48.com/shop", "_blank")}>
+                  onClick={() => window.open("//app.bnk48.com/shop", "_blank")}
+                >
                   <ListItemAvatar>
                     <Avatar className="iconchoice">
                       <LocalShippingIcon />
@@ -1079,7 +1166,8 @@ const Ge = ({
                 </ListItem>
                 <ListItem
                   sx={{ cursor: "pointer" }}
-                  onClick={() => window.open("//app.bnk48.com", "_blank")}>
+                  onClick={() => window.open("//app.bnk48.com", "_blank")}
+                >
                   <ListItemAvatar>
                     <Avatar className="iconchoice">
                       <MonetizationOnIcon />
@@ -1096,7 +1184,8 @@ const Ge = ({
                 </ListItem>
                 <ListItem
                   sx={{ cursor: "pointer" }}
-                  onClick={() => setGeDonate(true)}>
+                  onClick={() => setGeDonate(true)}
+                >
                   <ListItemAvatar>
                     <Avatar className="iconchoice">
                       <RecommendIcon />
@@ -1124,7 +1213,8 @@ const Ge = ({
                     กุมภาพันธ์ 2568 เท่านั้น) ดูรายละเอียดเพิ่มเติมได้ที่
                     <a
                       href="https://www.rd.go.th/fileadmin/user_upload/lorkhor/newsbanner/2024/12/Q_A_Easy_E-Receipt_2.0_25122567.pdf"
-                      target="_blank">
+                      target="_blank"
+                    >
                       เว็บไซต์กรมสรรพากร
                     </a>
                   </small>
@@ -1139,14 +1229,16 @@ const Ge = ({
           TransitionComponent={Transition}
           transitionDuration={400}
           onClose={() => {}}
-          maxWidth="lg">
+          maxWidth="lg"
+        >
           <DialogTitle>
             Donation for GE5 (BNK48 & CGM48 General Election 2025)
           </DialogTitle>
           <DialogContent>
             <div
               className="col-12 text-center w-100"
-              style={{ backgroundColor: print ? "#fff" : "" }}>
+              style={{ backgroundColor: print ? "#fff" : "" }}
+            >
               <div className="col-12 d-flex justify-content-center">
                 {print == false ? (
                   <QRCode
@@ -1187,7 +1279,8 @@ const Ge = ({
                               " " +
                               setexc.toUpperCase()) +
                           ")",
-                  }}></Typography>
+                  }}
+                ></Typography>
               )}
               {print && (
                 <>
@@ -1214,7 +1307,8 @@ const Ge = ({
                         : "Amount " +
                           comma(num) +
                           " THB<br />Please view exchange rate below.",
-                  }}></Typography>
+                  }}
+                ></Typography>
               )}
             </div>
             {lang != "th" && (
@@ -1236,7 +1330,8 @@ const Ge = ({
                 }}
                 SelectProps={{
                   native: true,
-                }}>
+                }}
+              >
                 <option value="-">Select your currency</option>
                 {moneyCurren.map((item) => (
                   <option value={item.val}>{item.lab}</option>
@@ -1292,13 +1387,15 @@ const Ge = ({
               }}
               SelectProps={{
                 native: true,
-              }}></TextField>
+              }}
+            ></TextField>
             <Stack
               className="d-flex justify-content-center"
               direction="row"
               spacing={1}
               useFlexGap
-              sx={{ flexWrap: "wrap" }}>
+              sx={{ flexWrap: "wrap" }}
+            >
               <Chip
                 onClick={() => setNum(10)}
                 label={lang == "th" ? "10 บาท" : "฿10"}
@@ -1359,7 +1456,8 @@ const Ge = ({
             <Button
               variant="outlined"
               onClick={() => ExportQR()}
-              className="m-2 mt-4">
+              className="m-2 mt-4"
+            >
               {lang == "th" ? "บันทึก QR Code นี้" : "Save this QR Payment"}
             </Button>
             <Divider />
@@ -1386,7 +1484,8 @@ const Ge = ({
                 QR Payment directly. Please click{" "}
                 <a
                   href="https://s7ap1.scene7.com/is/image/bot/2024_06_19_Crossborder%20QR%20Payment_Brochure_update%20(1)?ts=1718875185342&dpr=off"
-                  target="_blank">
+                  target="_blank"
+                >
                   here
                 </a>{" "}
                 to view Accepted international mobile banking with Thai QR
@@ -1416,7 +1515,8 @@ const Ge = ({
           style={{
             backgroundColor: print ? "#fff" : "",
             display: print ? "block" : "none",
-          }}>
+          }}
+        >
           <div className="col-12 d-flex justify-content-center">
             {print == false ? (
               <QRCode
@@ -1457,7 +1557,8 @@ const Ge = ({
                           " " +
                           setexc.toUpperCase()) +
                       ")",
-              }}></Typography>
+              }}
+            ></Typography>
           )}
           {print && (
             <>
@@ -1484,13 +1585,15 @@ const Ge = ({
                     : "Amount " +
                       comma(num) +
                       " THB<br />Please view exchange rate below.",
-              }}></Typography>
+              }}
+            ></Typography>
           )}
         </div>
 
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={load}>
+          open={load}
+        >
           <CircularProgress />
         </Backdrop>
       </Box>
