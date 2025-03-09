@@ -752,7 +752,7 @@ const Ge = ({
               >
                 <ListItemAvatar>
                   <Avatar className="iconchoice">
-                    <small style={{ fontSize: 15 }}>31th</small>
+                    <small style={{ fontSize: 15 }}>31st</small>
                   </Avatar>
                 </ListItemAvatar>
                 {lang == "th" ? (
