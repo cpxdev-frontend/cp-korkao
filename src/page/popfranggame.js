@@ -35,7 +35,7 @@ import {
 } from "@mui/material";
 import HistoryIcon from "@mui/icons-material/History";
 import Swal from "sweetalert2";
-import { InfoOutlined } from "@mui/icons-material";
+import { InfoOutlined, X } from "@mui/icons-material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -88,9 +88,11 @@ function CircularProgressWithLabel(props) {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-        }}>
+        }}
+      >
         <Typography
-          sx={{ color: props.labeldata <= 10 ? "red" : "text.primary" }}>
+          sx={{ color: props.labeldata <= 10 ? "red" : "text.primary" }}
+        >
           {`${Math.round(props.labeldata)}`}
         </Typography>
       </Box>
@@ -129,6 +131,7 @@ const GameApp = ({
   } = useAuth0();
 
   const [time, setTime] = React.useState(0);
+  const ran = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
   // state to check stopwatch running or not
   const [isRunning, setIsRunning] = React.useState(false);
@@ -389,13 +392,25 @@ const GameApp = ({
         <div
           data-aos="fade-in"
           className="d-flex justify-content-center"
-          style={{ marginBottom: 200 }}>
+          style={{ marginBottom: 200 }}
+        >
+          {ran.map((item, i) => (
+            <img
+              className="d-none"
+              src={
+                "https://d3hhrps04devi8.cloudfront.net/kf/pop" +
+                (i + 1) +
+                ".jpg"
+              }
+            />
+          ))}
           <Card
             data-tour="quiz"
             sx={{
               marginTop: { xs: 3, md: "15vh" },
               width: { xs: "90%", md: "70%" },
-            }}>
+            }}
+          >
             <CardContent>
               <CardHeader
                 title="PopFrang Game"
@@ -456,7 +471,8 @@ const GameApp = ({
                 className="mt-3"
                 variant="contained"
                 disabled={startLoad}
-                onClick={() => StartGame()}>
+                onClick={() => StartGame()}
+              >
                 {lang == "th" ? "เริ่มเกมส์" : "Play!"}
               </Button>
               <br />
@@ -465,7 +481,8 @@ const GameApp = ({
                   className="mt-2"
                   variant="outlined"
                   disabled={startLoad}
-                  onClick={() => setGameHistory(true)}>
+                  onClick={() => setGameHistory(true)}
+                >
                   {lang == "th" ? "ดูคะแนนย้อนหลัง" : "View previous Play"}
                 </Button>
               )}
@@ -491,7 +508,8 @@ const GameApp = ({
             TransitionComponent={Transition}
             transitionDuration={400}
             onClose={() => {}}
-            maxWidth="md">
+            maxWidth="md"
+          >
             {hisgame != null ? (
               <>
                 <DialogTitle>
@@ -521,7 +539,8 @@ const GameApp = ({
                             "&:last-child td, &:last-child th": {
                               border: 0,
                             },
-                          }}>
+                          }}
+                        >
                           <TableCell component="th" scope="row">
                             {moment(item.created)
                               .lang(lang)
@@ -549,7 +568,8 @@ const GameApp = ({
                         "&:last-child td, &:last-child th": {
                           border: 0,
                         },
-                      }}>
+                      }}
+                    >
                       <TableCell colSpan={3}>
                         <Skeleton
                           variant="rounded"
@@ -565,7 +585,8 @@ const GameApp = ({
             <DialogActions>
               <Button
                 disabled={hisgame == null}
-                onClick={() => setGameHistory(false)}>
+                onClick={() => setGameHistory(false)}
+              >
                 {lang == "th" ? "ปิด" : "Close"}
               </Button>
             </DialogActions>
@@ -578,12 +599,14 @@ const GameApp = ({
     return (
       <div
         className="d-flex justify-content-center"
-        style={{ marginBottom: 100 }}>
+        style={{ marginBottom: 100 }}
+      >
         <Card
           sx={{
             marginTop: { xs: 3, md: "15vh" },
             width: { xs: "90%", md: "70%" },
-          }}>
+          }}
+        >
           <CardContent>
             <CardHeader
               title="Result"
@@ -613,14 +636,16 @@ const GameApp = ({
               className="mt-1"
               variant="contained"
               disabled={startLoad}
-              onClick={() => setGame(0)}>
+              onClick={() => setGame(0)}
+            >
               {lang == "th" ? "เล่นอีกครั้ง" : "Play again"}
             </Button>
           </CardContent>
         </Card>
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={airLoad}>
+          open={airLoad}
+        >
           <CircularProgress />
         </Backdrop>
       </div>
@@ -631,12 +656,14 @@ const GameApp = ({
       <div
         data-aos="fade-in"
         className="d-flex justify-content-center"
-        style={{ marginBottom: 130 }}>
+        style={{ marginBottom: 130 }}
+      >
         <Card sx={{ marginTop: "5vh", width: { xs: "90%", md: "70%" } }}>
           <div className="pr-0 row container mt-2">
             <div
               className="col-6"
-              style={{ color: timeremain <= 10 ? "red" : "" }}>
+              style={{ color: timeremain <= 10 ? "red" : "" }}
+            >
               <CircularProgressWithLabel
                 variant="determinate"
                 value={(timeremain / 30) * 100}
@@ -650,7 +677,8 @@ const GameApp = ({
           <CardContent>
             <div
               className="d-flex justify-content-center"
-              style={{ marginBottom: 7 }}>
+              style={{ marginBottom: 7 }}
+            >
               <Avatar
                 onClick={(e) => SelectGame(e)}
                 src={
@@ -671,7 +699,8 @@ const GameApp = ({
                 <div
                   key={heart.id}
                   className="heart"
-                  style={{ left: heart.x, top: heart.y - 5 }}>
+                  style={{ left: heart.x, top: heart.y - 5 }}
+                >
                   ❤️
                 </div>
               ))}
@@ -695,7 +724,8 @@ const GameApp = ({
           zIndex: (theme) => theme.zIndex.drawer,
           position: "fixed",
         }}
-        open={airLoad}>
+        open={airLoad}
+      >
         <CircularProgress />
       </Backdrop>
     </>
