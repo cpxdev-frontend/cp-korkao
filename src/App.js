@@ -1,4 +1,5 @@
 import React from "react";
+import { Chart as ChartJS, ArcElement, Tooltip as TooltipM, Legend } from "chart.js";
 import {
   AppBar,
   Box,
@@ -101,6 +102,8 @@ import {
   getIdToken,
 } from "firebase/auth";
 import auth from "./fbindex";
+
+ChartJS.register(ArcElement, TooltipM, Legend);
 
 const DrawerBg = "rgba(220, 209, 215, 0.75)";
 

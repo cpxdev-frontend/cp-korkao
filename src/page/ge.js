@@ -2,6 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import { styled } from "@mui/material/styles";
 import { Tweet } from "react-tweet";
+import { Doughnut } from "react-chartjs-2";
+
 import {
   Card,
   CardContent,
@@ -254,20 +256,11 @@ const Ge = ({
   }, [text, img]);
 
   const RefreshDate = () => {
-    fetch(
-      (Math.floor(Math.random() * 10) + 1 < 5
-        ? process.env.REACT_APP_APIE
-        : process.env.REACT_APP_APIE_2) + "/kfsite/getge5result",
-      {
-        method: "post",
-      }
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        setGe5Result(result.filter((x) => x.member == "Kaofrang_BNK48")[0]);
-        // setUp(true);
-      })
-      .catch((error) => console.log("error", error));
+    setGe5Result({
+      rank: 15,
+      member: "Kaofrang_BNK48",
+      token: 17385.19,
+    });
   };
 
   const [open, setOpen] = React.useState(false);
@@ -548,7 +541,8 @@ const Ge = ({
                           compareTimestamps(time, 1743091200).hours <= 23
                         ? "red"
                         : "",
-                  }}>
+                  }}
+                >
                   <p>{lang == "th" ? "วัน" : "Day(s)"}</p>
                   <h3>{compareTimestamps(time, 1743091200).days}</h3>
                 </div>
@@ -563,7 +557,8 @@ const Ge = ({
                           compareTimestamps(time, 1743091200).hours <= 23
                         ? "red"
                         : "",
-                  }}>
+                  }}
+                >
                   <p>{lang == "th" ? "ชั่วโมง" : "Hour(s)"}</p>
                   <h3>{compareTimestamps(time, 1743091200).hours}</h3>
                 </div>
@@ -578,7 +573,8 @@ const Ge = ({
                           compareTimestamps(time, 1743091200).hours <= 23
                         ? "red"
                         : "",
-                  }}>
+                  }}
+                >
                   <p>{lang == "th" ? "นาที" : "Minute(s)"}</p>
                   <h3>{compareTimestamps(time, 1743091200).minutes}</h3>
                 </div>
@@ -593,7 +589,8 @@ const Ge = ({
                           compareTimestamps(time, 1743091200).hours <= 23
                         ? "red"
                         : "",
-                  }}>
+                  }}
+                >
                   <p>{lang == "th" ? "วินาที" : "Second(s)"}</p>
                   <h3>{compareTimestamps(time, 1743091200).seconds}</h3>
                 </div>
@@ -603,7 +600,8 @@ const Ge = ({
                     : "Check your previous transaction in TokenX Smart Contract "}
                   <a
                     href="https://scan.tokenx.finance/address/0x674Ab311C94780207a1357De9bcdd357d23f459E?tab=token_transfers"
-                    target="_blank">
+                    target="_blank"
+                  >
                     {lang == "th" ? "ที่นี่" : "here"}
                   </a>
                   {lang == "th"
@@ -618,13 +616,16 @@ const Ge = ({
         <Box className="m-3">
           <CardHeader title="Event TimeLine" />
           <Stepper
-            orientation={window.innerWidth > 1100 ? "landscape" : "vertical"}>
+            orientation={window.innerWidth > 1100 ? "landscape" : "vertical"}
+          >
             <Step
               active={getsessionactive(0)}
-              completed={getsessioncomplete(0)}>
+              completed={getsessioncomplete(0)}
+            >
               <StepLabel
                 StepIconComponent={ScheduleIcon}
-                sx={{ backgroundColor: timeline > 0 ? "#58eb34" : "" }}>
+                sx={{ backgroundColor: timeline > 0 ? "#58eb34" : "" }}
+              >
                 <h6>
                   {lang == "th"
                     ? "เปิดลงทะเบียนการเข้าร่วมกิจกรรม (สำหรับเมมเบอร์ BNK48 และ CGM48)"
@@ -639,10 +640,12 @@ const Ge = ({
             </Step>
             <Step
               active={getsessionactive(1)}
-              completed={getsessioncomplete(1)}>
+              completed={getsessioncomplete(1)}
+            >
               <StepLabel
                 StepIconComponent={HowToVoteIcon}
-                sx={{ backgroundColor: timeline > 1 ? "#58eb34" : "" }}>
+                sx={{ backgroundColor: timeline > 1 ? "#58eb34" : "" }}
+              >
                 <h6>{lang == "th" ? "เปิดการโหวต" : "Voting Period"}</h6>
               </StepLabel>
               <StepContent>
@@ -653,10 +656,12 @@ const Ge = ({
             </Step>
             <Step
               active={getsessionactive(2)}
-              completed={getsessioncomplete(2)}>
+              completed={getsessioncomplete(2)}
+            >
               <StepLabel
                 StepIconComponent={PollIcon}
-                sx={{ backgroundColor: timeline > 2 ? "#58eb34" : "" }}>
+                sx={{ backgroundColor: timeline > 2 ? "#58eb34" : "" }}
+              >
                 <h6>
                   {lang == "th"
                     ? "ประกาศผลด่วน 24 ชั่วโมงแรก"
@@ -671,10 +676,12 @@ const Ge = ({
             </Step>
             <Step
               active={getsessionactive(3)}
-              completed={getsessioncomplete(3)}>
+              completed={getsessioncomplete(3)}
+            >
               <StepLabel
                 StepIconComponent={LiveTvIcon}
-                sx={{ backgroundColor: timeline > 3 ? "#58eb34" : "" }}>
+                sx={{ backgroundColor: timeline > 3 ? "#58eb34" : "" }}
+              >
                 <h6>
                   {lang == "th"
                     ? "ประกาศผลอย่างเป็นทางการ"
@@ -708,105 +715,151 @@ const Ge = ({
                   (lang == "th"
                     ? '<div class="mt-3">ข้อมูลโดยวิชมายวิช</div>'
                     : '<div class="mt-3">Provided by WithMyWish</div>'),
-              }}></p>
+              }}
+            ></p>
           }
           className="m-2 mt-5 border border-pink"
           sx={{ borderRadius: 6 }}
         />
-        <Button className="mb-5 ml-3" variant="contained" onClick={() => history.push("/live")}>
-          {lang == "th" ? "รับชมผลผ่านไลฟ์" : "View result on LIVE streaming"}
+        <Button
+          className="mb-5 ml-3"
+          variant="contained"
+          disabled={true}
+          onClick={() => history.push("/live")}
+        >
+          {lang == "th"
+            ? "ดูสถิติการโหวตอย่างเป็นทางการ"
+            : "View official statistics"}
         </Button>
 
         <div className="container">
-          <Card>
-            <CardHeader
-              title={
-                lang == "th" ? "ผลการโหวตย้อนหลัง" : "Voting Result History"
-              }
-            />
-            <List
-              component={CardContent}
-              sx={{
-                width: "100%",
-                bgcolor: "background.paper",
-              }}>
-              <ListItem sx={{ cursor: "pointer" }} onClick={() => {}}>
-                <ListItemAvatar>
-                  <Avatar className="iconchoice">
-                    <small style={{ fontSize: 15 }}>
-                      {votehispromote == 0
-                        ? "(?)st"
-                        : votehispromote == 1
-                        ? "(?)nd"
-                        : votehispromote == 2
-                        ? "(?)rd"
-                        : "(?)th"}
-                    </small>
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText
-                  primary="Your vote will determine her destiny!"
-                  secondary="การโหวตใกล้จะสิ้นสุดแล้ว ลำดับของข้าวฟ่างจะเป็นอย่างไร อยู่ที่คุณกำหนด"
-                />
-              </ListItem>
-              <ListItem
-                sx={{ cursor: "pointer" }}
-                onClick={() =>
-                  window.open("//withmywish.com/ge-2025", "_blank")
-                }>
-                <ListItemAvatar>
-                  <Avatar className="iconchoice">
-                    <small style={{ fontSize: 15 }}>31st</small>
-                  </Avatar>
-                </ListItemAvatar>
-                {lang == "th" ? (
-                  <ListItemText
-                    primary="ผลด่วนรอบที่สอง - ผลด่วนรอบนี้จะไม่มีการประกาศยอดโทเคนที่ได้รับ"
-                    secondary={
-                      "ข้อมูลวันที่ " +
-                      moment("2025-03-09").lang(lang).format("DD MMMM YYYY")
-                    }
-                  />
-                ) : (
-                  <ListItemText
-                    primary="2nd Preliminary Result - This result will not show tokens"
-                    secondary={
-                      "Latest result in " +
-                      moment("2025-03-09").lang(lang).format("DD MMMM YYYY")
-                    }
-                  />
-                )}
-              </ListItem>
-              <ListItem
-                sx={{ cursor: "pointer" }}
-                onClick={() =>
-                  window.open(
-                    "//withmywish.com/ge-2025/#1st-pre-result",
-                    "_blank"
-                  )
-                }>
-                <ListItemAvatar>
-                  <Avatar className="iconchoice">
-                    <small style={{ fontSize: 15 }}>29th</small>
-                  </Avatar>
-                </ListItemAvatar>
-                {lang == "th" ? (
-                  <ListItemText
-                    primary="ผลด่วนรอบแรก - การประกาศผลใน 24 ชั่วโมงหลังเปิดโหวต"
-                    secondary={"1,387.46 โทเคน (รายได้โดยประมาณ 94,347.28 บาท)"}
-                  />
-                ) : (
-                  <ListItemText
-                    primary="1st Preliminary Result - The first 24 hour voting result"
-                    secondary={
-                      "1,387.46 tokens (Estimated income 94,347.28 THB)"
-                    }
-                  />
-                )}
-              </ListItem>
-            </List>
-            <p></p>
-          </Card>
+          <div className="row">
+            <Card className="col-md-6">
+              <CardHeader
+                title={
+                  lang == "th" ? "ผลการโหวตย้อนหลัง" : "Voting Result History"
+                }
+              />
+              <List
+                component={CardContent}
+                sx={{
+                  width: "100%",
+                  bgcolor: "background.paper",
+                }}
+              >
+                <ListItem sx={{ cursor: "pointer" }} onClick={() => {}}>
+                  <ListItemAvatar>
+                    <Avatar className="iconchoice">
+                      <small style={{ fontSize: 15 }}>15th</small>
+                    </Avatar>
+                  </ListItemAvatar>
+                  {lang == "th" ? (
+                    <ListItemText
+                      primary='ผลอย่างเป็นทางการ | BNK48 19th Couple Song "Chouhatsu no Aozora" (Original by NMB48 Team N)'
+                      secondary={
+                        "รวมจำนวนเงินในการโหวตทั้งสิ้นโดยประมาณ 1,182,192.92 บาท"
+                      }
+                    />
+                  ) : (
+                    <ListItemText
+                      primary='Official Result | BNK48 19th Couple Song "Chouhatsu no Aozora" (Original by NMB48 Team N)'
+                      secondary={
+                        "Estimated total income 1,182,192.92 THB (or about USD 34,844.68 based on exchange rate as of 28 March 2025)"
+                      }
+                    />
+                  )}
+                </ListItem>
+                <ListItem
+                  sx={{ cursor: "pointer" }}
+                  onClick={() =>
+                    window.open("//withmywish.com/ge-2025", "_blank")
+                  }
+                >
+                  <ListItemAvatar>
+                    <Avatar className="iconchoice">
+                      <small style={{ fontSize: 15 }}>31st</small>
+                    </Avatar>
+                  </ListItemAvatar>
+                  {lang == "th" ? (
+                    <ListItemText
+                      primary="ผลด่วนรอบที่สอง - ผลด่วนรอบนี้จะไม่มีการประกาศยอดโทเคนที่ได้รับ"
+                      secondary={
+                        "ข้อมูลวันที่ " +
+                        moment("2025-03-09").lang(lang).format("DD MMMM YYYY")
+                      }
+                    />
+                  ) : (
+                    <ListItemText
+                      primary="2nd Preliminary Result - This result will not show tokens"
+                      secondary={
+                        "Latest result in " +
+                        moment("2025-03-09").lang(lang).format("DD MMMM YYYY")
+                      }
+                    />
+                  )}
+                </ListItem>
+                <ListItem
+                  sx={{ cursor: "pointer" }}
+                  onClick={() =>
+                    window.open(
+                      "//withmywish.com/ge-2025/#1st-pre-result",
+                      "_blank"
+                    )
+                  }
+                >
+                  <ListItemAvatar>
+                    <Avatar className="iconchoice">
+                      <small style={{ fontSize: 15 }}>29th</small>
+                    </Avatar>
+                  </ListItemAvatar>
+                  {lang == "th" ? (
+                    <ListItemText
+                      primary="ผลด่วนรอบแรก - การประกาศผลใน 24 ชั่วโมงหลังเปิดโหวต"
+                      secondary={"1,387.46 โทเคน (โดยประมาณ 94,347.28 บาท)"}
+                    />
+                  ) : (
+                    <ListItemText
+                      primary="1st Preliminary Result - The first 24 hour voting result"
+                      secondary={
+                        "1,387.46 tokens (Estimated income 94,347.28 THB)"
+                      }
+                    />
+                  )}
+                </ListItem>
+              </List>
+            </Card>
+            <div className="col-1" />
+            <Card className="col-md">
+              <CardHeader
+                title={lang == "th" ? "สรุปยอดการโหวต" : "Voting Summary"}
+              />
+              <Doughnut
+                data={{
+                  labels: [
+                    "โหวตผ่านช่องทาง อฟช.",
+                    "ทางบ้านจัดซื้อโทเคนเอง",
+                    "การรับสมทบโทเคนจากผู้อื่น",
+                    "จากการโดเนท (ผ่านเลขที่บัญชีของบ้าน)",
+                  ],
+                  datasets: [
+                    {
+                      label: "Tokens",
+                      data: [15149.19, 1407, 777, 52],
+                      backgroundColor: [
+                        "#f090fc",
+                        "#fb61ee",
+                        "#8959f7",
+                        "rgba(75, 192, 192, 0.2)",
+                        "rgba(153, 102, 255, 0.2)",
+                        "rgba(255, 159, 64, 0.2)",
+                      ],
+                      borderWidth: 1,
+                    },
+                  ],
+                }}
+              />
+            </Card>
+          </div>
         </div>
 
         <CardHeader
@@ -831,7 +884,8 @@ const Ge = ({
                   borderRadius: 5,
                   background:
                     "linear-gradient(180deg, rgba(203,150,194,1) 0%, rgba(73,197,168,1) 100%)",
-                }}>
+                }}
+              >
                 <p>General Election Candidated Members</p>
                 <h1>
                   <CountUp end={48} onEnd={() => {}} duration={4} />
@@ -850,7 +904,8 @@ const Ge = ({
                 sx={{
                   borderRadius: 5,
                   backgroundColor: "#cb96c2",
-                }}>
+                }}
+              >
                 <p>BNK48 Candidated Members</p>
                 <h1>
                   <CountUp end={30} onEnd={() => {}} duration={4} />
@@ -869,7 +924,8 @@ const Ge = ({
                 sx={{
                   borderRadius: 5,
                   backgroundColor: "#49c5a8",
-                }}>
+                }}
+              >
                 <p>CGM48 Candidated Members</p>
                 <h1>
                   <CountUp end={18} onEnd={() => {}} duration={4} />
@@ -886,7 +942,8 @@ const Ge = ({
                   borderRadius: 5,
                   backgroundColor: "#404040",
                   color: "#fff",
-                }}>
+                }}
+              >
                 <p>Song Selected by Candidated members</p>
                 <h1>
                   <CountUp end={70} onEnd={() => {}} duration={4} />
@@ -936,7 +993,8 @@ const Ge = ({
                       "https://www.facebook.com/bnk48official/posts/pfbid0JXgFZzmA6CLm9wx9cucESrgSZYk1qv8Yw1ZsoPe4EmkxuQJyL4FPLv8XfzoLmGqMl",
                       "_blank"
                     )
-                  }>
+                  }
+                >
                   {lang == "th" ? "ไปยังลิงก์" : "Go to external link"}
                 </Button>
                 <Button
@@ -946,7 +1004,8 @@ const Ge = ({
                       "https://youtube.com/watch?v=FbUgKp7DYWE",
                       "_blank"
                     )
-                  }>
+                  }
+                >
                   {lang == "th" ? "ดูคลิปโปรโมท" : "Watch Promote Clip"}
                 </Button>
               </CardActions>
@@ -984,7 +1043,8 @@ const Ge = ({
                       "https://youtube.com/watch?v=CGXwRIcnrJo",
                       "_blank"
                     )
-                  }>
+                  }
+                >
                   {lang == "th"
                     ? "รับชมมิวสิควีดีโอต้นฉบับ"
                     : "Watching original Music Video"}
@@ -995,7 +1055,8 @@ const Ge = ({
                       "https://open.spotify.com/track/6wgJfy5bVOhEiKz08YaV64",
                       "_blank"
                     )
-                  }>
+                  }
+                >
                   {lang == "th" ? "รับฟังบน Spotify" : "Listen it on Spotify!"}
                 </Button>
               </CardActions>
@@ -1020,7 +1081,8 @@ const Ge = ({
                       "https://youtube.com/watch?v=0pKfxbCHLoU",
                       "_blank"
                     )
-                  }>
+                  }
+                >
                   {lang == "th"
                     ? "รับชมมิวสิควีดีโอต้นฉบับ"
                     : "Watching original Music Video"}
@@ -1031,7 +1093,8 @@ const Ge = ({
                       "https://open.spotify.com/track/1Paki9ZUoGAJCDfykNrHV8",
                       "_blank"
                     )
-                  }>
+                  }
+                >
                   {lang == "th" ? "รับฟังบน Spotify" : "Listen it on Spotify!"}
                 </Button>
               </CardActions>
@@ -1056,7 +1119,8 @@ const Ge = ({
                       "https://youtube.com/watch?v=tBFJFAP3GKU",
                       "_blank"
                     )
-                  }>
+                  }
+                >
                   {lang == "th"
                     ? "รับชมมิวสิควีดีโอต้นฉบับ"
                     : "Watching original Music Video"}
@@ -1067,7 +1131,8 @@ const Ge = ({
                       "https://open.spotify.com/track/0svM1S2Msb3aIfpf2Cf0YT",
                       "_blank"
                     )
-                  }>
+                  }
+                >
                   {lang == "th" ? "รับฟังบน Spotify" : "Listen it on Spotify!"}
                 </Button>
               </CardActions>
@@ -1095,7 +1160,8 @@ const Ge = ({
                 <Button
                   onClick={() =>
                     window.open("https://youtu.be/1cVvscOjruc", "_blank")
-                  }>
+                  }
+                >
                   {lang == "th" ? "ไปยังลิงก์" : "Go to external link"}
                 </Button>
               </CardActions>
@@ -1116,380 +1182,14 @@ const Ge = ({
           </div>
         </Box>
 
-        <Box className="mt-5">
-          <CardHeader
-            title="How to Vote"
-            subheader={
-              lang == "th"
-                ? "ทำได้ทั้งหมดทั้ง 3 ช่องทาง ดังนี้"
-                : "You have 3 ways for support this General Election campaign."
-            }
-          />
-          <div className="container" data-aos="fade-right">
-            <Card>
-              <List
-                component={CardContent}
-                sx={{
-                  width: "100%",
-                  bgcolor: "background.paper",
-                }}>
-                <ListItem
-                  sx={{ cursor: "pointer" }}
-                  onClick={() => window.open("//app.bnk48.com/shop", "_blank")}>
-                  <ListItemAvatar>
-                    <Avatar className="iconchoice">
-                      <LocalShippingIcon />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary="Official Voting - CD Packaging"
-                    secondary={
-                      lang == "th"
-                        ? 'ซื้อซิงเกิ้ล BNK48 18th Single "Green Flash" หรือ CGM48 9th Single "Totsuzen Do love me!" และรับ GE5 Token สำหรับโหวตใน IAM48 Application'
-                        : 'Buy BNK48 18th Single "Green Flash" or CGM48 9th Single "Totsuzen Do love me!" then earn GE5 Token for voting in IAM48 Application'
-                    }
-                  />
-                </ListItem>
-                <ListItem
-                  sx={{ cursor: "pointer" }}
-                  onClick={() => window.open("//app.bnk48.com", "_blank")}>
-                  <ListItemAvatar>
-                    <Avatar className="iconchoice">
-                      <MonetizationOnIcon />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary="Official Voting - Digital Packaging"
-                    secondary={
-                      lang == "th"
-                        ? 'ซื้อซิงเกิ้ล BNK48 18th Single "Green Flash" หรือ CGM48 9th Single "Totsuzen Do love me!" ในรูปแบบ Digital Music Code และรับ GE5 Token สำหรับโหวตใน IAM48 Application'
-                        : 'Buy BNK48 18th Single "Green Flash" or CGM48 9th Single "Totsuzen Do love me!" in Digital Music Code edition then earn GE5 Token for voting in IAM48 Application'
-                    }
-                  />
-                </ListItem>
-                <ListItem
-                  sx={{ cursor: "pointer" }}
-                  onClick={() => setGeDonate(true)}>
-                  <ListItemAvatar>
-                    <Avatar className="iconchoice">
-                      <RecommendIcon />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary="Donating to KorKao Supporter"
-                    secondary={
-                      lang == "th"
-                        ? "คุณสามารถร่วมโดเนทเข้าบัญชีธนาคารของบ้านข้าวฟ่างได้ที่ธนาคารกสิกรไทย ชื่อบัญชี: นายสุชาติ ลินสวัสดิ์ เลขที่บัญชี 199-3-18939-8"
-                        : "Campaign from KorKao Supporter to help for voting Kaofrang by donating directly to KorKao Supporter team (This feature support only for Thai Fan)."
-                    }
-                  />
-                </ListItem>
-              </List>
-              {lang == "th" && (
-                <p className="card-body">
-                  <small>
-                    หมายเหตุ: ทุกการสั่งซื้อซิงเกิ้ล BNK48 18th Single "Green
-                    Flash" และ/หรือ CGM48 9th Single "Totsuzen Do love me!"
-                    และ/หรือสินค้าประเภทอื่น ผ่าน IAM48 Shop ในแอป IAM48
-                    สามารถเข้าร่วมโครงการ Easy E-Receipt 2.0
-                    เพื่อนำไปใช้ลดหย่อนภาษีได้สูงสุด 30,000 บาทจากภาครัฐฯ
-                    (เฉพาะออเดอร์ที่มีการชำระเงินสำเร็จก่อนหรือภายในวันที่ 28
-                    กุมภาพันธ์ 2568 เท่านั้น) ดูรายละเอียดเพิ่มเติมได้ที่
-                    <a
-                      href="https://www.rd.go.th/fileadmin/user_upload/lorkhor/newsbanner/2024/12/Q_A_Easy_E-Receipt_2.0_25122567.pdf"
-                      target="_blank">
-                      เว็บไซต์กรมสรรพากร
-                    </a>
-                  </small>
-                </p>
-              )}
-            </Card>
-          </div>
-        </Box>
-
-        <Dialog
-          open={gedonate}
-          TransitionComponent={Transition}
-          transitionDuration={400}
-          onClose={() => {}}
-          maxWidth="lg">
-          <DialogTitle>
-            Donation for GE5 (BNK48 & CGM48 General Election 2025)
-          </DialogTitle>
-          <DialogContent>
-            <div
-              className="col-12 text-center w-100"
-              style={{ backgroundColor: print ? "#fff" : "" }}>
-              <div className="col-12 d-flex justify-content-center">
-                {print == false ? (
-                  <QRCode
-                    value={qrCode}
-                    logoImage="https://d3hhrps04devi8.cloudfront.net/kf/thqr.webp"
-                    logoWidth={100}
-                    logoHeight={100}
-                    size={300}
-                    style={{ width: 250, height: 250 }}
-                    qrStyle="dots"
-                    crossorigin="anonymous"
-                  />
-                ) : (
-                  <CardMedia
-                    sx={{ width: 250, height: 250 }}
-                    src={
-                      "https://quickchart.io/qr?size=300&text=" +
-                      qrCode +
-                      "&centerImageUrl=https://d3hhrps04devi8.cloudfront.net/kf/thqr.webp"
-                    }
-                    component="img"
-                  />
-                )}
-              </div>
-              {num > 0 && print && (
-                <Typography
-                  className="col-12 mt-3"
-                  dangerouslySetInnerHTML={{
-                    __html:
-                      lang == "th"
-                        ? "ยอดที่โอน " + comma(num) + " บาท"
-                        : "Amount " +
-                          comma(num) +
-                          (setexc == "-"
-                            ? " THB<br />Please check your exchange rate on your local mobile banking after scan this QR Code."
-                            : " THB<br />(Based on estimated " +
-                              comma((num * exc[setexc]).toFixed(2)) +
-                              " " +
-                              setexc.toUpperCase()) +
-                          ")",
-                  }}></Typography>
-              )}
-              {print && (
-                <>
-                  <Typography className="col-12 mt-3">
-                    Biller ID: 004999199434118
-                    <br />
-                    {lang == "th"
-                      ? "ชื่อบัญชี: นายสุชาติ ลินสวัสดิ์"
-                      : "Account Name: Mr.Suchart Sinsawad"}
-                  </Typography>
-                  <Typography className="col-12 mt-3">
-                    {lang != "th" &&
-                      "Please make sure that your local mobile banking is support to transfer to international bank via Thai QR payment. You maybe have some fee for transfer abroad. However, this exchange rate maybe different to data from your local mobile banking. Please refer to the exchange rate of the bank you use."}
-                  </Typography>
-                </>
-              )}
-              {lock && !print && (
-                <Typography
-                  className="col-12 mt-3"
-                  dangerouslySetInnerHTML={{
-                    __html:
-                      lang == "th"
-                        ? "ยอดที่โอน " + comma(num) + " บาท"
-                        : "Amount " +
-                          comma(num) +
-                          " THB<br />Please view exchange rate below.",
-                  }}></Typography>
-              )}
-            </div>
-            {lang != "th" && (
-              <TextField
-                select
-                label="Choose your currency"
-                value={setexc}
-                helperText={
-                  lang == "en" && excDate == ""
-                    ? null
-                    : "Latest update exchange rates as of " +
-                      moment(excDate).lang("en").format("DD MMMM YYYY")
-                }
-                className="mt-5 m-2"
-                defaultValue={0}
-                fullWidth
-                onChange={(e) => {
-                  setSelctedExc(e.target.value);
-                }}
-                SelectProps={{
-                  native: true,
-                }}>
-                <option value="-">Select your currency</option>
-                {moneyCurren.map((item) => (
-                  <option value={item.val}>{item.lab}</option>
-                ))}
-              </TextField>
-            )}
-            <TextField
-              label={
-                lang == "th"
-                  ? "เลือกหรือระบุจำนวนเงิน (บาท)"
-                  : "Choose or enter your amount (Thai Baht)"
-              }
-              data-tour="donate-3"
-              value={num}
-              helperText={
-                lang == "th" ||
-                (lang == "en" && setexc == "-" && num == 0) ||
-                (lang == "en" && excDate == "" && setexc == "-")
-                  ? null
-                  : lang == "en" && setexc != "-" && num == 0
-                  ? "Current exchange rate 1 THB approximately " +
-                    comma((1 * exc[setexc]).toFixed(2)) +
-                    " " +
-                    setexc.toUpperCase()
-                  : lang == "en" && setexc != "-" && num > 0
-                  ? "Estimated in " +
-                    moneyCurren.filter((x) => x.val == setexc)[0].lab +
-                    " are " +
-                    comma((num * exc[setexc]).toFixed(2)) +
-                    " " +
-                    setexc.toUpperCase()
-                  : null
-              }
-              disabled={lock}
-              className={(lang == "th" ? "mt-5" : "mt-3") + " mb-3 m-2"}
-              defaultValue={0}
-              fullWidth
-              onChange={(e) => {
-                ReactGA.event({
-                  category: "User",
-                  action: "Gen QR Payment - GE5",
-                });
-                if (parseInt(e.target.value) == 0) {
-                  setqrCode(generatePayload("004999166938497", {}));
-                } else {
-                  setqrCode(
-                    generatePayload("004999166938497", {
-                      amount: parseInt(e.target.value),
-                    })
-                  );
-                }
-                setNum(parseInt(e.target.value !== "" ? e.target.value : 0));
-              }}
-              SelectProps={{
-                native: true,
-              }}></TextField>
-            <Stack
-              className="d-flex justify-content-center"
-              direction="row"
-              spacing={1}
-              useFlexGap
-              sx={{ flexWrap: "wrap" }}>
-              <Chip
-                onClick={() => setNum(10)}
-                label={lang == "th" ? "10 บาท" : "฿10"}
-                color="primary"
-                variant="outlined"
-                disabled={num == 10}
-              />
-              <Chip
-                onClick={() => setNum(20)}
-                label={lang == "th" ? "20 บาท" : "฿20"}
-                color="primary"
-                variant="outlined"
-                disabled={num == 20}
-              />
-              <Chip
-                onClick={() => setNum(30)}
-                label={lang == "th" ? "30 บาท" : "฿30"}
-                color="primary"
-                variant="outlined"
-                disabled={num == 30}
-              />
-              <Chip
-                onClick={() => setNum(40)}
-                label={lang == "th" ? "40 บาท" : "฿40"}
-                color="primary"
-                variant="outlined"
-                disabled={num == 40}
-              />
-              <Chip
-                onClick={() => setNum(50)}
-                label={lang == "th" ? "50 บาท" : "฿50"}
-                color="primary"
-                variant="outlined"
-                disabled={num == 50}
-              />
-              <Chip
-                onClick={() => setNum(100)}
-                label={lang == "th" ? "100 บาท" : "฿100"}
-                color="primary"
-                variant="outlined"
-                disabled={num == 100}
-              />
-              <Chip
-                onClick={() => setNum(500)}
-                label={lang == "th" ? "500 บาท" : "฿500"}
-                color="primary"
-                variant="outlined"
-                disabled={num == 500}
-              />
-              <Chip
-                onClick={() => setNum(2525)}
-                label={lang == "th" ? "2,525 บาท" : "฿2,525"}
-                color="primary"
-                variant="outlined"
-                disabled={num == 2525}
-              />
-            </Stack>
-            <Button
-              variant="outlined"
-              onClick={() => ExportQR()}
-              className="m-2 mt-4">
-              {lang == "th" ? "บันทึก QR Code นี้" : "Save this QR Payment"}
-            </Button>
-            <Divider />
-            {lang == "th" ? (
-              <Typography className="col-12 text-center mt-3">
-                หรือโอนเข้าบัญชี{" "}
-                <img
-                  style={{ marginTop: -6 }}
-                  src="https://cdn.jsdelivr.net/npm/thai-banks-logo@1.0.6/icons/KBANK.png"
-                  width={22}
-                  height={22}
-                />{" "}
-                <b>ธนาคารกสิกรไทย</b>
-                <br />
-                เลขที่บัญชี <b>เลขที่บัญชี 199-3-18939-8</b>
-                <br />
-                ชื่อบัญชี <b>นายสุชาติ ลินสวัสดิ์</b>
-              </Typography>
-            ) : (
-              <Typography className="col-12 mt-3">
-                Thai QR Payment is also support with foreigner from Cambodia,
-                Hong Kong, Indonesia, Laos, Malaysia, Singapore and Vietnam
-                banking. You can use your supported mobile banking to scan upper
-                QR Payment directly. Please click{" "}
-                <a
-                  href="https://s7ap1.scene7.com/is/image/bot/2024_06_19_Crossborder%20QR%20Payment_Brochure_update%20(1)?ts=1718875185342&dpr=off"
-                  target="_blank">
-                  here
-                </a>{" "}
-                to view Accepted international mobile banking with Thai QR
-                payment. However, this exchange rate maybe different to data
-                from your local mobile banking. Please refer to the exchange
-                rate of the bank you use.
-                <br />
-                (Information referenced by The Bank Of Thailand - BOT)
-              </Typography>
-            )}
-            <Typography variant="subtitle2" className="col-12 mt-3">
-              {lang == "th"
-                ? "หมายเหตุ: เงินที่โอนผ่านช่องทางนี้จะถูกโอนเข้าบัญชีของบ้านข้าวฟ่างโดยตรงเพื่อนำไปใช้ในการสนับสนุนในงาน BNK48 & CGM48 General Election 2025 และกิจกรรมอื่นๆ ที่เกี่ยวข้องกับน้องข้าวฟ่าง โดยเว็บไซต์นี้เป็นแค่เพียงตัวกลางเพื่อกระจายข่าวสารเท่านั้น"
-                : "Notes: All donated amounts will be transfer directly to Kaofrang's Fandom supporter to make supporting about BNK48 & CGM48 General Election 2025 event and other related projects of Kaofrang Yanisa or Kaofrang BNK48. This website is only a agent for sharing events or about all of her projects."}
-            </Typography>
-          </DialogContent>
-          <DialogActions>
-            <Button disabled={print} onClick={() => setGeDonate(false)}>
-              {lang == "th" ? "ปิด" : "Close"}
-            </Button>
-          </DialogActions>
-        </Dialog>
-
         <div
           className="col-12 text-center w-100"
           ref={cardsuccess}
           style={{
             backgroundColor: print ? "#fff" : "",
             display: print ? "block" : "none",
-          }}>
+          }}
+        >
           <div className="col-12 d-flex justify-content-center">
             {print == false ? (
               <QRCode
@@ -1530,7 +1230,8 @@ const Ge = ({
                           " " +
                           setexc.toUpperCase()) +
                       ")",
-              }}></Typography>
+              }}
+            ></Typography>
           )}
           {print && (
             <>
@@ -1557,13 +1258,15 @@ const Ge = ({
                     : "Amount " +
                       comma(num) +
                       " THB<br />Please view exchange rate below.",
-              }}></Typography>
+              }}
+            ></Typography>
           )}
         </div>
 
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={load}>
+          open={load}
+        >
           <CircularProgress />
         </Backdrop>
       </Box>
