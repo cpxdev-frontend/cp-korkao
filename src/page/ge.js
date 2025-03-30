@@ -724,8 +724,12 @@ const Ge = ({
         <Button
           className="mb-5 ml-3"
           variant="contained"
-          disabled={true}
-          onClick={() => history.push("/live")}
+          onClick={() =>
+            window.open(
+              "https://lookerstudio.google.com/reporting/c8d18911-98e1-4508-afe5-6f3402f95244/page/emWvE",
+              "_blank"
+            )
+          }
         >
           {lang == "th"
             ? "ดูสถิติการโหวตอย่างเป็นทางการ"
