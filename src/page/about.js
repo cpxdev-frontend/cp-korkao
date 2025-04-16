@@ -36,7 +36,8 @@ function CustomTabPanel(props) {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
-      {...other}>
+      {...other}
+    >
       {value === index && (
         <Box sx={{ p: 3 }}>
           <Typography>{children}</Typography>
@@ -196,15 +197,16 @@ const About = ({ currentPage, lang, setLang, setPage, guide }) => {
                     </p>
                     <p>
                       {lang == "th" ? "วันเกิด" : "Birthday"}:{" "}
-                      {moment(data.birthday)
+                      {moment(data.birthday, "YYYY-M-DD")
                         .lang(lang)
                         .local()
                         .format("DD MMMM YYYY")}
                     </p>
                     <p>
                       {lang == "th" ? "อายุ" : "Age"}:{" "}
-                      {getAge(data.birthday) +
-                        (lang == "th" ? " ปี" : " year(s) old")}
+                      {getAge(
+                        moment(data.birthday, "YYYY-M-DD").format("YYYY-MM-DD")
+                      ) + (lang == "th" ? " ปี" : " year(s) old")}
                     </p>
                     <p>
                       {lang == "th" ? "สังกัดศิลปิน" : "Music label"}:{" "}
@@ -213,7 +215,8 @@ const About = ({ currentPage, lang, setLang, setPage, guide }) => {
                   </Grid>
                   <Button
                     variant="contained"
-                    onClick={() => history.push("/follow?contactjob=true")}>
+                    onClick={() => history.push("/follow?contactjob=true")}
+                  >
                     {lang == "th" ? "ติดต่องาน" : "Contact for Working"}
                   </Button>
                 </Grid>
@@ -229,7 +232,8 @@ const About = ({ currentPage, lang, setLang, setPage, guide }) => {
                       aria-label="basic tabs example"
                       variant="scrollable"
                       data-tour="profile-2"
-                      allowScrollButtonsMobile>
+                      allowScrollButtonsMobile
+                    >
                       <Tab
                         sx={{ color: "#000" }}
                         label={
@@ -253,7 +257,8 @@ const About = ({ currentPage, lang, setLang, setPage, guide }) => {
                   <CustomTabPanel
                     value={value}
                     index={0}
-                    data-aos="zoom-in-right">
+                    data-aos="zoom-in-right"
+                  >
                     <h4 className="mb-4">
                       {lang == "th"
                         ? "ข้อมูลด้านการเป็นสมาชิกบีเอ็นเคโฟตี้เอต"
@@ -279,13 +284,15 @@ const About = ({ currentPage, lang, setLang, setPage, guide }) => {
                 <Box sx={{ width: "100%" }}>
                   <Box
                     sx={{ borderBottom: 1, borderColor: "divider" }}
-                    data-aos="fade-in">
+                    data-aos="fade-in"
+                  >
                     <Tabs
                       value={value2}
                       onChange={handleChange2}
                       variant="scrollable"
                       data-tour="profile-2"
-                      allowScrollButtonsMobile>
+                      allowScrollButtonsMobile
+                    >
                       <Tab
                         sx={{ color: "#000" }}
                         label={
