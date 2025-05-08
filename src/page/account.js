@@ -78,7 +78,6 @@ import stepEn from "../stepGuide/en/gallery";
 import stepTh from "../stepGuide/th/gallery";
 
 import Html5QrcodePlugin from "./_qrscanner";
-import BarcodeScannerComponent from "react-qr-barcode-scanner";
 import { QRCode } from "react-qrcode-logo";
 
 var korkaoqr;
