@@ -646,7 +646,7 @@ function App({
   const [unlock, setUnlock] = React.useState(null);
 
   React.useEffect(() => {
-    AOS.init({ duration: 800 });
+    AOS.init({ duration: 800, once: true });
     setLaunch(moment().unix());
     setLaunchd(moment().unix());
     if (window.location.origin.includes("beta.korkao.pages.dev")) {
