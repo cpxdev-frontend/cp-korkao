@@ -1140,32 +1140,6 @@ function App({
                             </Typography>
                           </CardContent>
                         )}
-                        {login !== null && login !== false ? (
-                          <CardActions sx={{ width: 270 }}>
-                            <Button
-                              onClick={() => {
-                                history.push("/account");
-                                handleCloseNavMenu();
-                                setAnchorElUser(false);
-                              }}>
-                              View Profile
-                            </Button>
-                            <Button onClick={() => getout()}>Sign-out</Button>
-                          </CardActions>
-                        ) : (
-                          <CardActions sx={{ width: 270 }}>
-                            <Button onClick={() => setloginDialog(true)}>
-                              Become or Log-in to KorKao ID
-                            </Button>
-                            <Button
-                              onClick={() => {
-                                history.push("/account");
-                                handleCloseNavMenu();
-                              }}>
-                              View Benefits
-                            </Button>
-                          </CardActions>
-                        )}
                       </Card>
                     ) : (
                       <Skeleton
