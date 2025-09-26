@@ -142,7 +142,7 @@ const About = ({ currentPage, lang, setLang, setPage, guide }) => {
               <Grid container spacing={5}>
                 <Grid item className="d-flex align-items-center" lg={5} xs={12}>
                   <Avatar
-                    src={data.img}
+                    src='https://d3hhrps04devi8.cloudfront.net/bnk48profile/kaofrang.jpg'
                     slotProps={{
                       img: {
                         onLoad: () => setImg(true),

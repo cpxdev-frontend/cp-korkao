@@ -35,44 +35,10 @@ const Home = ({
   const canvasRef = React.useRef(null);
   const [isDark, setIsDark] = React.useState(true);
   const [isDarkImg, setIsDarkImg] = React.useState(true);
-  const mobileTheme = "https://d3hhrps04devi8.cloudfront.net/kf/kaofrang.webp";
-
-  React.useEffect(() => {
-    const video = videoRef.current;
-    const canvas = canvasRef.current;
-    const context = canvas.getContext("2d");
-
-    const analyzeFrame = () => {
-      if (video.paused || video.ended) return;
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      context.drawImage(video, 0, 0, canvas.width, canvas.height);
-      const frame = context.getImageData(0, 0, canvas.width, canvas.height);
-      const length = frame.data.length;
-      let totalLuminance = 0;
-      for (let i = 0; i < length; i += 4) {
-        const r = frame.data[i];
-        const g = frame.data[i + 1];
-        const b = frame.data[i + 2];
-        const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
-        totalLuminance += luminance;
-      }
-
-      const averageLuminance = totalLuminance / (length / 4);
-      const luminanceThreshold = 128;
-      setIsDark(averageLuminance < luminanceThreshold);
-
-      requestAnimationFrame(analyzeFrame);
-    };
-
-    video.addEventListener("play", () => {
-      analyzeFrame();
-    });
-
-    return () => {
-      video.removeEventListener("play", analyzeFrame);
-    };
-  }, []);
+  const pcTheme =
+    "https://pbs.twimg.com/media/G0z0GUnboAA-SPV?format=jpg&name=large";
+  const mobileTheme =
+    "https://pbs.twimg.com/media/G1DH_VsaQAAHGJq?format=jpg&name=large";
 
   React.useEffect(() => {
     const img = new Image();
@@ -132,38 +98,19 @@ const Home = ({
         <Fade in={open} timeout={1200}>
           <div className="video-container">
             <div
-              className="d-block d-lg-none img"
+              className="d-none d-md-block img"
+              style={{
+                filter: "brightness(80%)",
+                backgroundImage: "url(" + pcTheme + ")",
+              }}
+            ></div>
+            <div
+              className="d-block d-md-none img"
               style={{
                 filter: "brightness(80%)",
                 backgroundImage: "url(" + mobileTheme + ")",
-              }}></div>
-            <video
-              crossOrigin="anonymous"
-              className="d-none d-lg-block vdo overflow-hidden"
-              disablePictureInPicture
-              controlsList="nodownload nofullscreen noremoteplayback"
-              muted
-              autoPlay
-              style={{
-                pointerEvents: "none",
-                scrollbarWidth: "none",
-                top: "50%",
-                left: "50%",
-                minWidth: "100%",
-                minHeight: "100%",
-                width: "auto",
-                height: "auto",
-                transform: "translate(-50%,-50%)",
               }}
-              ref={videoRef}
-              loop
-              playsInline>
-              <source
-                src="https://d3hhrps04devi8.cloudfront.net/kf/vdo.webm"
-                type="video/webm"
-              />
-              Your browser does not support the video tag.
-            </video>
+            ></div>
             <canvas ref={canvasRef} style={{ display: "none" }} />
           </div>
         </Fade>
@@ -176,7 +123,8 @@ const Home = ({
                   style={{
                     color: "#fb61ee",
                     textShadow: "2px 2px 2px #fae6f9",
-                  }}>
+                  }}
+                >
                   Welcome to KorKao FanSite
                 </h3>
               }
@@ -195,7 +143,8 @@ const Home = ({
                   style={{
                     color: "#fb61ee",
                     textShadow: "2px 2px 2px #fae6f9",
-                  }}>
+                  }}
+                >
                   Welcome to KorKao FanSite
                 </h3>
               }
@@ -211,21 +160,24 @@ const Home = ({
               className="ml-2"
               data-tour="home-1"
               variant="contained"
-              onClick={() => history.push("/aboutkf")}>
+              onClick={() => history.push("/aboutkf")}
+            >
               Get Started
             </Button>
             <Button
               className="ml-2"
               data-tour="home-2"
               variant="outlined"
-              onClick={() => setMenu(true)}>
+              onClick={() => setMenu(true)}
+            >
               Go to Menu
             </Button>
             <br />
             <Button
               className="ml-2 mt-3"
               data-tour="home-3"
-              onClick={() => setLangMod(true)}>
+              onClick={() => setLangMod(true)}
+            >
               Choose Language
             </Button>
           </CardContent>

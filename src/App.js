@@ -76,19 +76,11 @@ import Swal from "sweetalert2";
 import Home from "./page/home";
 import About from "./page/about";
 import Disco from "./page/port";
-import Trend from "./page/trend";
-import Event from "./page/event";
-import Album from "./page/albumgroup";
-import Gallery from "./page/gallery";
-import Ge from "./page/ge";
 import Game from "./page/game";
 import PopFrangGame from "./page/popfranggame";
 import GameD from "./page/gamedash";
-import Feed from "./page/update";
 import Donate from "./page/donate";
 import Follow from "./page/follow";
-import LIVE from "./page/livestream";
-import Account from "./page/account";
 import Err from "./page/error";
 
 import {
@@ -113,11 +105,6 @@ const pageSec = [
   "",
   "aboutkf",
   "discography",
-  "live",
-  "trend",
-  "ge5",
-  "events",
-  "feeds",
   "_game",
   "follow",
   "donation",
@@ -126,11 +113,6 @@ const pagesEn = [
   "Home",
   "About Kaofrang",
   "Discography",
-  "LIVE Contents",
-  "Trend Boost",
-  "General Election 2025",
-  "Events of Frang",
-  "Social Feeds",
   "Games",
   "Follow KorKao",
   "Donate",
@@ -139,11 +121,6 @@ const pagesTh = [
   "หน้าหลัก",
   "เกี่ยวกับข้าวฟ่าง",
   "ผลงาน",
-  "กิจกรรมสด",
-  "ปั่นเทรน",
-  "การเลือกตั้งทั่วไป (GE 2025)",
-  "กิจกรรม",
-  "ฟีดออนไลน์",
   "มินิเกมส์",
   "ช่องทางการติดตาม",
   "โดเนท",
@@ -761,46 +738,7 @@ function App({
   React.useEffect(() => {
     fetch("https://speed.cloudflare.com/meta")
       .then((response) => response.json())
-      .then((data) => setZone(data.country));
-
-    let nextFriday = moment().day(5).startOf("day");
-
-    if (moment().isSame(nextFriday, "day")) {
-      nextFriday.add(6, "days");
-    }
-    if (!window.location.href.includes("http://localhost")) {
-      return;
-    }
-    Swal.fire({
-      title: lang == "th" ? "ทดสอบระบบ" : "For testing",
-      icon: "info",
-      footer:
-        lang == "th"
-          ? "คุณสามารถกลับมารับ AirDrop ได้ใหม่ในวันที่ " +
-            moment
-              .utc(nextFriday.format("YYYY-MM-DD 17:00:00"))
-              .lang(lang)
-              .local()
-              .format("DD MMMM YYYY ตั้งแต่เวลา HH:mm") +
-            " จนถึงวันที่ " +
-            moment
-              .utc(nextFriday.add(1, "days").format("YYYY-MM-DD 16:59:59"))
-              .lang(lang)
-              .local()
-              .format("DD MMMM YYYY เวลา HH:mm")
-          : "You can come back to received AirDrop in " +
-            moment
-              .utc(nextFriday.format("YYYY-MM-DD 17:00:00"))
-              .lang(lang)
-              .local()
-              .format("DD MMMM YYYY hh:mm A") +
-            " to " +
-            moment
-              .utc(nextFriday.add(1, "days").format("YYYY-MM-DD 16:59:59"))
-              .lang(lang)
-              .local()
-              .format("DD MMMM YYYY hh:mm A"),
-    });
+      .then((data) => setZone(data.country))
   }, []);
 
   React.useEffect(() => {
@@ -1285,16 +1223,6 @@ function App({
                           lang == "th" ? "คำอธิบายการใช้งาน" : "Tutorial Guide"
                         }
                       />
-                      <br />
-                      <Typography
-                        sx={{
-                          display: { xs: "block", lg: "none", xl: "block" },
-                        }}>
-                        {lang == "th"
-                          ? "สถานะการแจ้งเตือน: "
-                          : "Notification Status: "}{" "}
-                        {setNotiStatus()}
-                      </Typography>
                     </Box>
                   </DialogContent>
                 </Drawer>
@@ -1555,32 +1483,6 @@ function App({
                             </Typography>
                           </CardContent>
                         )}
-                        {login !== null && login !== false ? (
-                          <CardActions sx={{ width: 270 }}>
-                            <Button
-                              onClick={() => {
-                                history.push("/account");
-                                handleCloseNavMenu();
-                                setAnchorElUser(false);
-                              }}>
-                              View Profile
-                            </Button>
-                            <Button onClick={() => getout()}>Sign-out</Button>
-                          </CardActions>
-                        ) : (
-                          <CardActions sx={{ width: 270 }}>
-                            <Button onClick={() => setloginDialog(true)}>
-                              Become or Log-in to KorKao ID
-                            </Button>
-                            <Button
-                              onClick={() => {
-                                history.push("/account");
-                                handleCloseNavMenu();
-                              }}>
-                              View Benefits
-                            </Button>
-                          </CardActions>
-                        )}
                       </Card>
                     ) : (
                       <Skeleton
@@ -1629,12 +1531,6 @@ function App({
                         lang == "th" ? "คำอธิบายการใช้งาน" : "Tutorial Guide"
                       }
                     />
-                    <Typography>
-                      {lang == "th"
-                        ? "สถานะการแจ้งเตือน: "
-                        : "Notification Status: "}{" "}
-                      {setNotiStatus()}
-                    </Typography>
                   </DialogContent>
                 </Drawer>
               </Box>
@@ -1789,32 +1685,6 @@ function App({
                           </Typography>
                         </CardContent>
                       )}
-                      {login !== null && login !== false ? (
-                        <CardActions sx={{ width: 270 }}>
-                          <Button
-                            onClick={() => {
-                              history.push("/account");
-                              handleCloseNavMenu();
-                              setAnchorElUser(false);
-                            }}>
-                            View Profile
-                          </Button>
-                          <Button onClick={() => getout()}>Sign-out</Button>
-                        </CardActions>
-                      ) : (
-                        <CardActions sx={{ width: 270 }}>
-                          <Button onClick={() => setloginDialog(true)}>
-                            Become or Log-in to KorKao ID
-                          </Button>
-                          <Button
-                            onClick={() => {
-                              history.push("/account");
-                              handleCloseNavMenu();
-                            }}>
-                            View Benefits
-                          </Button>
-                        </CardActions>
-                      )}
                     </Card>
                   ) : (
                     <Skeleton
@@ -1855,121 +1725,9 @@ function App({
                         lang == "th" ? "คำอธิบายการใช้งาน" : "Tutorial Guide"
                       }
                     />
-                    <br />
-                    <Typography>
-                      {lang == "th"
-                        ? "สถานะการแจ้งเตือน: "
-                        : "Notification Status: "}{" "}
-                      {setNotiStatus()}
-                    </Typography>
                   </DialogContent>
                   <DialogActions>
                     <Button onClick={() => setAnchorElUser(false)}>
-                      {lang == "th" ? "ปิด" : "Close"}
-                    </Button>
-                  </DialogActions>
-                </Dialog>
-
-                <Dialog
-                  open={newse}
-                  TransitionComponent={Transition}
-                  transitionDuration={400}
-                  onClose={() => {}}
-                  maxWidth="md">
-                  {news != null && (
-                    <>
-                      <DialogTitle>
-                        {news.title.replaceAll('\\"', '"')}
-                      </DialogTitle>
-                      <DialogContent>
-                        <CardMedia src={news.src} component="img" />
-                        <Typography className="mt-3">
-                          {lang == "th"
-                            ? news.desc2.replaceAll('\\"', '"')
-                            : news.desc.replaceAll('\\"', '"')}
-                        </Typography>
-                      </DialogContent>
-                      <DialogActions>
-                        <Button
-                          disabled={lockads}
-                          onClick={() => setNewse(false)}>
-                          {lang == "th" ? "ปิด" : "Close"}
-                        </Button>
-                      </DialogActions>
-                    </>
-                  )}
-                </Dialog>
-
-                <Dialog
-                  open={loginDialog}
-                  TransitionComponent={Transition}
-                  transitionDuration={400}
-                  PaperProps={{ style: { width: "80%" } }}
-                  onClose={() => {}}
-                  maxWidth="md">
-                  <DialogTitle>
-                    {lang == "th"
-                      ? "เลือกช่องทางการเข้าสู่ระบบ"
-                      : "Select Login Provider"}
-                  </DialogTitle>
-                  <DialogContent>
-                    <CardActions className="d-flex justify-content-center">
-                      <Button
-                        size="large"
-                        variant="outlined"
-                        onClick={() => getLogin(1)}>
-                        <GoogleIcon className="mr-1" /> Google
-                      </Button>
-                      <Button
-                        size="large"
-                        variant="outlined"
-                        onClick={() => getLogin(2)}>
-                        <MicrosoftIcon className="mr-1" />
-                        Microsoft
-                      </Button>
-                    </CardActions>
-                    <Typography className="mt-5 text-center">
-                      {lang == "th"
-                        ? "บัญชี KorKao ID สามารถใช้งานร่วมกับแพลตฟอร์มเหล่านี้ได้"
-                        : "Your KorKao ID also can be use with these Web platforms"}
-                    </Typography>
-                    <div className="col-12 d-flex justify-content-center">
-                      <Box
-                        sx={{ width: { xs: "100vw", sm: "50%" } }}
-                        className="row d-flex justify-content-center">
-                        <CardMedia
-                          onClick={() =>
-                            window.open("//cp-bnk48.pages.dev", "_blank")
-                          }
-                          src="https://d3hhrps04devi8.cloudfront.net/main/bnklogo.png"
-                          component="img"
-                          alt="BNK48 Fan Space"
-                          className="ml-0 mr-0 col-3"
-                        />
-                        <CardMedia
-                          onClick={() =>
-                            window.open("//cp-cgm48.pages.dev", "_blank")
-                          }
-                          src="https://d3hhrps04devi8.cloudfront.net/main/cgmlogo.png"
-                          alt="CGM48 Fan Space"
-                          component="img"
-                          className="ml-0 mr-0 col-3"
-                        />
-                        <CardMedia
-                          onClick={() =>
-                            window.open("//cp-tpop.pages.dev", "_blank")
-                          }
-                          src="https://d3hhrps04devi8.cloudfront.net/tpop/tpop.fulllogo.png"
-                          component="img"
-                          alt="TPOP Fan eX"
-                          className="ml-0 mr-0 col-3"
-                          sx={{ width: "100%" }}
-                        />
-                      </Box>
-                    </div>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={() => setloginDialog(false)}>
                       {lang == "th" ? "ปิด" : "Close"}
                     </Button>
                   </DialogActions>
@@ -2017,16 +1775,11 @@ function App({
               path="/gallery/:id"
               render={() => <Gallery />}
             /> */}
-            <Route data-aos="fade-in" path="/ge5" render={() => <Ge />} />
             <Route
               data-aos="fade-in"
               path="/discography"
               render={() => <Disco />}
             />
-            <Route data-aos="fade-in" path="/events" render={() => <Event />} />
-            <Route data-aos="fade-in" path="/trend" render={() => <Trend />} />
-            <Route data-aos="fade-in" path="/live" render={() => <LIVE />} />
-            <Route data-aos="fade-in" path="/feeds" render={() => <Feed />} />
             <Route
               data-aos="fade-in"
               path="/quizgame"
@@ -2059,11 +1812,6 @@ function App({
                   render={() => <Account />}
                 />
               )} */}
-            <Route
-              data-aos="fade-in"
-              path="/account"
-              render={() => <Account setLoginD={() => setloginDialog(true)} />}
-            />
             <Route
               exact
               data-aos="fade-in"
