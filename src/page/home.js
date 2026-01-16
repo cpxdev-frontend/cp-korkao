@@ -125,7 +125,7 @@ const Home = ({
                     textShadow: "2px 2px 2px #fae6f9",
                   }}
                 >
-                  Welcome to KorKao FanSite
+                  Welcome to Kaofrang Space
                 </h3>
               }
               subheader={
@@ -145,7 +145,7 @@ const Home = ({
                     textShadow: "2px 2px 2px #fae6f9",
                   }}
                 >
-                  Welcome to KorKao FanSite
+                  Welcome to Kaofrang Space
                 </h3>
               }
               subheader={

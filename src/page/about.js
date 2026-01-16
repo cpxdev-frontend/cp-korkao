@@ -142,7 +142,7 @@ const About = ({ currentPage, lang, setLang, setPage, guide }) => {
               <Grid container spacing={5}>
                 <Grid item className="d-flex align-items-center" lg={5} xs={12}>
                   <Avatar
-                    src='https://d3hhrps04devi8.cloudfront.net/bnk48profile/kaofrang.jpg'
+                    src={data.img}
                     slotProps={{
                       img: {
                         onLoad: () => setImg(true),
@@ -181,10 +181,10 @@ const About = ({ currentPage, lang, setLang, setPage, guide }) => {
                         </h4>
                       }
                       subheader={
-                        <h5>
+                        <h6 className="text-muted">
                           {lang == "th" ? "ชื่อเล่น" : "Nickname"}:{" "}
-                          {lang == "th" ? data.nameTh : data.name}
-                        </h5>
+                          {lang == "th" ? data.nameTH : data.name}
+                        </h6>
                       }
                     />
                     <p>
@@ -209,9 +209,21 @@ const About = ({ currentPage, lang, setLang, setPage, guide }) => {
                       ) + (lang == "th" ? " ปี" : " year(s) old")}
                     </p>
                     <p>
+                      {lang == "th" ? "ผลงานด้านศิลปิน" : "Artists Profile"}:{" "}
+                      {data.artists.join(", ")}
+                    </p>
+                    <p>
+                      {lang == "th" ? "งานอดิเรก" : "Hobby"}:{" "}
+                      {data.hobby[lang].join(", ")}
+                    </p>
+                    <p>
+                      {lang == "th" ? "สิ่งที่ชอบ" : "Favorite"}:{" "}
+                      {data.favorite[lang].join(", ")}
+                    </p>
+                    {/* <p>
                       {lang == "th" ? "สังกัดศิลปิน" : "Music label"}:{" "}
                       {data.musicLabel[lang].join(", ")}
-                    </p>
+                    </p> */}
                   </Grid>
                   <Button
                     variant="contained"
@@ -220,136 +232,6 @@ const About = ({ currentPage, lang, setLang, setPage, guide }) => {
                     {lang == "th" ? "ติดต่องาน" : "Contact for Working"}
                   </Button>
                 </Grid>
-              </Grid>
-              <hr />
-              <Grid xs={12} className="mt-3 pt-3">
-                <Box sx={{ width: "100%" }}>
-                  <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                    <Tabs
-                      data-aos="fade-in"
-                      value={value}
-                      onChange={handleChange}
-                      aria-label="basic tabs example"
-                      variant="scrollable"
-                      data-tour="profile-2"
-                      allowScrollButtonsMobile
-                    >
-                      <Tab
-                        sx={{ color: "#000" }}
-                        label={
-                          lang == "th"
-                            ? "สมาชิกบีเอ็นเคโฟตี้เอต"
-                            : "BNK48 member"
-                        }
-                        {...a11yProps(0)}
-                      />
-                      <Tab
-                        sx={{ color: "#000" }}
-                        label={
-                          lang == "th"
-                            ? "ศิลปินสังกัดอินดิเพนเด้นท์ เรคคอร์ด"
-                            : "Independent Records Artist"
-                        }
-                        {...a11yProps(1)}
-                      />
-                    </Tabs>
-                  </Box>
-                  <CustomTabPanel
-                    value={value}
-                    index={0}
-                    data-aos="zoom-in-right"
-                  >
-                    <h4 className="mb-4">
-                      {lang == "th"
-                        ? "ข้อมูลด้านการเป็นสมาชิกบีเอ็นเคโฟตี้เอต"
-                        : "All about Kaofrang as BNK48 member"}
-                    </h4>
-                    {data.bnk48Profile.map((item) => (
-                      <h6 data-aos="fade-in">{item[lang]}</h6>
-                    ))}
-                  </CustomTabPanel>
-                  <CustomTabPanel value={value} index={1}>
-                    <h4 className="mb-4">
-                      {lang == "th"
-                        ? "ข้อมูลด้านการเป็นศิลปินสังกัดอินดิเพนเด้นท์ เรคคอร์ด"
-                        : "All about Kaofrang Yanisa as Artist"}
-                    </h4>
-                    {data.irProfile.map((item) => (
-                      <h6 data-aos="fade-in">{item[lang]}</h6>
-                    ))}
-                  </CustomTabPanel>
-                </Box>
-              </Grid>
-              <Grid xs={12}>
-                <Box sx={{ width: "100%" }}>
-                  <Box
-                    sx={{ borderBottom: 1, borderColor: "divider" }}
-                    data-aos="fade-in"
-                  >
-                    <Tabs
-                      value={value2}
-                      onChange={handleChange2}
-                      variant="scrollable"
-                      data-tour="profile-2"
-                      allowScrollButtonsMobile
-                    >
-                      <Tab
-                        sx={{ color: "#000" }}
-                        label={
-                          lang == "th"
-                            ? "ไลฟ์สไตล์ของน้องข้าวฟ่าง"
-                            : "All about Kaofrang's Lifestyle"
-                        }
-                        {...a11yProps2(0)}
-                      />
-                      <Tab
-                        sx={{ color: "#000" }}
-                        label={
-                          lang == "th"
-                            ? "เกร็ดความรู้เกี่ยวกับระบบวงบีเอ็นเคโฟตี้เอต"
-                            : "All about BNK48"
-                        }
-                        {...a11yProps2(1)}
-                      />
-                      <Tab
-                        sx={{ color: "#000" }}
-                        label={
-                          lang == "th"
-                            ? "เกร็ดความรู้เกี่ยวกับค่ายเพลงอินดิเพนเด้นท์ เรคคอร์ด"
-                            : "All about Independent Records (iR)"
-                        }
-                        {...a11yProps2(2)}
-                      />
-                    </Tabs>
-                  </Box>
-                  <CustomTabPanel value={value2} index={0} data-aos="fade-in">
-                    <List component="nav" sx={{ bgcolor: "background.paper" }}>
-                      {data.kfKnow.map((item) => (
-                        <ListItem data-aos="flip-up">
-                          <ListItemText secondary={<p>{item[lang]}</p>} />
-                        </ListItem>
-                      ))}
-                    </List>
-                  </CustomTabPanel>
-                  <CustomTabPanel value={value2} index={1}>
-                    <List component="nav" sx={{ bgcolor: "background.paper" }}>
-                      {data.bnk48Know.map((item) => (
-                        <ListItem data-aos="flip-up">
-                          <ListItemText secondary={<p>{item[lang]}</p>} />
-                        </ListItem>
-                      ))}
-                    </List>
-                  </CustomTabPanel>
-                  <CustomTabPanel value={value2} index={2}>
-                    <List component="nav" sx={{ bgcolor: "background.paper" }}>
-                      {data.irKnow.map((item) => (
-                        <ListItem data-aos="flip-up">
-                          <ListItemText secondary={<p>{item[lang]}</p>} />
-                        </ListItem>
-                      ))}
-                    </List>
-                  </CustomTabPanel>
-                </Box>
               </Grid>
               <Joyride
                 steps={lang == "th" ? stepTh : stepEn}

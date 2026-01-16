@@ -113,12 +113,14 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                   maxWidth: 600,
                   bgcolor: "background.paper",
                   borderRadius: 5,
-                }}>
+                }}
+              >
                 <ListItemButton
                   component="a"
                   href="https://facebook.com/bnk48official.kaofrang"
                   target="_blank"
-                  data-aos="fade-right">
+                  data-aos="fade-right"
+                >
                   <ListItemAvatar>
                     <Avatar sx={{ backgroundColor: "#1877F2" }}>
                       <FontAwesomeIcon icon={faFacebook} />
@@ -134,13 +136,15 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                   href="https://instagram.com/kaofrang.bnk48official"
                   target="_blank"
                   data-aos="fade-right"
-                  data-aos-delay={window.innerHeight > 700 ? "500" : "0"}>
+                  data-aos-delay={window.innerHeight > 700 ? "500" : "0"}
+                >
                   <ListItemAvatar>
                     <Avatar
                       sx={{
                         background:
                           "linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)",
-                      }}>
+                      }}
+                    >
                       <FontAwesomeIcon icon={faInstagram} />
                     </Avatar>
                   </ListItemAvatar>
@@ -154,7 +158,8 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                   href="https://tiktok.com/@kaofrang.bnk48official"
                   target="_blank"
                   data-aos="fade-right"
-                  data-aos-delay={window.innerHeight > 700 ? "1000" : "0"}>
+                  data-aos-delay={window.innerHeight > 700 ? "1000" : "0"}
+                >
                   <ListItemAvatar>
                     <Avatar sx={{ backgroundColor: "#000", color: "#fff" }}>
                       <FontAwesomeIcon icon={faTiktok} />
@@ -170,7 +175,8 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                   href="https://www.bnk48.com/index.php?page=listMembers&memberId=86"
                   target="_blank"
                   data-aos="fade-right"
-                  data-aos-delay={window.innerHeight > 700 ? "1500" : "0"}>
+                  data-aos-delay={window.innerHeight > 700 ? "1500" : "0"}
+                >
                   <ListItemAvatar>
                     <Avatar sx={{ backgroundColor: "#CB96C2" }}>
                       <FontAwesomeIcon icon={faGlobe} />
@@ -186,7 +192,8 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                   href="https://app.bnk48.com/members/bnk48/kaofrang"
                   target="_blank"
                   data-aos="fade-right"
-                  data-aos-delay={window.innerHeight > 700 ? "2000" : "0"}>
+                  data-aos-delay={window.innerHeight > 700 ? "2000" : "0"}
+                >
                   <ListItemAvatar>
                     <Avatar sx={{ backgroundColor: "#8AAEB5" }}>
                       <FontAwesomeIcon icon={faMobileAlt} />
@@ -211,19 +218,21 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                   maxWidth: 600,
                   bgcolor: "background.paper",
                   borderRadius: 5,
-                }}>
+                }}
+              >
                 <ListItemButton
                   component="a"
-                  href="https://cp-bnk48.pages.dev/member/kaofrang"
+                  href="https://the48thfan.onrender.com/member/bnk48/kaofrang"
                   target="_blank"
-                  data-aos="fade-right">
+                  data-aos="fade-right"
+                >
                   <ListItemAvatar>
                     <Avatar sx={{ backgroundColor: "#fb61ee" }}>
                       <FontAwesomeIcon icon={faDesktop} />
                     </Avatar>
                   </ListItemAvatar>
                   <ListItemText
-                    primary="BNK48 Fan Space Platform"
+                    primary="48TH Fan Space Platform"
                     secondary="Kaofrang"
                   />
                 </ListItemButton>
@@ -236,7 +245,8 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                     window.innerWidth > 800 && window.innerHeight > 700
                       ? "500"
                       : "0"
-                  }>
+                  }
+                >
                   <ListItemAvatar>
                     <Avatar sx={{ backgroundColor: "#1877F2" }}>
                       <FontAwesomeIcon icon={faFacebook} />
@@ -256,7 +266,8 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                     window.innerWidth > 800 && window.innerHeight > 700
                       ? "1000"
                       : "0"
-                  }>
+                  }
+                >
                   <ListItemAvatar>
                     <Avatar sx={{ backgroundColor: "#1877F2" }}>
                       <FontAwesomeIcon icon={faFacebookF} />
@@ -291,7 +302,8 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                     window.innerWidth > 800 && window.innerHeight > 700
                       ? "1500"
                       : "0"
-                  }>
+                  }
+                >
                   <ListItemAvatar>
                     <Avatar sx={{ backgroundColor: "#14171A" }}>
                       <FontAwesomeIcon icon={faXTwitter} />
@@ -311,7 +323,8 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                     window.innerWidth > 800 && window.innerHeight > 700
                       ? "2000"
                       : "0"
-                  }>
+                  }
+                >
                   <ListItemAvatar>
                     <Avatar sx={{ backgroundColor: "#06c755" }}>
                       <FontAwesomeIcon icon={faLine} />
@@ -343,7 +356,8 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                 key={item.link}
                 component="a"
                 target="_blank"
-                href={item.link}>
+                href={item.link}
+              >
                 <ListItemText
                   primary={item.label[lang]}
                   secondary={item.value[lang]}

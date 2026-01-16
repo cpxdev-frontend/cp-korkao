@@ -109,13 +109,13 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
   }, [currentPage]);
 
   React.useEffect(() => {
-    setPage(lang == "th" ? "โดเนทเพื่อข้าวฟ่าง" : "Donate Kaofrang");
+    setPage(lang == "th" ? "สนับสนุนเว็บไซต์" : "Donate Web Platform");
     const urlParams = new URLSearchParams(window.location.search);
     const myParam = urlParams.get("amount");
     if (myParam != null && myParam != "") {
       setNum(parseInt(myParam));
       setqrCode(
-        generatePayload("004999166938497", {
+        generatePayload("004999154718646", {
           amount: parseInt(myParam),
         })
       );
@@ -166,7 +166,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
       })
         .then((dataUrl) => {
           const link = document.createElement("a");
-          link.download = "KorKao QR Donate.jpg";
+          link.download = "KaofrangSpace QR Donate.jpg";
           link.href = dataUrl;
           link.click();
           setPrint(false);
@@ -199,32 +199,19 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
   return (
     <Fade in={open} timeout={300}>
       <Box sx={{ marginTop: { xs: 0, md: 13 }, marginBottom: 15 }}>
-        <Snackbar
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={point}
-          sx={{ zIndex: 1200, marginTop: 10 }}
-          onClick={() => His.push("/account?action=korkaoslip")}
-          onClose={() => setDonatePoint(false)}>
-          <Alert
-            severity="primary"
-            variant="filled"
-            sx={{ width: "100%", color: "#fff", cursor: "pointer" }}>
-            คุณสามารถนำสลิปที่ได้จากการโดเนทมาและเป็น KorKao Points ได้ที่นี่
-          </Alert>
-        </Snackbar>
-
         <CardHeader
-          title={<h3>Fight for Kaofrang</h3>}
+          title={<h3>Support Us</h3>}
           data-tour="donate-1"
           subheader={
             lang == "th"
-              ? "ร่วมโดเนทเพื่อผลักดันกิจกรรมหรือโปรเจคต่างๆ ของข้าวฟ่างได้ที่ช่องทางนี้"
-              : "Let's support Kaofrang with donate every projects to our fan supporter."
+              ? "ร่วมโดเนทเพื่อสนันสนุนเว็บไซต์และโปรเจคอื่นๆที่จะเกิดขึ้นภายใต้เว็บนี้"
+              : "Let's support website and team to enhance new feature for this site."
           }
         />
         <div
           className="container mt-3 d-flex justify-content-center"
-          data-aos="fade-in">
+          data-aos="fade-in"
+        >
           <div className="row text-center">
             <Typography className="col-12 mb-3">
               {lang == "th"
@@ -234,7 +221,8 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
             <div
               className="col-12 text-center"
               ref={cardsuccess}
-              style={{ backgroundColor: print ? "#fff" : "" }}>
+              style={{ backgroundColor: print ? "#fff" : "" }}
+            >
               <div className="col-12 d-flex justify-content-center">
                 {print == false ? (
                   <QRCode
@@ -275,7 +263,8 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                               " " +
                               setexc.toUpperCase()) +
                           ")",
-                  }}></Typography>
+                  }}
+                ></Typography>
               )}
               {print && (
                 <>
@@ -283,8 +272,8 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                     Biller ID: 004999166938497
                     <br />
                     {lang == "th"
-                      ? "ชื่อบัญชี: นายคมกฤษ ถาวรชีวัน และ นาย อนุชิต ชาอุรัมย์"
-                      : "Account Name: Mr.Khomkrit Thaworncheewan and Mr.Anuchit Chaurum"}
+                      ? "ชื่อบัญชี: นายชิณธร พร้อมนฤฤทธิ์"
+                      : "Account Name: Mr.Chinnathorn Promnaruritr"}
                   </Typography>
                   <Typography className="col-12 mt-3">
                     {lang != "th" &&
@@ -302,7 +291,8 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                         : "Amount " +
                           comma(num) +
                           " THB<br />Please view exchange rate below.",
-                  }}></Typography>
+                  }}
+                ></Typography>
               )}
             </div>
             {lang != "th" && (
@@ -325,7 +315,8 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                 }}
                 SelectProps={{
                   native: true,
-                }}>
+                }}
+              >
                 <option value="-">Select your currency</option>
                 {moneyCurren.map((item) => (
                   <option value={item.val}>{item.lab}</option>
@@ -401,7 +392,8 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
               }}
               SelectProps={{
                 native: true,
-              }}>
+              }}
+            >
               <option value={0}>
                 {lang == "th"
                   ? "ระบุจำนวนเงินเองในภายหลัง"
@@ -422,7 +414,8 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
               data-tour="donate-4"
               variant="outlined"
               onClick={() => ExportQR()}
-              className="m-2">
+              className="m-2"
+            >
               {lang == "th" ? "บันทึก QR Code นี้" : "Save this QR Payment"}
             </Button>
             <Divider />
@@ -431,15 +424,15 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                 หรือโอนเข้าบัญชี{" "}
                 <img
                   style={{ marginTop: -6 }}
-                  src="https://cdn.jsdelivr.net/npm/thai-banks-logo@1.0.6/icons/KBANK.png"
+                  src="https://cdn.jsdelivr.net/npm/thai-banks-logo@1.0.6/icons/KTB.png"
                   width={22}
                   height={22}
                 />{" "}
-                <b>ธนาคารกสิกรไทย</b>
+                <b>ธนาคารกรุงไทย</b>
                 <br />
-                เลขที่บัญชี <b>176-1-39401-7</b>
+                เลขที่บัญชี <b>968-0-20036-1</b>
                 <br />
-                ชื่อบัญชี <b>นายคมกฤษ ถาวรชีวัน และ นาย อนุชิต ชาอุรัมย์</b>
+                ชื่อบัญชี <b>ชิณธร พร้อมนฤฤทธิ์</b>
               </Typography>
             ) : (
               <Typography className="col-12 mt-3">
@@ -449,7 +442,8 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                 QR Payment directly. Please click{" "}
                 <a
                   href="https://s7ap1.scene7.com/is/image/bot/2024_06_19_Crossborder%20QR%20Payment_Brochure_update%20(1)?ts=1718875185342&dpr=off"
-                  target="_blank">
+                  target="_blank"
+                >
                   here
                 </a>{" "}
                 to view Accepted international mobile banking with Thai QR
@@ -460,17 +454,13 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                 (Information referenced by The Bank Of Thailand - BOT)
               </Typography>
             )}
-            <Typography variant="subtitle2" className="col-12 mt-3">
-              {lang == "th"
-                ? "หมายเหตุ: เงินที่โอนผ่านช่องทางนี้จะถูกโอนเข้าบัญชีของบ้านข้าวฟ่างโดยตรงเพื่อนำไปใช้ในการสนับสนุนในทุกกิจกรรมน้องข้าวฟ่าง โดยเว็บไซต์นี้เป็นแค่เพียงตัวกลางเพื่อกระจายข่าวสารเท่านั้น"
-                : "Notes: All donated amounts will be transfer directly to Kaofrang's Fandom supporter to make supporting about projects of Kaofrang Yanisa or Kaofrang BNK48. This website is only a agent for sharing events or about all of her projects."}
-            </Typography>
           </div>
         </div>
 
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={load}>
+          open={load}
+        >
           <CircularProgress />
         </Backdrop>
 

@@ -316,80 +316,6 @@ const GameApp = ({
       .catch((error) => console.log("error", error));
   };
 
-  const getAirdrop = () => {
-    setLoadAir(true);
-    var requestOptions = {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userId: login._tokenResponse.email,
-        token: login._tokenResponse.idToken,
-        notiId: localStorage.getItem("osigIdPush")
-          ? atob(localStorage.getItem("osigIdPush"))
-          : null,
-      }),
-    };
-
-    fetch(
-      process.env.REACT_APP_APIE + "/kfsite/receiveairdropfromgame",
-      requestOptions
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        setLoadAir(false);
-        if (result.status) {
-          if (result.timeused > 0) {
-            Swal.fire({
-              title:
-                lang == "th"
-                  ? "คุณได้รับ " + result.earned + " KorKao Points"
-                  : "You are earned " + result.earned + " KorKao Points",
-              icon: "success",
-              footer:
-                lang == "th"
-                  ? "คุณยังเหลือสิทธิ์การรับ AirDrop อีก " +
-                    result.timeused +
-                    " ครั้ง"
-                  : "You still have " +
-                    result.timeused +
-                    " AirDrop claims left.",
-            });
-          } else {
-            Swal.fire({
-              title:
-                lang == "th"
-                  ? "คุณได้รับ " + result.earned + " KorKao Points"
-                  : "You are earned " + result.earned + " KorKao Points",
-              icon: "success",
-              footer:
-                lang == "th"
-                  ? "คุณรับ AirDrop ครบจำนวนครั้งที่กำหนดแล้ว คุณสามารถกลับมาเล่นและรับ AirDrop ใหม่อีกครั้งตั้งแต่วันที่ " +
-                    moment
-                      .unix(launch + 43205)
-                      .lang(lang)
-                      .format("DD MMMM YYYY เวลา HH:mm") +
-                    " เป็นต้นไป"
-                  : "You have reached the maximum number of AirDrop claims. You can come back to play and receive AirDrop again starting from " +
-                    moment
-                      .unix(launch + 43205)
-                      .lang(lang)
-                      .format("MMMM DD, YYYY at HH:mm") +
-                    " onward.",
-            });
-          }
-        } else {
-          Swal.fire({
-            title: "Something went wrong",
-            text: result.message,
-            icon: "error",
-          });
-        }
-      })
-      .catch((error) => console.log("error", error));
-  };
-
   const SelectGame = (key, select) => {
     if (checked || readyans == false) {
       return;
@@ -449,26 +375,6 @@ const GameApp = ({
             setGame(2);
             setSelected(0);
             setInGame(false);
-            if (result.isAirdrop) {
-              Swal.fire({
-                title: "You are WIN!",
-                allowOutsideClick: false,
-                footer:
-                  lang == "th"
-                    ? "เนื่องจากคุณตอบคำถามได้มากกว่าผู้เล่นโดยเฉลี่ยทั่วโลก คุณจึงได้สิทธิ์การลุ้น AirDrop จากเรา (สูงสุด 3 ครั้งต่อ 12 ชั่วโมง นับจากวันและเวลาที่เล่นล่าสุด)"
-                    : "Because you have answered more questions than the average global player, you have earned the right to participate in our AirDrop. (Up to 3 times per 12 hours, starting from your last gameplay.)",
-                customClass: {
-                  container: "airdropcontain",
-                },
-                confirmButtonText:
-                  lang == "th" ? "เปิดกล่องเลย!" : "Open AirDrop Box!",
-                html: '<div style="height: 100px;" class="mt-3 shake"><i class="fa-solid fa-gift fa-4x"></i></div>',
-              }).then((r) => {
-                if (r.isConfirmed) {
-                  getAirdrop();
-                }
-              });
-            }
           }, 4000);
         })
         .catch((error) => console.log("error", error));
@@ -555,7 +461,7 @@ const GameApp = ({
                 subheader={
                   lang == "th"
                     ? "คำถามพิชิตสุดยอดกอข้าวของข้าวฟ่าง"
-                    : "KorKao Fandom Quiz"
+                    : "Kaofrang Fandom Quiz"
                 }
               />
               <List>
@@ -601,15 +507,6 @@ const GameApp = ({
                       lang == "th"
                         ? "5. หลังเกมจบ คุณสามารถเข้ามาเล่นซ้ำได้ แต่คำถามจะถูกเปลี่ยนสลับกันไปโดยไม่ซ้ำลำดับกัน"
                         : "5. After the game ends, you can come and play again. But the questions will be rotated in no repeating order."
-                    }
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemText
-                    primary={
-                      lang == "th"
-                        ? "6. สำหรับสมาชิก KorKao ID นอกจากสามารถดูสถิติการเล่นย้อนหลังได้ (สูงสุด 1 ปี) แล้ว หากคะแนนของคุณสามารถทำได้มากกว่าหรือเท่ากับคะแนนเฉลี่ยของผู้เล่นทั่วโลก คุณจะได้รับกล่องสุ่ม KorKao Points (ได้สูงสุด 5 ครั้งต่อ 12 ชั่วโมง)"
-                        : "6. Exclusive for KorKao ID users, You can view game histories up to 1 year past. And get Special KorKao Points AirDrop when your score can be greater than or equal to the average score of world record players (Up to 5 times per 12 hours)."
                     }
                   />
                 </ListItem>

@@ -1,3 +1,3 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Sitemap: https://korkao.pages.dev/sitemap.xml
+Sitemap: https://kfspace.pages.dev/sitemap.xml

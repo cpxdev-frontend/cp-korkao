@@ -426,7 +426,7 @@ const GameApp = ({
                     primary={
                       lang == "th"
                         ? "1. คุณมีเวลา 30 วินาทีในการกดที่รูปหน้าข้าวฟ่างรัวๆ เพื่อสะสมคะแนนความรักที่มีต่อข้าวฟ่าง"
-                        : "1. Please tap on Kaofrang's face avatar repeatly to earn scores and enhance your chance to earn more KorKao Points in 30 second!"
+                        : "1. Please tap on Kaofrang's face avatar repeatly to earn scores in 30 second!"
                     }
                   />
                 </ListItem>
@@ -434,35 +434,8 @@ const GameApp = ({
                   <ListItemText
                     primary={
                       lang == "th"
-                        ? "2. ทุก 30 คะแนนคุณจะได้รับ 1 KorKao Points โดยคะแนนส่วนเกินที่ไม่เกิน 30 คะแนนจะไม่ถูกคำนวน (คุณต้องเข้าสู่ระบบ KorKao ID ก่อนเล่น)"
-                        : "2. Get every 30 scores to earn 1 KorKao points. The excess points are less than 30 points will not be affected. (KorKao ID login required)"
-                    }
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemText
-                    primary={
-                      lang == "th"
-                        ? "3. หากคะแนนรวมตลอดทั้งเกมคุณได้อย่างน้อย 1 คะแนน แต่ไม่เกิน 30 คะแนน จะได้รับ 1 KorKao Points (คุณต้องเข้าสู่ระบบ KorKao ID ก่อนเล่น)"
-                        : "3. Get at least 1 score but less than 30 scores on a game will earn 1 KorKao Points. (KorKao ID login required)"
-                    }
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemText
-                    primary={
-                      lang == "th"
-                        ? "4. หากไม่ได้เป็นสมาชิก KorKao ID คุณก็สามารถเล่นเกมนี้ได้เช่นกัน แต่คุณจะไม่ได้รับคะแนน KorKao Points เพื่อเข้าร่วมกิจกรรมต่างๆที่จะเกิดขึ้นอนาคต"
-                        : "4. You will earn 1 point when answer correct."
-                    }
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemText
-                    primary={
-                      lang == "th"
-                        ? "5. สำหรับผู้ใช้งาน Android ทางผู้พัฒนาได้พัฒนาระบบคำสั่งสั่นที่ตัวอุปกรณ์เพื่อเพิ่มอรรถรสในการเล่น"
-                        : "5. We use vibration on your device for Android device to increase the enjoyment of playing the game."
+                        ? "2. สำหรับผู้ใช้งาน Android ทางผู้พัฒนาได้พัฒนาระบบคำสั่งสั่นที่ตัวอุปกรณ์เพื่อเพิ่มอรรถรสในการเล่น"
+                        : "2. We use vibration on your device for Android device to increase the enjoyment of playing the game."
                     }
                   />
                 </ListItem>
@@ -619,19 +592,6 @@ const GameApp = ({
                   : "You got a love to Kaofrang in " + correct + " time(s)!"
               }
             />
-            {finishwithlogin ? (
-              <Typography className="ml-3 mb-4">
-                {lang == "th"
-                  ? "คะแนนที่ได้รับ " + aver.pointearn + " KorKao Points"
-                  : "You earned " + aver.pointearn + " KorKao Points."}
-              </Typography>
-            ) : (
-              <Typography className="ml-3 mb-4">
-                {lang == "th"
-                  ? "คุณสามารถรับ KorKao Points จากการเล่นเกมนี้ได้เพียงแค่ลงทะเบียน KorKao ID"
-                  : "You can earn KorKao Points by register or login KorKao ID."}
-              </Typography>
-            )}
             <Button
               className="mt-1"
               variant="contained"

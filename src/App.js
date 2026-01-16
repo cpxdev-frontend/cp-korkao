@@ -1,5 +1,10 @@
 import React from "react";
-import { Chart as ChartJS, ArcElement, Tooltip as TooltipM, Legend } from "chart.js";
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip as TooltipM,
+  Legend,
+} from "chart.js";
 import {
   AppBar,
   Box,
@@ -101,20 +106,13 @@ const DrawerBg = "rgba(220, 209, 215, 0.75)";
 
 let livestat = false;
 
-const pageSec = [
-  "",
-  "aboutkf",
-  "discography",
-  "_game",
-  "follow",
-  "donation",
-];
+const pageSec = ["", "aboutkf", "discography", "_game", "follow", "donation"];
 const pagesEn = [
   "Home",
   "About Kaofrang",
   "Discography",
   "Games",
-  "Follow KorKao",
+  "Follow",
   "Donate",
 ];
 const pagesTh = [
@@ -332,150 +330,12 @@ function App({
     }
     detectIncognito().then((result) => {
       if (result.isPrivate) {
-        document.title = "InPrivate is not support | KorKao FanSite";
+        document.title = "InPrivate is not support | Kaofrang Space";
       }
       setIncong(result.isPrivate);
     });
     console.log(navigator.connection);
   }, []);
-
-  React.useEffect(() => {
-    if (localStorage.getItem("loged") !== null) {
-      if (login === false && justLogin == false) {
-        try {
-          const myHeaders = new Headers();
-          myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-
-          const urlencoded = new URLSearchParams();
-          urlencoded.append("grant_type", "refresh_token");
-          urlencoded.append(
-            "refresh_token",
-            JSON.parse(localStorage.getItem("loged"))._tokenResponse
-              .refreshToken
-          );
-
-          let requestOptions = {
-            method: "POST",
-            headers: myHeaders,
-            body: urlencoded,
-            redirect: "follow",
-          };
-
-          fetch(
-            "https://securetoken.googleapis.com/v1/token?key=AIzaSyDKomPdegFMDuvgJNYsPAzMtYtSRVzXWgM",
-            requestOptions
-          )
-            .then((response) => response.json())
-            .then((restoken) => {
-              let u = JSON.parse(localStorage.getItem("loged"));
-              u._tokenResponse.idToken = restoken.id_token;
-              setLogin(u);
-              console.log("deb", u);
-              localStorage.setItem("loged", JSON.stringify(u));
-              localStorage.setItem("yuser", "");
-              requestOptions = {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  userId: u._tokenResponse.email,
-                  token: restoken.id_token,
-                }),
-              };
-              setLoadPre(true);
-              fetch(
-                (Math.floor(Math.random() * 10) + 1 < 5
-                  ? process.env.REACT_APP_APIE
-                  : process.env.REACT_APP_APIE_2) + "/kfsite/getairdrop",
-                requestOptions
-              )
-                .then((response) => response.json())
-                .then((result) => {
-                  setLoadPre(false);
-                  if (result.status) {
-                    Swal.fire({
-                      title: "Weekly AirDrop is coming!",
-                      confirmButtonText:
-                        lang == "th" ? "เปิดกล่องเลย!" : "Open AirDrop Box!",
-                      customClass: {
-                        container: "airdropcontain",
-                      },
-                      denyButtonText:
-                        lang == "th" ? "ไว้ทีหลัง" : "Get it Later",
-                      showDenyButton: true,
-                      allowOutsideClick: false,
-                      html: '<div style="height: 100px;" class="mt-3 shake"><i class="fa-solid fa-gift fa-4x"></i></div>',
-                    }).then((r) => {
-                      if (r.isConfirmed) {
-                        getAirdrop();
-                      }
-                    });
-                  }
-                })
-                .catch((error) => console.log("error", error));
-            })
-            .catch((error) => console.error(error));
-        } catch (ex) {
-          console.log(ex);
-          Swal.fire({
-            title: "Login session is expired",
-            icon: "error",
-            text: "Please sign-in to KorKao ID again.",
-          }).then((r) => {
-            alert(ex);
-            //getout();
-          });
-          return;
-        }
-      }
-    } else {
-      setLogin(localStorage.getItem("loged"));
-    }
-    if (justLogin == true && login !== null && login !== false) {
-      setLoadPre(true);
-      const requestOptions = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: login._tokenResponse.email,
-          token: login._tokenResponse.idToken,
-        }),
-      };
-
-      fetch(
-        (Math.floor(Math.random() * 10) + 1 < 5
-          ? process.env.REACT_APP_APIE
-          : process.env.REACT_APP_APIE_2) + "/kfsite/getairdrop",
-        requestOptions
-      )
-        .then((response) => response.json())
-        .then((result) => {
-          setLoadPre(false);
-          if (result.status) {
-            Swal.fire({
-              title: "Weekly AirDrop is coming!",
-              confirmButtonText:
-                lang == "th" ? "เปิดกล่องเลย!" : "Open AirDrop Box!",
-              customClass: {
-                container: "airdropcontain",
-              },
-              denyButtonText: lang == "th" ? "ไว้ทีหลัง" : "Get it Later",
-              showDenyButton: true,
-              allowOutsideClick: false,
-              html: '<div style="height: 100px;" class="mt-3 shake"><i class="fa-solid fa-gift fa-4x"></i></div>',
-            }).then((r) => {
-              if (r.isConfirmed) {
-                getAirdrop();
-              }
-            });
-          }
-        })
-        .catch((error) => console.log("error", error));
-    }
-  }, [login, justLogin]);
 
   function calculateTimeLeft() {
     const difference = moment.unix(targetTime) - moment.unix(launchredis + adm);
@@ -581,7 +441,7 @@ function App({
         }, 10000);
       })
       .catch((error) => {
-        document.title = "System Maintenance | KorKao FanSite";
+        document.title = "System Maintenance | Kaofrang Space";
         setOnMaintain(true);
       });
     setTimeout(() => {
@@ -649,21 +509,6 @@ function App({
     AOS.init({ duration: 800, once: true });
     setLaunch(moment().unix());
     setLaunchd(moment().unix());
-    if (window.location.origin.includes("beta.korkao.pages.dev")) {
-      alert(
-        lang == "th"
-          ? "เว็บไซต์นี้อยู่ระหว่างการทดสอบฟีเจอร์ใหม่ อาจพบข้อผิดพลาดในขณะใช้งานได้ตลอดเวลา กรุณาไปที่ https://korkao.pages.dev เพื่อเข้าใช้งานสำหรับผู้ใช้ทั่วไป"
-          : "This site is under new features testing. You may encounter some bugs during use. Please go to https://korkao.pages.dev for general users."
-      );
-    }
-    // fetch(process.env.REACT_APP_APIE_2 + "/kfsite/birthdayStatus?ok=kf", {
-    //   method: "POST",
-    // })
-    //   .then((response) => response.json())
-    //   .then((result) => {
-    //     setBirthday(result.response);
-    //   })
-    //   .catch((error) => console.log("error", error));
     fetch(process.env.REACT_APP_APIE_2 + "/kfsite/birthdayStatus", {
       method: "POST",
     })
@@ -738,102 +583,17 @@ function App({
   React.useEffect(() => {
     fetch("https://speed.cloudflare.com/meta")
       .then((response) => response.json())
-      .then((data) => setZone(data.country))
+      .then((data) => setZone(data.country));
   }, []);
 
   React.useEffect(() => {
-    document.title = currentPage + " | KorKao FanSite";
+    document.title = currentPage + " | Kaofrang Space";
     window.scrollTo(0, 0);
   }, [currentPage]);
 
   const handleOpenNavMenu = (event) => {
     setOpacity(1);
     setAnchorElNav(event.currentTarget);
-  };
-
-  const getAirdrop = () => {
-    setLoadPre(true);
-    var requestOptions = {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userId: JSON.parse(localStorage.getItem("loged"))._tokenResponse.email,
-        token: JSON.parse(localStorage.getItem("loged"))._tokenResponse.idToken,
-        notiId: localStorage.getItem("osigIdPush")
-          ? atob(localStorage.getItem("osigIdPush"))
-          : null,
-      }),
-    };
-
-    fetch(process.env.REACT_APP_APIE + "/kfsite/receiveairdrop", requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        setLoadPre(false);
-        if (result.status) {
-          let nextFriday = moment().day(5).startOf("day");
-
-          if (moment().isSame(nextFriday, "day")) {
-            nextFriday.add(6, "days");
-          }
-          Swal.fire({
-            title:
-              lang == "th"
-                ? "คุณได้รับ " + result.earned + " KorKao Points"
-                : "You are earned " + result.earned + " KorKao Points",
-            icon: "success",
-            footer:
-              lang == "th"
-                ? "คุณสามารถกลับมารับ AirDrop ได้ใหม่ในวันที่ " +
-                  moment
-                    .utc(nextFriday.format("YYYY-MM-DD 17:00:00"))
-                    .lang(lang)
-                    .local()
-                    .format("DD MMMM YYYY ตั้งแต่เวลา HH:mm") +
-                  " จนถึงวันที่ " +
-                  moment
-                    .utc(
-                      nextFriday.add(1, "days").format("YYYY-MM-DD 16:59:59")
-                    )
-                    .lang(lang)
-                    .local()
-                    .format("DD MMMM YYYY เวลา HH:mm")
-                : "You can come back to received AirDrop in " +
-                  moment
-                    .utc(nextFriday.format("YYYY-MM-DD 17:00:00"))
-                    .lang(lang)
-                    .local()
-                    .format("DD MMMM YYYY hh:mm A") +
-                  " to " +
-                  moment
-                    .utc(
-                      nextFriday.add(1, "days").format("YYYY-MM-DD 16:59:59")
-                    )
-                    .lang(lang)
-                    .local()
-                    .format("DD MMMM YYYY hh:mm A"),
-          });
-        } else {
-          Swal.fire({
-            title: "Something went wrong",
-            text: result.message,
-            icon: "error",
-          });
-        }
-      })
-      .catch((error) => console.log("error", error));
-  };
-
-  const getout = () => {
-    setLoad(true);
-    setLogin(null);
-    localStorage.removeItem("yuser");
-    localStorage.removeItem("loged");
-    setLoad(false);
-    setLoginsess(false);
-    setAnchorElNav(null);
-    setAnchorElUser(null);
   };
 
   const handleCloseNavMenu = (e = null, session = null) => {
@@ -843,9 +603,7 @@ function App({
     if (e != null) {
       setAnchorEl(e.currentTarget);
     }
-    if (session == null) {
-      setAnchorElNav(null);
-    }
+    setAnchorElNav(null);
   };
   const handleClose = (m = null) => {
     setAnchorEl(null);
@@ -889,7 +647,8 @@ function App({
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={true}
-        className="text-center">
+        className="text-center"
+      >
         {lang == "th"
           ? "เว็บไซต์นี้ไม่รองรับการแสดงแบบฝังบนเว็บไซต์อื่น"
           : "This site is not support on iframe tag"}
@@ -906,7 +665,8 @@ function App({
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-        }}>
+        }}
+      >
         <div className="col-12">
           <img
             src="https://niceillustrations.com/wp-content/uploads/2021/07/Connection-Lost-color-800px.png"
@@ -933,7 +693,8 @@ function App({
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-        }}>
+        }}
+      >
         <div className="col-12">
           <img
             src="https://niceillustrations.com/wp-content/uploads/2022/03/Police.png"
@@ -949,18 +710,22 @@ function App({
 
   return (
     <div ref={scrollRef}>
+      {/* --- ส่วนเอฟเฟกต์และแจ้งเตือน (คงเดิม) --- */}
       <Confetti
         numberOfPieces={birthdayEff ? 400 : 0}
         initialVelocityY={2500}
         style={{ position: "fixed" }}
       />
+
       <div
         id="blockwhenland"
-        className="d-flex justify-content-center align-items-center text-center">
+        className="d-flex justify-content-center align-items-center text-center"
+      >
         <h5>
           <img
             src="https://cdn-icons-png.flaticon.com/512/6737/6737502.png"
             width={150}
+            alt="rotate"
           />
           <br />
           {lang == "th"
@@ -972,13 +737,15 @@ function App({
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         sx={{ zIndex: 1200, marginTop: 10 }}
-        open={point}>
+        open={point}
+      >
         <Alert
           onClick={() => setDonatePoint(false)}
           icon={<CakeIcon />}
           severity="primary"
           variant="filled"
-          sx={{ width: "100%", color: "#fff", cursor: "pointer" }}>
+          sx={{ width: "100%", color: "#fff", cursor: "pointer" }}
+        >
           {lang == "th"
             ? "ร่วมอวยพรวันเกิดข้าวฟ่างในวัย " +
               (new Date().getFullYear() - 2002) +
@@ -987,583 +754,54 @@ function App({
         </Alert>
       </Snackbar>
 
-      {/* Mobile */}
-      <Fade
-        sx={{ display: { xs: "initial", md: "none" } }}
-        in={
-          unlock &&
-          location.pathname != "/" &&
-          !game &&
-          !currentPage.includes("404 Not Found")
-        }>
-        <AppBar position="fixed" className="newmobileAppbar">
+      {/* --- UNIFIED APPBAR (ส่วนหัวเว็บ รวมร่าง Mobile + PC) --- */}
+      <Slide direction="down" in={appbarx}>
+        <AppBar
+          position="fixed"
+          className={
+            window.innerWidth < 900 ? "newmobileAppbar" : "newpcAppbar"
+          }
+          sx={{
+            display:
+              unlock &&
+              location.pathname != "/" &&
+              !game &&
+              !currentPage.includes("404 Not Found")
+                ? "block"
+                : "none",
+          }}
+        >
           <Container maxWidth="xl">
             <Toolbar disableGutters>
-              <Box
-                className="justify-content-center"
-                sx={{ flexGrow: 0, display: { xs: "flex", lg: "none" } }}>
-                {location.pathname != "/" &&
-                  !currentPage.includes("404 Not Found") && (
-                    <Tooltip
-                      title={
-                        livestat
-                          ? lang == "th"
-                            ? "น้องข้าวฟ่างไลฟ์แล้ว มาดูกันเถอะ!"
-                            : "Kaofrang BNK48 is LIVE now!"
-                          : null
-                      }>
-                      <StyledBadge
-                        overlap="circular"
-                        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-                        variant="dot">
-                        <Avatar
-                          data-aos="fade-in"
-                          sx={{
-                            width: 70,
-                            height: 70,
-                            display: { xs: "flex", lg: "none" },
-                            ml: 1,
-                            mr: 1,
-                          }}
-                          alt="kaofrangicon"
-                          src="https://d3hhrps04devi8.cloudfront.net/kf/korfranglogo.webp"
-                        />
-                      </StyledBadge>
-                    </Tooltip>
-                  )}
-
-                <Drawer
-                  anchor={"right"}
-                  PaperProps={{
-                    sx: {
-                      backdropFilter: "blur(5px)",
-                      background: DrawerBg,
-                      borderTopLeftRadius: 20,
-                      borderBottomLeftRadius: 20,
-                    },
+              <Box sx={{ display: "flex", alignItems: "center", mr: 2 }}>
+                <Typography
+                  variant="h6"
+                  noWrap
+                  className="webheadfont"
+                  component="a"
+                  href="/"
+                  sx={{
+                    mr: 2,
+                    display: "flex",
+                    color: "inherit",
+                    textDecoration: "none",
+                    fontWeight: "bold",
+                    fontSize: { xs: "1.2rem", md: "1.25rem" },
                   }}
-                  open={anchorElNav}
-                  onClose={(e) => handleCloseNavMenu(e)}
-                  sx={{ display: { xs: "initial", xl: "none" } }}>
-                  <DialogTitle
-                    sx={{
-                      display: { xs: "initial", lg: "none", xl: "initial" },
-                    }}>
-                    {lang == "th"
-                      ? "เมนูหลักและการตั้งค่า"
-                      : "Main Menu and Settings"}
-                  </DialogTitle>
-                  <DialogTitle
-                    sx={{
-                      display: { xs: "none", lg: "initial", xl: "none" },
-                    }}>
-                    {lang == "th" ? "เมนูหลัก" : "Main Menu"}
-                  </DialogTitle>
-                  <DialogContent
-                    sx={{
-                      width: {
-                        xs: login !== null && login !== false ? "75vw" : "100%",
-                        sm: 340,
-                      },
-                    }}>
-                    {pages.map((page, i) => (
-                      <MenuItem
-                        component={pageSec[i].includes("_") ? null : Link}
-                        key={page}
-                        to={pageSec[i].includes("_") ? null : "/" + pageSec[i]}
-                        onClick={(e) => {
-                          pageSec[i].includes("_") &&
-                            setTab("mob" + pageSec[i]);
-                          handleCloseNavMenu(
-                            e,
-                            pageSec[i].includes("_") ? "ok" : null
-                          );
-                        }}>
-                        <Typography
-                          className={
-                            (location.pathname.includes("game") &&
-                              pageSec[i] == "_game" &&
-                              drop == "game") ||
-                            location.pathname == "/" + pageSec[i]
-                              ? "text-bold"
-                              : ""
-                          }
-                          textAlign="center"
-                          sx={{
-                            color:
-                              (location.pathname.includes("game") &&
-                                pageSec[i] == "_game" &&
-                                drop == "game") ||
-                              location.pathname == "/" + pageSec[i]
-                                ? "#b802a8"
-                                : "#000",
-                          }}
-                          component="p">
-                          {page}
-                        </Typography>
-                      </MenuItem>
-                    ))}
-                    <Menu
-                      id="basic-menu"
-                      anchorEl={anchorEl}
-                      open={tab == "mob_game"}
-                      onClose={() => handleClose("ok")}
-                      MenuListProps={{
-                        "aria-labelledby": "basic-button",
-                      }}>
-                      <MenuItem
-                        onClick={() => handleClose()}
-                        component={Link}
-                        to="/quizgame">
-                        {lang == "th" ? "กอข้าวควิชเกมส์" : "KorKao Quiz Game"}
-                      </MenuItem>
-                      <MenuItem
-                        onClick={() => handleClose()}
-                        component={Link}
-                        to="/popfranggame">
-                        {lang == "th" ? "ป็อปฟ่าง" : "PopFrang"}
-                      </MenuItem>
-                    </Menu>
-                    <Divider />
-                    {!load ? (
-                      <Card className="mt-3 mb-3">
-                        {login !== null && login !== false && (
-                          <CardContent>
-                            <Typography>
-                              {lang == "th"
-                                ? "ยินดีต้อนรับคุณ "
-                                : "Welcome back, "}{" "}
-                              {
-                                JSON.parse(localStorage.getItem("loged")).user
-                                  .displayName
-                              }
-                            </Typography>
-                          </CardContent>
-                        )}
-                      </Card>
-                    ) : (
-                      <Skeleton
-                        variant="rounded"
-                        className="bg-m mt-3 mb-3"
-                        sx={{ height: 80, width: 270 }}
-                      />
-                    )}
-                    <Box
-                      sx={{
-                        display:
-                          window.location.pathname != "/"
-                            ? "initial"
-                            : { xs: "none", xl: "initial" },
-                      }}>
-                      <Typography
-                        sx={{
-                          display: { xs: "block", lg: "none", xl: "block" },
-                        }}>
-                        Change Language
-                      </Typography>
-                      <ToggleButtonGroup
-                        sx={{
-                          display: { xs: "initial", lg: "none", xl: "initial" },
-                        }}
-                        color="primary"
-                        className="mt-1 muiLang"
-                        value={lang}
-                        disabled={locklang}
-                        exclusive
-                        onChange={(e) =>
-                          e.target.value != lang && setLang(e.target.value)
-                        }>
-                        {langList.map((option) => (
-                          <ToggleButton
-                            sx={{ borderRadius: 1 }}
-                            value={option.value}
-                            key={option.value}>
-                            {option.label}
-                          </ToggleButton>
-                        ))}
-                      </ToggleButtonGroup>
-                      <br />
-                      <FormControlLabel
-                        sx={{
-                          display: { xs: "initial", lg: "none", xl: "initial" },
-                        }}
-                        control={
-                          <Switch
-                            checked={guide}
-                            onChange={() => switchTutor()}
-                          />
-                        }
-                        label={
-                          lang == "th" ? "คำอธิบายการใช้งาน" : "Tutorial Guide"
-                        }
-                      />
-                    </Box>
-                  </DialogContent>
-                </Drawer>
+                >
+                  Kaofrang Space
+                </Typography>
               </Box>
 
-              {location.pathname !== "/" &&
-                !currentPage.includes("404 Not Found") && (
-                  <IconButton
-                    data-aos="fade-in"
-                    size="large"
-                    aria-label="account of current user"
-                    aria-controls="menu-appbar"
-                    aria-haspopup="true"
-                    sx={{
-                      color: location.pathname == "/" ? "white" : "",
-                      position: "fixed",
-                      right: 20,
-                    }}
-                    onClick={handleOpenNavMenu}
-                    color="inherit">
-                    <MenuIcon />
-                  </IconButton>
-                )}
-            </Toolbar>
-          </Container>
-        </AppBar>
-      </Fade>
-
-      {/* PC or Tablet */}
-      <Slide
-        direction="down"
-        in={appbarx}
-        sx={{ display: { xs: "none", md: "initial" } }}>
-        <AppBar position="fixed" className="newpcAppbar">
-          <Container maxWidth="xl">
-            <Toolbar disableGutters>
-              <Tooltip
-                title={
-                  livestat
-                    ? lang == "th"
-                      ? "น้องข้าวฟ่างไลฟ์แล้ว มาดูกันเถอะ!"
-                      : "Kaofrang BNK48 is LIVE now!"
-                    : null
-                }>
-                <Avatar
-                  sx={{
-                    width: 70,
-                    height: 70,
-                    display: { xs: "none", lg: "flex" },
-                    mr: 1,
-                  }}
-                  alt="kaofrangicon"
-                  src="https://d3hhrps04devi8.cloudfront.net/kf/korfranglogo.webp"
-                />{" "}
-              </Tooltip>
-              <Tooltip
-                title={
-                  livestat
-                    ? lang == "th"
-                      ? "น้องข้าวฟ่างไลฟ์แล้ว มาดูกันเถอะ!"
-                      : "Kaofrang BNK48 is LIVE now!"
-                    : null
-                }>
-                <StyledBadge
-                  overlap="circular"
-                  anchorOrigin={{ vertical: "top", horizontal: "right" }}
-                  sx={{ display: { xs: "none", lg: "flex" } }}
-                  variant="dot">
-                  <Typography
-                    variant="h6"
-                    noWrap
-                    className="webheadfont"
-                    sx={{
-                      mr: 2,
-
-                      color: "inherit",
-                      textDecoration: "none",
-                    }}>
-                    <b>KorKao</b>
-                  </Typography>
-                </StyledBadge>
-              </Tooltip>
-              <Box
-                className="justify-content-center"
-                sx={{ flexGrow: 0, display: { xs: "flex", xl: "none" } }}>
-                <IconButton
-                  size="large"
-                  aria-label="account of current user"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  onClick={handleOpenNavMenu}
-                  sx={{ display: { md: "none", xl: "initial" } }}
-                  color="inherit">
-                  <MenuIcon />
-                </IconButton>
-
-                <Box sx={{ display: { lg: "initial", xs: "none" } }}>
-                  <IconButton
-                    size="large"
-                    aria-label="account of current user"
-                    aria-controls="menu-appbar"
-                    aria-haspopup="true"
-                    onClick={handleOpenNavMenu}
-                    sx={{
-                      position: "fixed",
-                      right: 80,
-                      top: 10,
-                    }}
-                    color="inherit">
-                    <MenuIcon />
-                  </IconButton>
-                  <IconButton
-                    onClick={() => setAnchorElUser(true)}
-                    sx={{
-                      display: { xs: "none", lg: "initial", xl: "none" },
-                      position: "fixed",
-                      right: 20,
-                      top: 10,
-                    }}>
-                    <Avatar
-                      sx={{ width: 30, height: 30 }}
-                      variant="rounded"
-                      alt="lang"
-                      src={
-                        "https://pub-8132af7faa6a48298af6aaa68af91b48.r2.dev/" +
-                        (lang == "th" ? "th.png" : "us.png")
-                      }
-                    />
-                  </IconButton>
-                </Box>
-                <IconButton
-                  size="large"
-                  aria-label="account of current user"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  onClick={handleOpenNavMenu}
-                  sx={{
-                    display: { xs: "initial", lg: "none" },
-                    position: "fixed",
-                    right: 20,
-                    top: -2,
-                  }}
-                  color="inherit">
-                  <MenuIcon />
-                </IconButton>
-                <IconButton
-                  onClick={() => setAnchorElUser(true)}
-                  sx={{
-                    display: { xs: "none", lg: "none", xl: "initial" },
-                    position: "fixed",
-                    right: 60,
-                    top: 10,
-                  }}>
-                  <Avatar
-                    sx={{ width: 30, height: 30 }}
-                    variant="rounded"
-                    alt="lang"
-                    src={
-                      "https://pub-8132af7faa6a48298af6aaa68af91b48.r2.dev/" +
-                      (lang == "th" ? "th.png" : "us.png")
-                    }
-                  />
-                </IconButton>
-
-                <Drawer
-                  anchor={"right"}
-                  PaperProps={{
-                    sx: {
-                      backdropFilter: "blur(5px)",
-                      background: DrawerBg,
-                      borderTopLeftRadius: 20,
-                      borderBottomLeftRadius: 20,
-                    },
-                  }}
-                  open={anchorElNav}
-                  onClose={(e) => handleCloseNavMenu(e)}
-                  sx={{ display: { xs: "none", xl: "initial" } }}>
-                  <DialogTitle>
-                    {lang == "th" ? "เมนูหลัก" : "Main Menu"}
-                  </DialogTitle>
-                  <DialogContent
-                    sx={{
-                      width: {
-                        xs: login !== null && login !== false ? "75vw" : "100%",
-                        sm: 340,
-                      },
-                    }}>
-                    {pages.map((page, i) => (
-                      <MenuItem
-                        component={pageSec[i].includes("_") ? null : Link}
-                        key={page}
-                        to={pageSec[i].includes("_") ? null : "/" + pageSec[i]}
-                        onClick={(e) => {
-                          pageSec[i].includes("_") &&
-                            setTab("tab" + pageSec[i]);
-                          handleCloseNavMenu(
-                            e,
-                            pageSec[i].includes("_") ? "ok" : null
-                          );
-                        }}>
-                        <Typography
-                          textAlign="center"
-                          className={
-                            (location.pathname.includes("game") &&
-                              pageSec[i] == "_game" &&
-                              drop == "game") ||
-                            location.pathname == "/" + pageSec[i]
-                              ? "text-bold"
-                              : ""
-                          }
-                          sx={{
-                            color:
-                              (location.pathname.includes("game") &&
-                                pageSec[i] == "_game" &&
-                                drop == "game") ||
-                              location.pathname == "/" + pageSec[i]
-                                ? "#b802a8"
-                                : "#000",
-                          }}
-                          component="p">
-                          {page}
-                        </Typography>
-                      </MenuItem>
-                    ))}
-                    <Menu
-                      id="basic-menu"
-                      anchorEl={anchorEl}
-                      open={tab == "tab_game"}
-                      onClose={handleClose}
-                      MenuListProps={{
-                        "aria-labelledby": "basic-button",
-                      }}>
-                      <MenuItem
-                        onClick={handleClose}
-                        component={Link}
-                        to="/quizgame">
-                        {lang == "th" ? "กอข้าวควิชเกมส์" : "KorKao Quiz Game"}
-                      </MenuItem>
-                      <MenuItem
-                        onClick={() => handleClose()}
-                        component={Link}
-                        to="/popfranggame">
-                        {lang == "th" ? "ป็อปฟ่าง" : "PopFrang"}
-                      </MenuItem>
-                    </Menu>
-                    {!load ? (
-                      <Card className="mt-3 mb-3">
-                        {login !== null && login !== false && (
-                          <CardContent>
-                            <Typography>
-                              {lang == "th"
-                                ? "ยินดีต้อนรับคุณ "
-                                : "Welcome back, "}{" "}
-                              {
-                                JSON.parse(localStorage.getItem("loged")).user
-                                  .displayName
-                              }
-                            </Typography>
-                          </CardContent>
-                        )}
-                      </Card>
-                    ) : (
-                      <Skeleton
-                        variant="rounded"
-                        className="bg-m mt-3 mb-3"
-                        sx={{ height: 80, width: 270 }}
-                      />
-                    )}
-                    <Box sx={{ display: { xs: "initial", xl: "none" } }}>
-                      <Divider
-                        sx={{
-                          display:
-                            window.location.pathname == "/" ? "none" : "block",
-                        }}
-                        className="border border-secondary mb-3 mt-2"
-                      />
-                      <Typography>Change Language</Typography>
-                      <ToggleButtonGroup
-                        color="primary"
-                        className="mt-1 muiLang"
-                        value={lang}
-                        disabled={locklang}
-                        exclusive
-                        onChange={(e) =>
-                          e.target.value != lang && setLang(e.target.value)
-                        }>
-                        {langList.map((option) => (
-                          <ToggleButton
-                            sx={{ borderRadius: 1 }}
-                            value={option.value}
-                            key={option.value}>
-                            {option.label}
-                          </ToggleButton>
-                        ))}
-                      </ToggleButtonGroup>
-                    </Box>
-                    <br />
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          checked={guide}
-                          onChange={() => switchTutor()}
-                        />
-                      }
-                      label={
-                        lang == "th" ? "คำอธิบายการใช้งาน" : "Tutorial Guide"
-                      }
-                    />
-                  </DialogContent>
-                </Drawer>
-              </Box>
-              <Tooltip
-                title={
-                  livestat
-                    ? lang == "th"
-                      ? "น้องข้าวฟ่างไลฟ์แล้ว มาดูกันเถอะ!"
-                      : "Kaofrang BNK48 is LIVE now!"
-                    : null
-                }>
-                <Avatar
-                  sx={{
-                    width: 70,
-                    height: 70,
-                    display: { xs: "flex", lg: "none" },
-                    ml: 1,
-                    mr: 1,
-                  }}
-                  alt="kaofrangicon"
-                  src="https://d3hhrps04devi8.cloudfront.net/kf/korfranglogo.webp"
-                />
-              </Tooltip>
-              <Tooltip
-                title={
-                  livestat
-                    ? lang == "th"
-                      ? "น้องข้าวฟ่างไลฟ์แล้ว มาดูกันเถอะ!"
-                      : "Kaofrang BNK48 is LIVE now!"
-                    : null
-                }>
-                <StyledBadge
-                  overlap="circular"
-                  anchorOrigin={{ vertical: "top", horizontal: "right" }}
-                  variant="dot"
-                  sx={{ display: { xs: "flex", lg: "none" } }}>
-                  <Typography
-                    variant="h6"
-                    noWrap
-                    className="webheadfont"
-                    sx={{
-                      mr: 2,
-                      color: "inherit",
-                      textDecoration: "none",
-                    }}>
-                    <b>KorKao</b>
-                  </Typography>
-                </StyledBadge>
-              </Tooltip>
-              <Box sx={{ flexGrow: 1, display: { xs: "none", xl: "flex" } }}>
+              {/* 2. PC Menu Links (ซ่อนบน Mobile) */}
+              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
                 {pages.map((page, i) => (
                   <Button
                     key={page}
                     component={pageSec[i].includes("_") ? null : Link}
                     to={pageSec[i].includes("_") ? null : "/" + pageSec[i]}
-                    size="medium"
-                    className="text-center"
                     onClick={(e) => {
-                      pageSec[i].includes("_") && setTab("pc" + pageSec[i]);
+                      if (pageSec[i].includes("_")) setTab("pc" + pageSec[i]);
                       handleCloseNavMenu(
                         e,
                         pageSec[i].includes("_") ? "ok" : null
@@ -1576,142 +814,290 @@ function App({
                           pageSec[i] == "_game" &&
                           drop == "game") ||
                         location.pathname == "/" + pageSec[i]
-                          ? "#fff"
-                          : "#000",
-                      fontSize: lang == "th" ? 14 : 12,
+                          ? "#b802a8" // Active color (ปรับให้เหมือน Mobile เดิม หรือใช้ #fff ตาม PC เดิม)
+                          : "#fff", // PC เดิมใช้สีขาว
                       display: "block",
-                    }}>
+                      fontSize: lang == "th" ? 14 : 12,
+                    }}
+                  >
                     {page}
                   </Button>
                 ))}
+
+                {/* Dropdown Menu สำหรับ Game (PC) */}
                 <Menu
-                  id="basic-menu"
+                  id="basic-menu-pc"
                   anchorEl={anchorEl}
                   open={tab == "pc_game"}
                   onClose={handleClose}
-                  MenuListProps={{
-                    "aria-labelledby": "basic-button",
-                  }}>
+                  MenuListProps={{ "aria-labelledby": "basic-button" }}
+                >
                   <MenuItem
                     onClick={handleClose}
                     component={Link}
-                    to="/quizgame">
-                    {lang == "th" ? "กอข้าวควิชเกมส์" : "KorKao Quiz Game"}
+                    to="/quizgame"
+                  >
+                    {lang == "th" ? "กอข้าวควิชเกมส์" : "Quiz Game"}
                   </MenuItem>
                   <MenuItem
+                    onClick={handleClose}
                     component={Link}
-                    onClick={() => handleClose()}
-                    to="/popfranggame">
+                    to="/popfranggame"
+                  >
                     {lang == "th" ? "ป็อปฟ่าง" : "PopFrang"}
                   </MenuItem>
                 </Menu>
               </Box>
-              <Box sx={{ right: 30, display: { xs: "none", lg: "flex" } }}>
-                <Tooltip title="Open settings">
+
+              {/* 3. Right Side Icons (User / Hamburger) */}
+              <Box
+                sx={{
+                  flexGrow: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  ml: "auto",
+                }}
+              >
+                {/* PC User Setting Icon */}
+                <Box sx={{ display: { xs: "none", md: "flex" } }}>
+                  <Tooltip title="Open settings">
+                    <IconButton
+                      onClick={() => setAnchorElUser(true)}
+                      sx={{ p: 0 }}
+                    >
+                      <Avatar
+                        sx={{ width: 30, height: 30 }}
+                        variant="rounded"
+                        alt="lang"
+                        src={
+                          "https://pub-8132af7faa6a48298af6aaa68af91b48.r2.dev/" +
+                          (lang == "th" ? "th.png" : "us.png")
+                        }
+                      />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+
+                {/* Mobile Hamburger Icon */}
+                <Box sx={{ display: { xs: "flex", md: "none" } }}>
+                  {/* User Icon เล็กๆ ข้าง Hamburger (ถ้าต้องการ) */}
                   <IconButton
                     onClick={() => setAnchorElUser(true)}
-                    sx={{ p: 0, display: { xs: "none", xl: "flex" } }}>
+                    sx={{ display: { xs: "none", sm: "flex" }, mr: 1 }}
+                  >
+                    {" "}
+                    {/* ปรับ xs เป็น flex ถ้าอยากให้โชว์ User Icon บนมือถือด้วย */}
                     <Avatar
-                      sx={{ width: 30, height: 30 }}
+                      sx={{ width: 25, height: 25 }}
                       variant="rounded"
-                      alt="lang"
                       src={
                         "https://pub-8132af7faa6a48298af6aaa68af91b48.r2.dev/" +
                         (lang == "th" ? "th.png" : "us.png")
                       }
                     />
                   </IconButton>
-                </Tooltip>
-
-                <Dialog
-                  open={anchorElUser}
-                  TransitionComponent={Transition}
-                  transitionDuration={400}
-                  onClose={() => setAnchorElUser(false)}
-                  maxWidth="xl">
-                  <DialogTitle>
-                    {lang == "th" ? "การตั้งค่า" : "Setting"}
-                  </DialogTitle>
-                  {!load ? (
-                    <Card
-                      className="m-4"
-                      sx={{
-                        display:
-                          location.pathname == "/" ||
-                          location.pathname == "/404"
-                            ? "none"
-                            : {
-                                xs: "initial",
-                                lg: "none",
-                                xl: "initial",
-                              },
-                      }}>
-                      {login !== null && login !== false && (
-                        <CardContent>
-                          <Typography>
-                            {lang == "th"
-                              ? "ยินดีต้อนรับคุณ "
-                              : "Welcome back, "}{" "}
-                            {
-                              JSON.parse(localStorage.getItem("loged")).user
-                                .displayName
-                            }
-                          </Typography>
-                        </CardContent>
-                      )}
-                    </Card>
-                  ) : (
-                    <Skeleton
-                      variant="rounded"
-                      className="bg-m m-4"
-                      sx={{ height: 80, width: 270 }}
-                    />
-                  )}
-                  <DialogContent>
-                    <Typography>Change Language</Typography>
-                    <ToggleButtonGroup
-                      color="primary"
-                      className="mt-1"
-                      value={lang}
-                      disabled={locklang}
-                      exclusive
-                      onChange={(e) =>
-                        e.target.value != lang && setLang(e.target.value)
-                      }>
-                      {langList.map((option) => (
-                        <ToggleButton
-                          sx={{ borderRadius: 1 }}
-                          value={option.value}
-                          key={option.value}>
-                          {option.label}
-                        </ToggleButton>
-                      ))}
-                    </ToggleButtonGroup>
-                    <br />
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          checked={guide}
-                          onChange={() => switchTutor()}
-                        />
-                      }
-                      label={
-                        lang == "th" ? "คำอธิบายการใช้งาน" : "Tutorial Guide"
-                      }
-                    />
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={() => setAnchorElUser(false)}>
-                      {lang == "th" ? "ปิด" : "Close"}
-                    </Button>
-                  </DialogActions>
-                </Dialog>
+                  <IconButton
+                    size="large"
+                    aria-label="menu"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={handleOpenNavMenu}
+                    color="inherit"
+                  >
+                    <MenuIcon />
+                  </IconButton>
+                </Box>
               </Box>
             </Toolbar>
           </Container>
         </AppBar>
       </Slide>
 
+      {/* --- DRAWER (เมนูข้างสำหรับ Mobile) --- */}
+      <Drawer
+        anchor="right"
+        PaperProps={{
+          sx: {
+            backdropFilter: "blur(5px)",
+            background: DrawerBg,
+            borderTopLeftRadius: 20,
+            borderBottomLeftRadius: 20,
+          },
+        }}
+        open={anchorElNav}
+        onClose={handleCloseNavMenu}
+      >
+        {" "}
+        {/* สำรองไว้กันโผล่ใน PC */}
+        <DialogTitle>
+          {lang == "th" ? "เมนูหลักและการตั้งค่า" : "Main Menu and Settings"}
+        </DialogTitle>
+        <DialogContent
+          sx={{
+            width: {
+              xs: login !== null && login !== false ? "75vw" : "100%",
+              sm: 340,
+            },
+          }}
+        >
+          {pages.map((page, i) => (
+            <MenuItem
+              key={page}
+              component={pageSec[i].includes("_") ? null : Link}
+              to={pageSec[i].includes("_") ? null : "/" + pageSec[i]}
+              onClick={(e) => {
+                if (pageSec[i].includes("_")) setTab("mob" + pageSec[i]);
+                handleCloseNavMenu(e, pageSec[i].includes("_") ? "ok" : null);
+              }}
+            >
+              <Typography
+                textAlign="center"
+                className={
+                  (location.pathname.includes("game") &&
+                    pageSec[i] == "_game" &&
+                    drop == "game") ||
+                  location.pathname == "/" + pageSec[i]
+                    ? "text-bold"
+                    : ""
+                }
+                sx={{
+                  color:
+                    (location.pathname.includes("game") &&
+                      pageSec[i] == "_game" &&
+                      drop == "game") ||
+                    location.pathname == "/" + pageSec[i]
+                      ? "#b802a8"
+                      : "#000",
+                }}
+              >
+                {page}
+              </Typography>
+            </MenuItem>
+          ))}
+
+          {/* Dropdown Menu สำหรับ Game (Mobile Drawer) */}
+          <Menu
+            id="basic-menu-mob"
+            anchorEl={anchorEl}
+            open={tab == "mob_game"}
+            onClose={() => handleClose("ok")}
+            MenuListProps={{ "aria-labelledby": "basic-button" }}
+          >
+            <MenuItem
+              onClick={() => handleClose()}
+              component={Link}
+              to="/quizgame"
+            >
+              {lang == "th" ? "กอข้าวควิชเกมส์" : "Quiz Game"}
+            </MenuItem>
+            <MenuItem
+              onClick={() => handleClose()}
+              component={Link}
+              to="/popfranggame"
+            >
+              {lang == "th" ? "ป็อปฟ่าง" : "PopFrang"}
+            </MenuItem>
+          </Menu>
+
+          <Divider sx={{ my: 2 }} />
+
+          {/* User Profile Card (Mobile Drawer) */}
+          {!load ? (
+            <Card className="mb-3">
+              {login !== null && login !== false && (
+                <CardContent>
+                  <Typography>
+                    {lang == "th" ? "ยินดีต้อนรับคุณ " : "Welcome back, "}
+                    {JSON.parse(localStorage.getItem("loged")).user.displayName}
+                  </Typography>
+                </CardContent>
+              )}
+            </Card>
+          ) : (
+            <Skeleton
+              variant="rounded"
+              className="bg-m mb-3"
+              sx={{ height: 80, width: "100%" }}
+            />
+          )}
+
+          {/* Language & Guide Settings (Mobile Drawer) */}
+          <Box>
+            <Typography>Change Language</Typography>
+            <ToggleButtonGroup
+              color="primary"
+              className="mt-1 muiLang"
+              value={lang}
+              disabled={locklang}
+              exclusive
+              onChange={(e) =>
+                e.target.value != lang && setLang(e.target.value)
+              }
+            >
+              {langList.map((option) => (
+                <ToggleButton
+                  sx={{ borderRadius: 1 }}
+                  value={option.value}
+                  key={option.value}
+                >
+                  {option.label}
+                </ToggleButton>
+              ))}
+            </ToggleButtonGroup>
+            <br />
+            <FormControlLabel
+              control={
+                <Switch checked={guide} onChange={() => switchTutor()} />
+              }
+              label={lang == "th" ? "คำอธิบายการใช้งาน" : "Tutorial Guide"}
+            />
+          </Box>
+        </DialogContent>
+      </Drawer>
+
+      {/* --- SETTINGS DIALOG (Popup ตั้งค่าสำหรับ PC) --- */}
+      <Dialog
+        open={anchorElUser}
+        TransitionComponent={Transition}
+        transitionDuration={400}
+        onClose={() => setAnchorElUser(false)}
+        maxWidth="xl"
+      >
+        <DialogTitle>{lang == "th" ? "การตั้งค่า" : "Setting"}</DialogTitle>
+        <DialogContent>
+          <Typography>Change Language</Typography>
+          <ToggleButtonGroup
+            color="primary"
+            className="mt-1"
+            value={lang}
+            disabled={locklang}
+            exclusive
+            onChange={(e) => e.target.value != lang && setLang(e.target.value)}
+          >
+            {langList.map((option) => (
+              <ToggleButton
+                sx={{ borderRadius: 1 }}
+                value={option.value}
+                key={option.value}
+              >
+                {option.label}
+              </ToggleButton>
+            ))}
+          </ToggleButtonGroup>
+          <br />
+          <FormControlLabel
+            control={<Switch checked={guide} onChange={() => switchTutor()} />}
+            label={lang == "th" ? "คำอธิบายการใช้งาน" : "Tutorial Guide"}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setAnchorElUser(false)}>
+            {lang == "th" ? "ปิด" : "Close"}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* --- CONTENT BODY (ส่วนเนื้อหาและ Routing) --- */}
       <Fade in={transit} timeout={!transit ? 0 : 700}>
         <Box
           sx={{
@@ -1722,9 +1108,10 @@ function App({
                 !currentPage.includes("404 Not Found")
                   ? 10
                   : 0,
-              md: 0,
+              md: location.pathname != "/" ? 12 : 0, // ปรับระยะห่างสำหรับ PC Header
             },
-          }}>
+          }}
+        >
           <BasicSwitch>
             <Route
               exact
@@ -1744,11 +1131,6 @@ function App({
               path="/aboutkf"
               render={() => <About />}
             />
-            {/* <Route
-              data-aos="fade-in"
-              path="/gallery/:id"
-              render={() => <Gallery />}
-            /> */}
             <Route
               data-aos="fade-in"
               path="/discography"
@@ -1779,13 +1161,6 @@ function App({
               path="/donation"
               render={() => <Donate />}
             />
-            {/* {localStorage.getItem("yuser") != null && (
-                <Route
-                  data-aos="fade-in"
-                  path="/account"
-                  render={() => <Account />}
-                />
-              )} */}
             <Route
               exact
               data-aos="fade-in"
@@ -1800,6 +1175,7 @@ function App({
         </Box>
       </Fade>
 
+      {/* --- FOOTER (ส่วนท้าย) --- */}
       <footer className="fixed-bottom bg-secondary text-center">
         <Card
           className="p-2 foot"
@@ -1808,34 +1184,27 @@ function App({
             borderTopRightRadius: 0,
             fontSize: 14,
             lineHeight: 1.2,
-          }}>
+          }}
+        >
           &copy; Copyright {new Date().getFullYear()}, CPXDevStudio
           <br />
           <small style={{ fontSize: 10 }}>
-            All BNK48 contents are licensed by Independent Artist Management
-            (iAM). These member images and all events poster is objective for
-            Kaofrang BNK48 and other BNK48 members supporting only.
+            All images and media contents displayed on this site are the
+            exclusive property of their respective copyright owners. This
+            website is created solely for the purpose of supporting Kaofrang
+            Yanisa.
           </small>
-          <br />
-          <a
-            style={{ fontSize: 11, cursor: "pointer" }}
-            className="App-link"
-            onClick={() =>
-              window.open(
-                "https://bsky.app/profile/cpxdevbot.bsky.social",
-                "_blank"
-              )
-            }>
-            Check latest system update
-          </a>
         </Card>
       </footer>
 
+      {/* --- LOADERS (ส่วนโหลด) --- */}
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={load}>
+        open={load}
+      >
         <CircularProgress />
       </Backdrop>
+
       <Fade
         sx={{
           color: "#fff",
@@ -1843,12 +1212,14 @@ function App({
           top: 0,
           position: "fixed",
         }}
-        in={loadPre}>
+        in={loadPre}
+      >
         <LinearProgress
           sx={{ height: 100, borderColor: "#b802a8" }}
           className="w-100"
         />
       </Fade>
+
       <Fade
         sx={{
           color: "#fff",
@@ -1856,7 +1227,8 @@ function App({
           top: 0,
           position: "fixed",
         }}
-        in={loadads}>
+        in={loadads}
+      >
         <LinearProgress
           sx={{ height: 100, borderColor: "#b802a8" }}
           className="w-100"
