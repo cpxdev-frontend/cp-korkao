@@ -63,7 +63,7 @@
     "react-redux": "^8.0.5",
     "react-responsive-carousel": "^3.2.23",
     "react-responsive-masonry": "^2.3.0",
-    "react-router-dom": "^5.3.4",
+    "react-router-dom": "^6.30.2",
     "react-scripts": "5.0.1",
     "react-social-media-embed": "^2.5.13",
     "react-transition-group": "^4.4.5",
