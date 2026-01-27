@@ -227,7 +227,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                 {print == false ? (
                   <QRCode
                     value={qrCode}
-                    logoImage="https://d3hhrps04devi8.cloudfront.net/kf/thqr.webp"
+                    logoImage="https://d1ygujs1u54o16.cloudfront.net/kf/thqr.webp"
                     logoWidth={100}
                     logoHeight={100}
                     size={300}
@@ -241,7 +241,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                     src={
                       "https://quickchart.io/qr?size=300&text=" +
                       qrCode +
-                      "&centerImageUrl=https://d3hhrps04devi8.cloudfront.net/kf/thqr.webp"
+                      "&centerImageUrl=https://d1ygujs1u54o16.cloudfront.net/kf/thqr.webp"
                     }
                     component="img"
                   />
