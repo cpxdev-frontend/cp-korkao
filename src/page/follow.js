@@ -68,7 +68,7 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
 
     fetch(
       process.env.REACT_APP_APIE + "/kfsite/getkaofrangwork",
-      requestOptions
+      requestOptions,
     )
       .then((response) => response.json())
       .then((result) => {
@@ -97,7 +97,7 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
           subheader={
             lang == "th"
               ? "ติดตามความเคลื่อนไหวของน้องข้าวฟ่างได้ตามด้านล่างนี้เลย"
-              : "Follow Kaofrang Yanisa or Kaofrang BNK48 to see her update below."
+              : "Follow Kaofrang Yanisa to see her update below."
           }
         />
         <div className="container mt-3 justify-content-center">
@@ -170,40 +170,6 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                     secondary="@kaofrang.bnk48official"
                   />
                 </ListItemButton>
-                <ListItemButton
-                  component="a"
-                  href="https://www.bnk48.com/index.php?page=listMembers&memberId=86"
-                  target="_blank"
-                  data-aos="fade-right"
-                  data-aos-delay={window.innerHeight > 700 ? "1500" : "0"}
-                >
-                  <ListItemAvatar>
-                    <Avatar sx={{ backgroundColor: "#CB96C2" }}>
-                      <FontAwesomeIcon icon={faGlobe} />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary="BNK48 Official Website"
-                    secondary="Kaofrang"
-                  />
-                </ListItemButton>
-                <ListItemButton
-                  component="a"
-                  href="https://app.bnk48.com/members/bnk48/kaofrang"
-                  target="_blank"
-                  data-aos="fade-right"
-                  data-aos-delay={window.innerHeight > 700 ? "2000" : "0"}
-                >
-                  <ListItemAvatar>
-                    <Avatar sx={{ backgroundColor: "#8AAEB5" }}>
-                      <FontAwesomeIcon icon={faMobileAlt} />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary="IAM48 Mobile Application"
-                    secondary="Kaofrang"
-                  />
-                </ListItemButton>
               </List>
             </div>
             <div className="col-md col-12 m-xs-2">
@@ -220,22 +186,6 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                   borderRadius: 5,
                 }}
               >
-                <ListItemButton
-                  component="a"
-                  href="https://the48thfan.onrender.com/member/bnk48/kaofrang"
-                  target="_blank"
-                  data-aos="fade-right"
-                >
-                  <ListItemAvatar>
-                    <Avatar sx={{ backgroundColor: "#fb61ee" }}>
-                      <FontAwesomeIcon icon={faDesktop} />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary="48TH Fan Space Platform"
-                    secondary="Kaofrang"
-                  />
-                </ListItemButton>
                 <ListItemButton
                   component="a"
                   href="https://facebook.com/105487801630676"

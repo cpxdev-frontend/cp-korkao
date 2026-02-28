@@ -815,7 +815,7 @@ function App({
                           drop == "game") ||
                         location.pathname == "/" + pageSec[i]
                           ? "#b802a8" // Active color (ปรับให้เหมือน Mobile เดิม หรือใช้ #fff ตาม PC เดิม)
-                          : "#fff", // PC เดิมใช้สีขาว
+                          : "#000", // PC เดิมใช้สีขาว
                       display: "block",
                       fontSize: lang == "th" ? 14 : 12,
                     }}

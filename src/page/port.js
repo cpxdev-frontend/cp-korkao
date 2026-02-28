@@ -125,10 +125,10 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
     };
     setIx(0);
     setData1(null);
-    setPage(lang == "th" ? "ผลงานเพลงและการแสดง" : "Discography and Acting");
+    setPage(lang == "th" ? "ผลงานที่ผ่าน" : "Discography");
     fetch(
       process.env.REACT_APP_APIE + "/kfsite/kfspotplay?l=" + lang,
-      requestOptions
+      requestOptions,
     )
       .then((response) => response.json())
       .then((result) => {
@@ -167,7 +167,7 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
           process.env.REACT_APP_APIE_2 +
             "/kfsite/ytviewCount?id=" +
             clip.snippet.resourceId.videoId,
-          requestOptions
+          requestOptions,
         )
           .then((response) => response.json())
           .then((result) => {
@@ -203,8 +203,8 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
           data-tour="disco-1"
           subheader={
             lang == "th"
-              ? "ผลงานที่ผ่านมาของน้องข้าวฟ่าง (อ้างอิงจาก Spotify และ Youtube)"
-              : "All Discography and Acting of Kaofrang Yanisa or Kaofrang BNK48 (From Spotify and Youtube)"
+              ? "ผลงานที่ผ่านมา (อ้างอิงจาก Spotify และ Youtube)"
+              : "All Discography of Kaofrang Yanisa (From Spotify and Youtube)"
           }
         />
         <div className="container">
@@ -215,13 +215,14 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                 subheader={
                   lang == "th"
                     ? "ผลงานเพลงน้องข้าวฟ่าง (อ้างอิงจาก Spotify)"
-                    : "All Discography and Single of Kaofrang Yanisa or Kaofrang BNK48 (From Spotify)"
+                    : "All Discography and Single of Kaofrang Yanisa (From Spotify)"
                 }
               />
               <Box
                 className="ml-1"
                 data-aos="zoom-in-down"
-                sx={{ display: { md: "initial", xs: "none" } }}>
+                sx={{ display: { md: "initial", xs: "none" } }}
+              >
                 <MobileCarousel
                   autoPlay
                   centerMode
@@ -230,8 +231,8 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                       ? width < 700
                         ? 80
                         : width >= 700 && width < 1150
-                        ? 50
-                        : 30
+                          ? 50
+                          : 30
                       : 100
                   }
                   infiniteLoop
@@ -240,14 +241,16 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                   swipeable={true}
                   showStatus={false}
                   interval={8000}
-                  onChange={(e) => setIx(e)}>
+                  onChange={(e) => setIx(e)}
+                >
                   {data1.length > 0 &&
                     data1.map((item, i) => (
                       <Card
                         key={"home-" + item.track.id}
                         data-tempid={item.track.id}
                         className="m-2"
-                        sx={{ backgroundColor: "transperent" }}>
+                        sx={{ backgroundColor: "transperent" }}
+                      >
                         <CardActionArea className="cro-container">
                           <CardMedia
                             src={item.track.album.images[0].url}
@@ -267,9 +270,10 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                                   onClick={() =>
                                     window.open(
                                       item.track.external_urls.spotify,
-                                      "_blank"
+                                      "_blank",
                                     )
-                                  }>
+                                  }
+                                >
                                   {lang == "th"
                                     ? "ฟังเพลงนี้บน Spotify"
                                     : "Listening on Spotify"}
@@ -285,7 +289,8 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
               <Box
                 className="ml-1"
                 ref={music}
-                sx={{ display: { md: "none", xs: "initial" } }}>
+                sx={{ display: { md: "none", xs: "initial" } }}
+              >
                 {data1.length > PER_PAGE && (
                   <div className="col-md-12 d-flex justify-content-center mb-3">
                     <Pagination
@@ -303,7 +308,8 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                       key={"home-" + item.track.id}
                       data-tempid={item.track.id}
                       className="m-3"
-                      sx={{ backgroundColor: "transperent" }}>
+                      sx={{ backgroundColor: "transperent" }}
+                    >
                       <CardActionArea className="cro-container">
                         <CardMedia
                           src={item.track.album.images[0].url}
@@ -322,9 +328,10 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                               onClick={() =>
                                 window.open(
                                   item.track.external_urls.spotify,
-                                  "_blank"
+                                  "_blank",
                                 )
-                              }>
+                              }
+                            >
                               {lang == "th"
                                 ? "ฟังเพลงนี้บน Spotify"
                                 : "Listening on Spotify"}
@@ -392,7 +399,7 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                 subheader={
                   lang == "th"
                     ? "ผลงานเพลงและคอนเทนท์ของน้องข้าวฟ่าง (อ้างอิงจาก Youtube)"
-                    : "All Discography and original contents of Kaofrang Yanisa or Kaofrang BNK48 (From Youtube)"
+                    : "All Discography and original contents of Kaofrang Yanisa (From Youtube)"
                 }
               />
               {data2.length > PER_PAGE && (
@@ -414,7 +421,8 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                       component={Grid}
                       className="mb-3 ml-3 ml-lg-0"
                       container
-                      key={item.snippet.resourceId.videoId}>
+                      key={item.snippet.resourceId.videoId}
+                    >
                       <Grid xs={12}>
                         <CardMedia
                           sx={{ width: "100%" }}
@@ -426,12 +434,14 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                       <Grid
                         item
                         md
-                        sx={{ display: "flex", flexDirection: "column" }}>
+                        sx={{ display: "flex", flexDirection: "column" }}
+                      >
                         <CardContent sx={{ flex: "1 0 auto" }}>
                           <Typography
                             component="div"
                             variant="h5"
-                            sx={{ fontSize: 22 }}>
+                            sx={{ fontSize: 22 }}
+                          >
                             <b>{item.snippet.title}</b>
                           </Typography>
                           <small className="text-muted">
@@ -443,7 +453,8 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                             <Button
                               variant="outlined"
                               className="text-success border-success m-1"
-                              onClick={() => setClip(item)}>
+                              onClick={() => setClip(item)}
+                            >
                               {lang == "th" ? "รับชมคลิป" : "View Content"}
                             </Button>
                             <Button
@@ -453,9 +464,10 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                                 window.open(
                                   "https://youtube.com/channel/" +
                                     item.snippet.videoOwnerChannelId,
-                                  "_blank"
+                                  "_blank",
                                 )
-                              }>
+                              }
+                            >
                               {lang == "th"
                                 ? "รับชมรายการอื่น"
                                 : "View other contents"}
@@ -464,7 +476,7 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                         </CardContent>
                       </Grid>
                     </Card>
-                  )
+                  ),
               )}
               {data2.length > PER_PAGE && (
                 <div className="col-md-12 d-flex justify-content-center mb-3">
@@ -535,7 +547,8 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
           PaperProps={{
             sx: { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 },
           }}
-          TransitionComponent={Transition}>
+          TransitionComponent={Transition}
+        >
           {clip != null && (
             <>
               <AppBar sx={{ position: "relative" }}>
@@ -554,7 +567,8 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                     edge="end"
                     color="inherit"
                     onClick={() => setClip(null)}
-                    aria-label="close">
+                    aria-label="close"
+                  >
                     <CloseIcon />
                   </IconButton>
                 </Toolbar>
@@ -587,7 +601,8 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                           <CountUp end={view} onEnd={() => {}} duration={3} />{" "}
                           Views on Youtube
                         </Box>
-                      }></Chip>
+                      }
+                    ></Chip>
                   ) : (
                     <Skeleton
                       variant="text"
@@ -605,9 +620,10 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                       __html:
                         (lang == "th" ? "รายละเอียด: " : "Description: ") +
                         convertUrlsAndHashtagsToLinks(
-                          clip.snippet.description.replace(/\n/g, "<br />")
+                          clip.snippet.description.replace(/\n/g, "<br />"),
                         ),
-                    }}></Typography>
+                    }}
+                  ></Typography>
                 </Card>
               </DialogContent>
             </>

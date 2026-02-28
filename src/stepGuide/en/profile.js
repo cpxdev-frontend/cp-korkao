@@ -13,7 +13,7 @@ const steps = [
     // },
     {
         target: '[data-tour="profile-1"]',
-        content: "All about Kaofrang Yanisa or Kaofrang BNK48 is here!"
+        content: "All about Kaofrang Yanisa is here!"
       },
       {
         target: '[data-tour="profile-2"]',

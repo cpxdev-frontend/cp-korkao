@@ -133,7 +133,7 @@ const About = ({ currentPage, lang, setLang, setPage, guide }) => {
           subheader={
             lang == "th"
               ? "มารู้จักตัวตนของน้องข้าวฟ่างเบื้องต้นกันเถอะ!"
-              : "Let's know about Kaofrang Yanisa or Kaofrang BNK48 on basic step."
+              : "Let's know about Kaofrang Yanisa on basic step."
           }
         />
         <div className="container mt-3">

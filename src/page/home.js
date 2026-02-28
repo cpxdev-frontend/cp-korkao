@@ -132,7 +132,7 @@ const Home = ({
                 <p style={{ color: isDarkImg ? "white" : "black" }}>
                   {lang == "th"
                     ? 'เว็บไซต์ที่จะทำให้คุณรู้จัก "น้องข้าวฟ่าง" มากขึ้น มาร่วมโดนตก (หลุมรัก) ข้าวฟ่างไปด้วยกัน'
-                    : "This is your space for Kaofrang Yanisa or Kaofrang BNK48 fans. Come to enjoy with us!"}
+                    : "This is your space for Kaofrang Yanisa fans. Come to enjoy with us!"}
                 </p>
               }
             />
@@ -152,7 +152,7 @@ const Home = ({
                 <p style={{ color: isDark ? "white" : "black" }}>
                   {lang == "th"
                     ? 'เว็บไซต์ที่จะทำให้คุณรู้จัก "น้องข้าวฟ่าง" มากขึ้น มาร่วมโดนตก (หลุมรัก) ข้าวฟ่างไปด้วยกัน'
-                    : "This is your space for Kaofrang Yanisa or Kaofrang BNK48 fans. Come to enjoy with us!"}
+                    : "This is your space for Kaofrang Yanisa fans. Come to enjoy with us!"}
                 </p>
               }
             />
