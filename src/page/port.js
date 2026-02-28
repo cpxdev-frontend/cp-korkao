@@ -199,7 +199,7 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
     <Fade in={open} timeout={300}>
       <Box sx={{ marginTop: { xs: 0, md: 15 }, marginBottom: 15 }}>
         <CardHeader
-          title={<h3>Discography and Acting of Kaofrang</h3>}
+          title={<h3>Discography of Kaofrang</h3>}
           data-tour="disco-1"
           subheader={
             lang == "th"
