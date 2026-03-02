@@ -5,6 +5,8 @@ import {
   Fade,
   CardHeader,
   Button,
+  Box,
+  Typography,
   Zoom,
 } from "@mui/material";
 import moment from "moment";
@@ -16,6 +18,105 @@ import { setLoad, setLang, setDarkMode, setPage } from "../redux/action";
 import Joyride from "react-joyride";
 import stepEn from "../stepGuide/en/home";
 import stepTh from "../stepGuide/th/home";
+
+const ResponsiveHeroSection = ({
+  align = "center",
+  image,
+  title,
+  history,
+  subtitle,
+  setMenu,
+}) => {
+  // สำหรับ Flexbox ของ Bootstrap 4 ต้องแปลง left/right เป็น start/end
+  const flexAlignClass =
+    align === "left" ? "start" : align === "right" ? "end" : align;
+
+  // สำหรับ Text Alignment ของ Bootstrap 4 ใช้ left/right/center ได้ตรงๆ เลย
+  const textAlignClass =
+    align === "start" ? "left" : align === "end" ? "right" : align;
+
+  return (
+    <div
+      className="container-fluid d-flex align-items-center" // เอา justify-content ออกจากตรงนี้ ให้ row จัดการแทน
+      style={{
+        minHeight: "100vh",
+        backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${image})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        paddingTop: "60px",
+        paddingBottom: "60px",
+      }}
+    >
+      <div className="container">
+        {/* Row จะเป็นตัวดึงก้อนคอลัมน์ไปซ้าย (start) หรือขวา (end) */}
+        <div
+          className={`row justify-content-center justify-content-md-${flexAlignClass}`}
+        >
+          {/* ปรับขนาดให้เล็กลงในจอใหญ่ เพื่อให้เห็นการชิดซ้าย-ขวาชัดเจนขึ้น */}
+          <div className="col-12 col-md-10">
+            <Box
+              // จัดข้อความให้ชิดตามฝั่งที่ต้องการ
+              className={`text-center text-md-${textAlignClass}`}
+              sx={{
+                animation: "fadeIn 1s ease-in-out",
+                px: { xs: 2, md: 0 },
+              }}
+            >
+              <Typography
+                data-aos="fade-up"
+                data-aos-delay="200"
+                variant="h2"
+                component="h1"
+                sx={{
+                  fontWeight: "bold",
+                  color: "white",
+                  mb: 2,
+                  // Responsive Font Size: มือถือเล็กหน่อย จอใหญ่จัดเต็ม
+                  fontSize: { xs: "2rem", sm: "3rem", md: "4rem" },
+                  textShadow: "2px 2px 4px rgba(0,0,0,0.8)",
+                }}
+              >
+                {title}
+              </Typography>
+
+              <Typography
+                data-aos="fade-up"
+                data-aos-delay="400"
+                variant="body2"
+                sx={{
+                  color: "#e0e0e0",
+                  mb: 4,
+                  fontSize: { xs: "1rem", md: "1.6rem" }, // ปรับขนาด sub-title
+                }}
+              >
+                {subtitle}
+              </Typography>
+              <Box data-aos="fade-up" data-aos-delay="600">
+                <Button
+                  className="ml-2"
+                  data-tour="home-1"
+                  variant="contained"
+                  onClick={() => history.push("/aboutkf")}
+                >
+                  Get Started
+                </Button>
+                <Button
+                  className="ml-2"
+                  data-tour="home-2"
+                  variant="outlined"
+                  onClick={() => setMenu(true)}
+                >
+                  Go to Menu
+                </Button>
+              </Box>
+            </Box>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const Home = ({
   currentPage,
@@ -93,108 +194,20 @@ const Home = ({
   }, [launch, timeready]);
 
   return (
-    <Fade in={open} timeout={300}>
+    <Fade in={true} timeout={800}>
       <div>
-        <Fade in={open} timeout={1200}>
-          <div className="video-container">
-            <div
-              className="d-none d-md-block img"
-              style={{
-                filter: "brightness(80%)",
-                backgroundImage: "url(" + pcTheme + ")",
-              }}
-            ></div>
-            <div
-              className="d-block d-md-none img"
-              style={{
-                filter: "brightness(80%)",
-                backgroundImage: "url(" + mobileTheme + ")",
-              }}
-            ></div>
-            <canvas ref={canvasRef} style={{ display: "none" }} />
-          </div>
-        </Fade>
-        <Card className="text-container">
-          <CardContent className="p-2">
-            <CardHeader
-              className="d-block d-lg-none"
-              title={
-                <h3
-                  style={{
-                    color: "#fb61ee",
-                    textShadow: "2px 2px 2px #fae6f9",
-                  }}
-                >
-                  Welcome to Kaofrang Space
-                </h3>
-              }
-              subheader={
-                <p style={{ color: isDarkImg ? "white" : "black" }}>
-                  {lang == "th"
-                    ? 'เว็บไซต์ที่จะทำให้คุณรู้จัก "น้องข้าวฟ่าง" มากขึ้น มาร่วมโดนตก (หลุมรัก) ข้าวฟ่างไปด้วยกัน'
-                    : "This is your space for Kaofrang Yanisa fans. Come to enjoy with us!"}
-                </p>
-              }
-            />
-            <CardHeader
-              className="d-none d-lg-block"
-              title={
-                <h3
-                  style={{
-                    color: "#fb61ee",
-                    textShadow: "2px 2px 2px #fae6f9",
-                  }}
-                >
-                  Welcome to Kaofrang Space
-                </h3>
-              }
-              subheader={
-                <p style={{ color: isDark ? "white" : "black" }}>
-                  {lang == "th"
-                    ? 'เว็บไซต์ที่จะทำให้คุณรู้จัก "น้องข้าวฟ่าง" มากขึ้น มาร่วมโดนตก (หลุมรัก) ข้าวฟ่างไปด้วยกัน'
-                    : "This is your space for Kaofrang Yanisa fans. Come to enjoy with us!"}
-                </p>
-              }
-            />
-            <Button
-              className="ml-2"
-              data-tour="home-1"
-              variant="contained"
-              onClick={() => history.push("/aboutkf")}
-            >
-              Get Started
-            </Button>
-            <Button
-              className="ml-2"
-              data-tour="home-2"
-              variant="outlined"
-              onClick={() => setMenu(true)}
-            >
-              Go to Menu
-            </Button>
-            <br />
-            <Button
-              className="ml-2 mt-3"
-              data-tour="home-3"
-              onClick={() => setLangMod(true)}
-            >
-              Choose Language
-            </Button>
-          </CardContent>
-          <Joyride
-            steps={lang == "th" ? stepTh : stepEn}
-            continuous
-            run={guide}
-            styles={{
-              options: {
-                arrowColor: "#fb61ee",
-                backgroundColor: "#f1cef2",
-                primaryColor: "#f526fc",
-                textColor: "#000",
-              },
-            }}
-          />
-        </Card>
+        <ResponsiveHeroSection
+          align="left"
+          image={pcTheme}
+          history={history}
+          setMenu={setMenu}
+          title=" Welcome to Kaofrang Space"
+          subtitle={
+            lang == "th"
+              ? 'เว็บไซต์ที่จะทำให้คุณรู้จัก "น้องข้าวฟ่าง" มากขึ้น มาร่วมโดนตก (หลุมรัก) ข้าวฟ่างไปด้วยกัน'
+              : "This is your space for Kaofrang Yanisa fans. Come to enjoy with us!"
+          }
+        />
       </div>
     </Fade>
   );

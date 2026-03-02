@@ -391,8 +391,8 @@ function App({
       return noti == 2
         ? "ถูกปฏิเสธการเข้าถึง"
         : noti == 1
-        ? "เปิดใช้งานแล้ว"
-        : "ยังไม่ได้เปิดใช้งาน";
+          ? "เปิดใช้งานแล้ว"
+          : "ยังไม่ได้เปิดใช้งาน";
     } else {
       return noti == 2 ? "Blocked" : noti == 1 ? "Ready" : "Disabled";
     }
@@ -403,7 +403,7 @@ function App({
       (Math.floor(Math.random() * 10) + 1 < 4
         ? process.env.REACT_APP_APIE
         : process.env.REACT_APP_APIE_2) + "/kfsite/gettime",
-      {}
+      {},
     )
       .then((response) => response.text())
       .then((result) => {
@@ -449,7 +449,7 @@ function App({
         (Math.floor(Math.random() * 10) + 1 < 5
           ? process.env.REACT_APP_APIE
           : process.env.REACT_APP_APIE_2) + "/kfsite/getkfliveinapp",
-        { method: "POST" }
+        { method: "POST" },
       )
         .then((response) => response.text())
         .then((result) => {
@@ -464,7 +464,7 @@ function App({
         (Math.floor(Math.random() * 10) + 1 < 5
           ? process.env.REACT_APP_APIE
           : process.env.REACT_APP_APIE_2) + "/kfsite/getkfliveinapp",
-        { method: "POST" }
+        { method: "POST" },
       )
         .then((response) => response.text())
         .then((result) => {
@@ -499,7 +499,7 @@ function App({
           setBirthdayEff(false);
         }, 5000);
       },
-      location.pathname !== "/birthday" ? 60000 : 180000
+      location.pathname !== "/birthday" ? 60000 : 180000,
     );
   };
 
@@ -709,7 +709,14 @@ function App({
   }
 
   return (
-    <div ref={scrollRef}>
+    <div
+      ref={scrollRef}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+      }}
+    >
       {/* --- ส่วนเอฟเฟกต์และแจ้งเตือน (คงเดิม) --- */}
       <Confetti
         numberOfPieces={birthdayEff ? 400 : 0}
@@ -755,163 +762,203 @@ function App({
       </Snackbar>
 
       {/* --- UNIFIED APPBAR (ส่วนหัวเว็บ รวมร่าง Mobile + PC) --- */}
-      <Slide direction="down" in={appbarx}>
+      <Fade in={appbarx} timeout={800} unmountOnExit>
         <AppBar
+          className={window.innerWidth < 900 ? "newmobileAppbar" : ""}
           position="fixed"
-          className={
-            window.innerWidth < 900 ? "newmobileAppbar" : "newpcAppbar"
-          }
+          elevation={0}
           sx={{
+            backgroundColor: "rgba(248, 195, 248, 0)",
+            top: 0,
+            left: 0,
             display:
               unlock &&
-              location.pathname != "/" &&
+              location.pathname !== "/" &&
               !game &&
               !currentPage.includes("404 Not Found")
                 ? "block"
                 : "none",
           }}
         >
-          <Container maxWidth="xl">
-            <Toolbar disableGutters>
-              <Box sx={{ display: "flex", alignItems: "center", mr: 2 }}>
-                <Typography
-                  variant="h6"
-                  noWrap
-                  className="webheadfont"
-                  component="a"
-                  href="/"
+          <div>
+            <Container maxWidth="xl">
+              <Toolbar
+                disableGutters
+                sx={{ display: "flex", justifyContent: "space-between" }}
+              >
+                {/* 1. Logo */}
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <Typography
+                    variant="h6"
+                    noWrap
+                    className="webheadfont"
+                    href="/"
+                    sx={{
+                      display: "flex",
+                      color: "rgb(151, 7, 151)",
+                      cursor: "pointer",
+                      textDecoration: "none",
+                      fontWeight: "bold",
+                      fontSize: { xs: "1.2rem", md: "1.25rem" },
+                      // เพิ่ม textShadow ตรงนี้ครับ (ตีขอบขาว 4 ทิศทาง + เงาฟุ้งมิติความลึก)
+                      textShadow:
+                        "1.5px 1.5px 0 #ffffff84, " +
+                        "-1.5px -1.5px 0 #ffffff84, " +
+                        "1.5px -1.5px 0 #ffffff84, " +
+                        "-1.5px 1.5px 0 #ffffff84, " +
+                        "0px 4px 8px rgba(0, 0, 0, 0.3)",
+                    }}
+                  >
+                    Kaofrang Space
+                  </Typography>
+                </Box>
+
+                {/* 2. PC Menu Links */}
+                <Box
+                  className={
+                    window.innerWidth < 900 ? "newmobileAppbar" : "newpcAppbar"
+                  }
                   sx={{
-                    mr: 2,
-                    display: "flex",
-                    color: "inherit",
-                    textDecoration: "none",
-                    fontWeight: "bold",
-                    fontSize: { xs: "1.2rem", md: "1.25rem" },
+                    display: { xs: "none", md: "flex" },
+                    borderRadius: "50px",
+                    padding: "4px 24px",
+                    alignItems: "center",
+                    gap: 1,
                   }}
                 >
-                  Kaofrang Space
-                </Typography>
-              </Box>
+                  {pages.map((page, i) => {
+                    const isActive =
+                      (location.pathname.includes("game") &&
+                        pageSec[i] === "_game" &&
+                        drop === "game") ||
+                      location.pathname === "/" + pageSec[i];
 
-              {/* 2. PC Menu Links (ซ่อนบน Mobile) */}
-              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-                {pages.map((page, i) => (
-                  <Button
-                    key={page}
-                    component={pageSec[i].includes("_") ? null : Link}
-                    to={pageSec[i].includes("_") ? null : "/" + pageSec[i]}
-                    onClick={(e) => {
-                      if (pageSec[i].includes("_")) setTab("pc" + pageSec[i]);
-                      handleCloseNavMenu(
-                        e,
-                        pageSec[i].includes("_") ? "ok" : null
-                      );
-                    }}
-                    sx={{
-                      my: 2,
-                      color:
-                        (location.pathname.includes("game") &&
-                          pageSec[i] == "_game" &&
-                          drop == "game") ||
-                        location.pathname == "/" + pageSec[i]
-                          ? "#b802a8" // Active color (ปรับให้เหมือน Mobile เดิม หรือใช้ #fff ตาม PC เดิม)
-                          : "#000", // PC เดิมใช้สีขาว
-                      display: "block",
-                      fontSize: lang == "th" ? 14 : 12,
-                    }}
+                    return (
+                      <Button
+                        key={page}
+                        component={pageSec[i].includes("_") ? "button" : Link}
+                        to={
+                          pageSec[i].includes("_")
+                            ? undefined
+                            : "/" + pageSec[i]
+                        }
+                        onClick={(e) => {
+                          if (pageSec[i].includes("_"))
+                            setTab("pc" + pageSec[i]);
+                          handleCloseNavMenu(
+                            e,
+                            pageSec[i].includes("_") ? "ok" : null,
+                          );
+                        }}
+                        sx={{
+                          color: isActive ? "#002952" : "#455a64",
+                          fontWeight: isActive ? 700 : 500,
+                          textTransform: "none",
+                          display: "block",
+                          fontSize: 14,
+                          padding: "6px 16px",
+                          borderRadius: "20px",
+                          "&:hover": {
+                            backgroundColor: "rgba(0, 91, 181, 0.08)",
+                            color: "#005bb5",
+                          },
+                        }}
+                      >
+                        {page}
+                      </Button>
+                    );
+                  })}
+
+                  {/* Dropdown Menu สำหรับ Game (PC) */}
+                  <Menu
+                    id="basic-menu-pc"
+                    anchorEl={anchorEl}
+                    open={tab === "pc_game"}
+                    onClose={handleClose}
+                    MenuListProps={{ "aria-labelledby": "basic-button" }}
                   >
-                    {page}
-                  </Button>
-                ))}
+                    <MenuItem
+                      onClick={handleClose}
+                      component={Link}
+                      to="/quizgame"
+                    >
+                      {lang === "th" ? "กอข้าวควิชเกมส์" : "Quiz Game"}
+                    </MenuItem>
+                    <MenuItem
+                      onClick={handleClose}
+                      component={Link}
+                      to="/popfranggame"
+                    >
+                      {lang === "th" ? "ป็อปฟ่าง" : "PopFrang"}
+                    </MenuItem>
+                  </Menu>
+                </Box>
 
-                {/* Dropdown Menu สำหรับ Game (PC) */}
-                <Menu
-                  id="basic-menu-pc"
-                  anchorEl={anchorEl}
-                  open={tab == "pc_game"}
-                  onClose={handleClose}
-                  MenuListProps={{ "aria-labelledby": "basic-button" }}
+                {/* 3. Right Side Icons */}
+                <Box
+                  sx={{
+                    flexGrow: 0,
+                    display: "flex",
+                    alignItems: "center",
+                  }}
                 >
-                  <MenuItem
-                    onClick={handleClose}
-                    component={Link}
-                    to="/quizgame"
-                  >
-                    {lang == "th" ? "กอข้าวควิชเกมส์" : "Quiz Game"}
-                  </MenuItem>
-                  <MenuItem
-                    onClick={handleClose}
-                    component={Link}
-                    to="/popfranggame"
-                  >
-                    {lang == "th" ? "ป็อปฟ่าง" : "PopFrang"}
-                  </MenuItem>
-                </Menu>
-              </Box>
+                  {/* PC User Setting Icon */}
+                  <Box sx={{ display: { xs: "none", md: "flex" } }}>
+                    <Tooltip title="Open settings">
+                      <IconButton
+                        onClick={() => setAnchorElUser(true)}
+                        sx={{ p: 0 }}
+                      >
+                        <Avatar
+                          sx={{ width: 30, height: 30 }}
+                          variant="rounded"
+                          alt="lang"
+                          src={
+                            "https://pub-8132af7faa6a48298af6aaa68af91b48.r2.dev/" +
+                            (lang === "th" ? "th.png" : "us.png")
+                          }
+                        />
+                      </IconButton>
+                    </Tooltip>
+                  </Box>
 
-              {/* 3. Right Side Icons (User / Hamburger) */}
-              <Box
-                sx={{
-                  flexGrow: 0,
-                  display: "flex",
-                  alignItems: "center",
-                  ml: "auto",
-                }}
-              >
-                {/* PC User Setting Icon */}
-                <Box sx={{ display: { xs: "none", md: "flex" } }}>
-                  <Tooltip title="Open settings">
+                  {/* Mobile Hamburger Icon */}
+                  <Box
+                    sx={{
+                      display: { xs: "flex", md: "none" },
+                      alignItems: "center",
+                    }}
+                  >
                     <IconButton
                       onClick={() => setAnchorElUser(true)}
-                      sx={{ p: 0 }}
+                      sx={{ display: { xs: "none", sm: "flex" }, mr: 1 }}
                     >
                       <Avatar
-                        sx={{ width: 30, height: 30 }}
+                        sx={{ width: 25, height: 25 }}
                         variant="rounded"
-                        alt="lang"
                         src={
                           "https://pub-8132af7faa6a48298af6aaa68af91b48.r2.dev/" +
-                          (lang == "th" ? "th.png" : "us.png")
+                          (lang === "th" ? "th.png" : "us.png")
                         }
                       />
                     </IconButton>
-                  </Tooltip>
+                    <IconButton
+                      size="large"
+                      aria-label="menu"
+                      aria-controls="menu-appbar"
+                      aria-haspopup="true"
+                      onClick={handleOpenNavMenu}
+                      sx={{ color: "rgb(151, 7, 151)" }}
+                    >
+                      <MenuIcon />
+                    </IconButton>
+                  </Box>
                 </Box>
-
-                {/* Mobile Hamburger Icon */}
-                <Box sx={{ display: { xs: "flex", md: "none" } }}>
-                  {/* User Icon เล็กๆ ข้าง Hamburger (ถ้าต้องการ) */}
-                  <IconButton
-                    onClick={() => setAnchorElUser(true)}
-                    sx={{ display: { xs: "none", sm: "flex" }, mr: 1 }}
-                  >
-                    {" "}
-                    {/* ปรับ xs เป็น flex ถ้าอยากให้โชว์ User Icon บนมือถือด้วย */}
-                    <Avatar
-                      sx={{ width: 25, height: 25 }}
-                      variant="rounded"
-                      src={
-                        "https://pub-8132af7faa6a48298af6aaa68af91b48.r2.dev/" +
-                        (lang == "th" ? "th.png" : "us.png")
-                      }
-                    />
-                  </IconButton>
-                  <IconButton
-                    size="large"
-                    aria-label="menu"
-                    aria-controls="menu-appbar"
-                    aria-haspopup="true"
-                    onClick={handleOpenNavMenu}
-                    color="inherit"
-                  >
-                    <MenuIcon />
-                  </IconButton>
-                </Box>
-              </Box>
-            </Toolbar>
-          </Container>
+              </Toolbar>
+            </Container>
+          </div>
         </AppBar>
-      </Slide>
+      </Fade>
 
       {/* --- DRAWER (เมนูข้างสำหรับ Mobile) --- */}
       <Drawer
@@ -975,30 +1022,6 @@ function App({
             </MenuItem>
           ))}
 
-          {/* Dropdown Menu สำหรับ Game (Mobile Drawer) */}
-          <Menu
-            id="basic-menu-mob"
-            anchorEl={anchorEl}
-            open={tab == "mob_game"}
-            onClose={() => handleClose("ok")}
-            MenuListProps={{ "aria-labelledby": "basic-button" }}
-          >
-            <MenuItem
-              onClick={() => handleClose()}
-              component={Link}
-              to="/quizgame"
-            >
-              {lang == "th" ? "กอข้าวควิชเกมส์" : "Quiz Game"}
-            </MenuItem>
-            <MenuItem
-              onClick={() => handleClose()}
-              component={Link}
-              to="/popfranggame"
-            >
-              {lang == "th" ? "ป็อปฟ่าง" : "PopFrang"}
-            </MenuItem>
-          </Menu>
-
           <Divider sx={{ my: 2 }} />
 
           {/* User Profile Card (Mobile Drawer) */}
@@ -1044,16 +1067,29 @@ function App({
                 </ToggleButton>
               ))}
             </ToggleButtonGroup>
-            <br />
-            <FormControlLabel
-              control={
-                <Switch checked={guide} onChange={() => switchTutor()} />
-              }
-              label={lang == "th" ? "คำอธิบายการใช้งาน" : "Tutorial Guide"}
-            />
           </Box>
         </DialogContent>
       </Drawer>
+
+      {/* Dropdown Menu สำหรับ Game (Mobile Drawer) */}
+      <Menu
+        id="basic-menu-mob"
+        anchorEl={anchorEl}
+        open={tab == "mob_game"}
+        onClose={() => handleClose("ok")}
+        MenuListProps={{ "aria-labelledby": "basic-button" }}
+      >
+        <MenuItem onClick={() => handleClose()} component={Link} to="/quizgame">
+          {lang == "th" ? "กอข้าวควิชเกมส์" : "Quiz Game"}
+        </MenuItem>
+        <MenuItem
+          onClick={() => handleClose()}
+          component={Link}
+          to="/popfranggame"
+        >
+          {lang == "th" ? "ป็อปฟ่าง" : "PopFrang"}
+        </MenuItem>
+      </Menu>
 
       {/* --- SETTINGS DIALOG (Popup ตั้งค่าสำหรับ PC) --- */}
       <Dialog
@@ -1084,11 +1120,6 @@ function App({
               </ToggleButton>
             ))}
           </ToggleButtonGroup>
-          <br />
-          <FormControlLabel
-            control={<Switch checked={guide} onChange={() => switchTutor()} />}
-            label={lang == "th" ? "คำอธิบายการใช้งาน" : "Tutorial Guide"}
-          />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setAnchorElUser(false)}>
@@ -1101,15 +1132,18 @@ function App({
       <Fade in={transit} timeout={!transit ? 0 : 700}>
         <Box
           sx={{
-            marginTop: {
-              xs:
-                unlock &&
-                location.pathname != "/" &&
-                !currentPage.includes("404 Not Found")
-                  ? 10
-                  : 0,
-              md: location.pathname != "/" ? 12 : 0, // ปรับระยะห่างสำหรับ PC Header
-            },
+            flexGrow: 1, // เพิ่มบรรทัดนี้เข้าไป
+            display: "flex", // เพิ่มบรรทัดนี้
+            flexDirection: "column", // เพิ่มบรรทัดนี้
+            // marginTop: {
+            //   xs:
+            //     unlock &&
+            //     location.pathname != "/" &&
+            //     !currentPage.includes("404 Not Found")
+            //       ? 10
+            //       : 0,
+            //   md: location.pathname != "/" ? 5 : 0, // ปรับระยะห่างสำหรับ PC Header
+            // },
           }}
         >
           <BasicSwitch>
@@ -1176,7 +1210,12 @@ function App({
       </Fade>
 
       {/* --- FOOTER (ส่วนท้าย) --- */}
-      <footer className="fixed-bottom bg-secondary text-center">
+      <footer
+        className={
+          (location.pathname !== "/" ? "" : "fixed-bottom") +
+          " bg-secondary text-center"
+        }
+      >
         <Card
           className="p-2 foot"
           style={{
