@@ -792,7 +792,7 @@ function App({
                     variant="h6"
                     noWrap
                     className="webheadfont"
-                    href="/"
+                    onClick={() => history.push("/")}
                     sx={{
                       display: "flex",
                       color: "rgb(151, 7, 151)",
@@ -1135,15 +1135,15 @@ function App({
             flexGrow: 1, // เพิ่มบรรทัดนี้เข้าไป
             display: "flex", // เพิ่มบรรทัดนี้
             flexDirection: "column", // เพิ่มบรรทัดนี้
-            // marginTop: {
-            //   xs:
-            //     unlock &&
-            //     location.pathname != "/" &&
-            //     !currentPage.includes("404 Not Found")
-            //       ? 10
-            //       : 0,
-            //   md: location.pathname != "/" ? 5 : 0, // ปรับระยะห่างสำหรับ PC Header
-            // },
+            marginTop: {
+              xs:
+                unlock &&
+                location.pathname != "/" &&
+                !currentPage.includes("404 Not Found")
+                  ? 10
+                  : 0,
+              md: 0,
+            },
           }}
         >
           <BasicSwitch>
