@@ -398,7 +398,7 @@ const GameApp = ({
             <img
               className="d-none"
               src={
-                "https://d1ygujs1u54o16.cloudfront.net/kf/pop" +
+                "https://cdn.cpxdev.workers.dev/kf/pop" +
                 (i + 1) +
                 ".jpg"
               }
@@ -643,8 +643,8 @@ const GameApp = ({
                 onClick={(e) => SelectGame(e)}
                 src={
                   pop == -1
-                    ? "https://d1ygujs1u54o16.cloudfront.net/kf/kfprofile.webp"
-                    : "https://d1ygujs1u54o16.cloudfront.net/kf/pop" +
+                    ? "https://cdn.cpxdev.workers.dev/kf/kfprofile.webp"
+                    : "https://cdn.cpxdev.workers.dev/kf/pop" +
                       pop +
                       ".jpg"
                 }
