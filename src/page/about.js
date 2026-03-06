@@ -170,7 +170,7 @@ const About = ({ currentPage, lang, setLang, setPage, guide }) => {
                     <CardHeader
                       className="pl-0"
                       title={
-                        <h4>
+                        <h3>
                           {lang == "th" ? "ชื่อจริง" : "Fullname"}:{" "}
                           {lang == "th"
                             ? data.fullnameTh[0]
@@ -178,7 +178,7 @@ const About = ({ currentPage, lang, setLang, setPage, guide }) => {
                           {lang == "th"
                             ? data.fullnameTh[1]
                             : data.fullnameEn[1]}
-                        </h4>
+                        </h3>
                       }
                       subheader={
                         <h6 className="text-muted">

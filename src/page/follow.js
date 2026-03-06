@@ -133,7 +133,7 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                 </ListItemButton>
                 <ListItemButton
                   component="a"
-                  href="https://instagram.com/kaofrang.bnk48official"
+                  href="https://instagram.com/kaofrangfie"
                   target="_blank"
                   data-aos="fade-right"
                   data-aos-delay={window.innerHeight > 700 ? "500" : "0"}
@@ -150,7 +150,24 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                   </ListItemAvatar>
                   <ListItemText
                     primary="Instagram Account"
-                    secondary="kaofrang.bnk48official"
+                    secondary="kaofrangfie"
+                  />
+                </ListItemButton>
+                <ListItemButton
+                  component="a"
+                  href="https://x.com/whoiskaofrang"
+                  target="_blank"
+                  data-aos="fade-right"
+                  data-aos-delay={window.innerHeight > 700 ? "1000" : "0"}
+                >
+                  <ListItemAvatar>
+                    <Avatar sx={{ backgroundColor: "#000000" }}>
+                      <FontAwesomeIcon icon={faXTwitter} />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary="X (Twitter)"
+                    secondary="@whoiskaofrang"
                   />
                 </ListItemButton>
                 <ListItemButton
@@ -158,7 +175,7 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                   href="https://tiktok.com/@kaofrang.bnk48official"
                   target="_blank"
                   data-aos="fade-right"
-                  data-aos-delay={window.innerHeight > 700 ? "1000" : "0"}
+                  data-aos-delay={window.innerHeight > 700 ? "1500" : "0"}
                 >
                   <ListItemAvatar>
                     <Avatar sx={{ backgroundColor: "#000", color: "#fff" }}>
@@ -204,7 +221,7 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                   </ListItemAvatar>
                   <ListItemText
                     primary="Facebook Fanpage"
-                    secondary="Kaofrang BNK48 Thailand Fanclub"
+                    secondary="Kaofrang Thailand Fanclub"
                   />
                 </ListItemButton>
                 <ListItemButton
@@ -282,7 +299,7 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                   </ListItemAvatar>
                   <ListItemText
                     primary="LINE Open Chat"
-                    secondary="Kaofrang BNK48 TH.FC (กอข้าวของข้าวฟ่าง)"
+                    secondary="Kaofrang TH.FC (กอข้าวของข้าวฟ่าง)"
                   />
                 </ListItemButton>
               </List>

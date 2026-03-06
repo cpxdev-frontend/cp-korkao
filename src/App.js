@@ -81,6 +81,7 @@ import Swal from "sweetalert2";
 import Home from "./page/home";
 import About from "./page/about";
 import Disco from "./page/port";
+import Trend from "./page/trend";
 import Game from "./page/game";
 import PopFrangGame from "./page/popfranggame";
 import GameD from "./page/gamedash";
@@ -106,11 +107,12 @@ const DrawerBg = "rgba(220, 209, 215, 0.75)";
 
 let livestat = false;
 
-const pageSec = ["", "aboutkf", "discography", "_game", "follow", "donation"];
+const pageSec = ["", "aboutkf", "discography", "trend", "_game", "follow", "donation"];
 const pagesEn = [
   "Home",
   "About Kaofrang",
   "Discography",
+  "Trend Update",
   "Games",
   "Follow",
   "Donate",
@@ -119,6 +121,7 @@ const pagesTh = [
   "หน้าหลัก",
   "เกี่ยวกับข้าวฟ่าง",
   "ผลงาน",
+  "อัปเดตเทรน",
   "มินิเกมส์",
   "ช่องทางการติดตาม",
   "โดเนท",
@@ -1169,6 +1172,11 @@ function App({
               data-aos="fade-in"
               path="/discography"
               render={() => <Disco />}
+            />
+             <Route
+              data-aos="fade-in"
+              path="/trend"
+              render={() => <Trend />}
             />
             <Route
               data-aos="fade-in"
