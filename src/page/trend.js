@@ -137,8 +137,12 @@ const TrendUp = ({ currentPage, lang, setLang, setPage, guide }) => {
     fetch(process.env.REACT_APP_APIE_2 + "/kfsite/gettrend", requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        setData(result.timeline);
-        setSam(result.timeline);
+        setData(
+          result.timeline.filter((item) => item.screen_name !== "cpxdevspace"),
+        );
+        setSam(
+          result.timeline.filter((item) => item.screen_name !== "cpxdevspace"),
+        );
       })
       .catch((error) => console.log("error", error));
   }, []);

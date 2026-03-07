@@ -107,7 +107,15 @@ const DrawerBg = "rgba(220, 209, 215, 0.75)";
 
 let livestat = false;
 
-const pageSec = ["", "aboutkf", "discography", "trend", "_game", "follow", "donation"];
+const pageSec = [
+  "",
+  "aboutkf",
+  "discography",
+  "trend",
+  "_game",
+  "follow",
+  "donation",
+];
 const pagesEn = [
   "Home",
   "About Kaofrang",
@@ -600,13 +608,12 @@ function App({
   };
 
   const handleCloseNavMenu = (e = null, session = null) => {
-    // if (localStorage.getItem("yuser") == null) {
-    //   return;
-    // }
     if (e != null) {
       setAnchorEl(e.currentTarget);
     }
-    setAnchorElNav(null);
+    if (session == null) {
+      setAnchorElNav(null);
+    }
   };
   const handleClose = (m = null) => {
     setAnchorEl(null);
@@ -1173,11 +1180,7 @@ function App({
               path="/discography"
               render={() => <Disco />}
             />
-             <Route
-              data-aos="fade-in"
-              path="/trend"
-              render={() => <Trend />}
-            />
+            <Route data-aos="fade-in" path="/trend" render={() => <Trend />} />
             <Route
               data-aos="fade-in"
               path="/quizgame"

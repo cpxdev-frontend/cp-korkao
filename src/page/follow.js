@@ -92,7 +92,6 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
       <Box sx={{ marginTop: { xs: 0, md: 13 } }}>
         <CardHeader
           title={<h3>Follow Kaofrang</h3>}
-          sx={{ marginTop: { xs: 8, md: 0 } }}
           data-tour="follow-1"
           subheader={
             lang == "th"
@@ -172,7 +171,7 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                 </ListItemButton>
                 <ListItemButton
                   component="a"
-                  href="https://tiktok.com/@kaofrang.bnk48official"
+                  href="https://tiktok.com/@kaofrangfie"
                   target="_blank"
                   data-aos="fade-right"
                   data-aos-delay={window.innerHeight > 700 ? "1500" : "0"}
@@ -184,14 +183,14 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                   </ListItemAvatar>
                   <ListItemText
                     primary="TikTok Account"
-                    secondary="@kaofrang.bnk48official"
+                    secondary="@kaofrangfie"
                   />
                 </ListItemButton>
               </List>
             </div>
             <div className="col-md col-12 m-xs-2">
               <CardHeader
-                sx={{ marginTop: { xs: 8, md: 0 } }}
+                sx={{ marginTop: { xs: 8, sm: 0 } }}
                 title={lang == "th" ? "สำหรับชาวกอข้าว" : "For Kaofrang Fandom"}
               />
               <List
@@ -208,11 +207,6 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                   href="https://facebook.com/105487801630676"
                   target="_blank"
                   data-aos="fade-right"
-                  data-aos-delay={
-                    window.innerWidth > 800 && window.innerHeight > 700
-                      ? "500"
-                      : "0"
-                  }
                 >
                   <ListItemAvatar>
                     <Avatar sx={{ backgroundColor: "#1877F2" }}>
@@ -231,7 +225,7 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                   data-aos="fade-right"
                   data-aos-delay={
                     window.innerWidth > 800 && window.innerHeight > 700
-                      ? "1000"
+                      ? "500"
                       : "0"
                   }
                 >
@@ -245,21 +239,6 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                     secondary="กอข้าวของKaofrangBNK48"
                   />
                 </ListItemButton>
-                {/* <ListItemButton
-              component="a"
-              href="https://tiktok.com/@kaofrang.bnk48official"
-              target="_blank"
-              data-aos="fade-right">
-              <ListItemAvatar>
-                <Avatar sx={{ backgroundColor: "#000", color: "#fff" }}>
-                  <FontAwesomeIcon icon={faTiktok} />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary="TikTok Account"
-                secondary="@kaofrang.bnk48official"
-              />
-            </ListItemButton> */}
                 <ListItemButton
                   component="a"
                   href="https://x.com/Kaofrangbnk48TH"
@@ -267,7 +246,7 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                   data-aos="fade-right"
                   data-aos-delay={
                     window.innerWidth > 800 && window.innerHeight > 700
-                      ? "1500"
+                      ? "1000"
                       : "0"
                   }
                 >
@@ -288,7 +267,7 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                   data-aos="fade-right"
                   data-aos-delay={
                     window.innerWidth > 800 && window.innerHeight > 700
-                      ? "2000"
+                      ? "1500"
                       : "0"
                   }
                 >
