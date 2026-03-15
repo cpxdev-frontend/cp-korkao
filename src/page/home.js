@@ -137,9 +137,9 @@ const Home = ({
   const [isDark, setIsDark] = React.useState(true);
   const [isDarkImg, setIsDarkImg] = React.useState(true);
   const pcTheme =
-    "https://pbs.twimg.com/media/G0z0GUnboAA-SPV?format=jpg&name=large";
+    "https://xcdn.cpxdev.workers.dev/G0z0GUnboAA-SPV?format=jpg&name=large";
   const mobileTheme =
-    "https://pbs.twimg.com/media/G1DH_VsaQAAHGJq?format=jpg&name=large";
+    "https://xcdn.cpxdev.workers.dev/G1DH_VsaQAAHGJq?format=jpg&name=large";
 
   React.useEffect(() => {
     const img = new Image();

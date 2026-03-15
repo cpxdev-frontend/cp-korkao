@@ -135,7 +135,7 @@ const Err = ({
         <ResponsiveHeroSection
           align="left"
           image={
-            "https://pbs.twimg.com/media/GTqpfrGb0AAcPAG?format=webp&name=4096x4096"
+            "https://xcdn.cpxdev.workers.dev/GTqpfrGb0AAcPAG?format=webp&name=4096x4096"
           }
           history={history}
           title="404 NOT FOUND"
