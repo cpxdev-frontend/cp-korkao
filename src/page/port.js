@@ -253,7 +253,7 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                       >
                         <CardActionArea className="cro-container">
                           <CardMedia
-                            src={item.track.album.images[0].url}
+                            src={item.track.album.images[0].url.replace('https://i.scdn.co/image/', 'https://sptcdn.cpxdev.workers.dev/')}
                             width={500}
                             component="img"
                           />
@@ -312,7 +312,7 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                     >
                       <CardActionArea className="cro-container">
                         <CardMedia
-                          src={item.track.album.images[0].url}
+                          src={item.track.album.images[0].url.replace('https://i.scdn.co/image/', 'https://sptcdn.cpxdev.workers.dev/')}
                           width={500}
                           component="img"
                         />
