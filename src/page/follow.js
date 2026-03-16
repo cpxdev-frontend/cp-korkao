@@ -127,7 +127,7 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                   </ListItemAvatar>
                   <ListItemText
                     primary="Facebook Fanpage"
-                    secondary="Kaofrang BNK48"
+                    secondary="Kaofrang Yanisa"
                   />
                 </ListItemButton>
                 <ListItemButton
