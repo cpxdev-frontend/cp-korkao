@@ -29,7 +29,7 @@
     "draftjs-to-html": "^0.9.1",
     "firebase": "9.12.1",
     "flickr-justified-gallery": "^2.2.0",
-    "fs": "^0.0.1-security",
+    "fs": "^0.0.2",
     "fslightbox-react": "^1.7.6",
     "get-age": "^1.0.1",
     "html-to-image": "^1.11.11",
