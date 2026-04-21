@@ -7,7 +7,7 @@ const initialState = {
       : "th",
   dark: false,
   game: false,
-  guide: localStorage.getItem("skiptutor") == null ? true : false,
+  guide: false,
   launch: null,
   country: [
     {
