@@ -132,7 +132,7 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                 </ListItemButton>
                 <ListItemButton
                   component="a"
-                  href="https://instagram.com/kaofrangfie"
+                  href="https://instagram.com/kaofrang"
                   target="_blank"
                   data-aos="fade-right"
                   data-aos-delay={window.innerHeight > 700 ? "500" : "0"}
