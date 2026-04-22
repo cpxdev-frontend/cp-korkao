@@ -981,8 +981,8 @@ function App({
             borderBottomLeftRadius: 20,
           },
         }}
-        open={anchorElNav}
-        onClose={handleCloseNavMenu}
+        open={Boolean(anchorElNav)} // แก้ที่ 1: ครอบ Boolean ป้องกันบั๊ก เพราะ anchorElNav ค่ามันเป็น DOM Element
+        onClose={() => handleCloseNavMenu()}
       >
         {" "}
         {/* สำรองไว้กันโผล่ใน PC */}
