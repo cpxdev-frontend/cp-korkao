@@ -161,7 +161,7 @@ const TrendUp = ({ currentPage, lang, setLang, setPage, guide }) => {
         />
         <div className="container">
           {data != null ? (
-            <Grid container spacing={2} data-tour="t" className="ml-1 w-100">
+            <Grid container spacing={2} data-tour="t" className="w-100">
               {data.length > PER_PAGE && (
                 <div className="col-md-12 d-flex justify-content-center mb-3">
                   <Pagination
