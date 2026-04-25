@@ -435,8 +435,12 @@ const About = ({ currentPage, lang, setLang, setPage, guide }) => {
                     {/* Item 1 */}
                     <TimelineItem>
                       <TimelineSeparator>
-                        <TimelineDot>
-                          <Avatar>?</Avatar>
+                        <TimelineDot sx={{ background: "#fb61ee" }}>
+                          <Avatar
+                            src={
+                              "https://cdn.cpxdev.workers.dev/kf/kffree.jpeg"
+                            }
+                          />
                         </TimelineDot>
                         {/* บังคับ minHeight และ bgcolor เพื่อให้เส้นปรากฏเสมอ */}
                         <TimelineConnector
@@ -452,10 +456,10 @@ const About = ({ currentPage, lang, setLang, setPage, guide }) => {
                         data-aos="fade-right"
                       >
                         <Typography variant="h6" component="div">
-                          {lang === "th" ? "ศิลปินอิสระ" : "Freelance Artist"}
+                          {lang == "th" ? "ศิลปินอิสระ" : "Freelance Artist"}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                          {lang === "th"
+                          {lang == "th"
                             ? "เมษายน 2569 - ปัจจุบัน"
                             : "APR 2026 - PRESENT"}
                         </Typography>
@@ -465,8 +469,8 @@ const About = ({ currentPage, lang, setLang, setPage, guide }) => {
                     {/* Item 2 */}
                     <TimelineItem>
                       <TimelineSeparator>
-                        <TimelineDot>
-                          <Avatar src="https://pbs.twimg.com/profile_images/2014925664961417217/MHZT7WmO_400x400.jpg" />
+                        <TimelineDot sx={{ background: "#fb61ee" }}>
+                          <Avatar src="https://cdn.cpxdev.workers.dev/kf/kfbnk.jpg" />
                         </TimelineDot>
                         {/* บังคับ minHeight และ bgcolor */}
                         <TimelineConnector
@@ -482,12 +486,12 @@ const About = ({ currentPage, lang, setLang, setPage, guide }) => {
                         data-aos="fade-right"
                       >
                         <Typography variant="h6" component="div">
-                          {lang === "th"
+                          {lang == "th"
                             ? "สมาชิกวงบีเอ็นเคโฟตี้เอต รุ่นที่ 3"
                             : "BNK48 3rd Generation"}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                          {lang === "th"
+                          {lang == "th"
                             ? "สิงหาคม 2563 - มีนาคม 2569"
                             : "AUG 2020 - MAR 2026"}
                         </Typography>
@@ -497,8 +501,8 @@ const About = ({ currentPage, lang, setLang, setPage, guide }) => {
                     {/* Item 3 */}
                     <TimelineItem>
                       <TimelineSeparator>
-                        <TimelineDot>
-                          <Avatar src="https://pbs.twimg.com/media/F46Z7Uqb0AAD1IG?format=jpg&name=large" />
+                        <TimelineDot sx={{ background: "#fb61ee" }}>
+                          <Avatar src="https://cdn.cpxdev.workers.dev/kf/kfir.jpeg" />
                         </TimelineDot>
                         {/* Item สุดท้ายไม่ต้องมี TimelineConnector */}
                       </TimelineSeparator>
@@ -507,12 +511,12 @@ const About = ({ currentPage, lang, setLang, setPage, guide }) => {
                         data-aos="fade-right"
                       >
                         <Typography variant="h6" component="div">
-                          {lang === "th"
+                          {lang == "th"
                             ? "สมาชิกอินดี้แคมป์ ฤดูกาลที่ 2"
                             : "Indy Camp Project Season 2"}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                          {lang === "th"
+                          {lang == "th"
                             ? "มิถุนายน 2566 - เมษายน 2567"
                             : "JUN 2023 - APR 2024"}
                         </Typography>
@@ -579,6 +583,19 @@ const About = ({ currentPage, lang, setLang, setPage, guide }) => {
             )}
           </div>
         </Box>
+        {/* <Box sx={{ marginTop: { xs: 0, md: 10 }, marginBottom: 15 }}>
+          <div className="text-center">
+            <CardHeader
+              title={<h3>The Following artists & Social Creators</h3>}
+              subheader={
+                lang == "th"
+                  ? "การเดินทางในฐานะศิลปินของข้าวฟ่าง"
+                  : "Footstep of Kaofrang as artist."
+              }
+            />
+          </div>
+          
+        </Box> */}
       </Box>
     </Fade>
   );
