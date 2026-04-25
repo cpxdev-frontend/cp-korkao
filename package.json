@@ -14,6 +14,7 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@hugocxl/react-to-image": "0.0.9",
     "@mui/icons-material": "^5.15.17",
+    "@mui/lab": "5.0.0-alpha.177",
     "@mui/material": "^5.15.17",
     "@mui/material-nextjs": "^5.15.11",
     "@reactour/tour": "^3.7.0",

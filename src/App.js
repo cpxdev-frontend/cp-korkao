@@ -238,6 +238,20 @@ function App({
   const history = useHistory();
   const [point, setDonatePoint] = React.useState(false);
   const [drop, setDroptab] = React.useState("");
+  const [width, setWidth] = React.useState(window.innerWidth);
+
+  React.useEffect(() => {
+    // 2. สร้างฟังก์ชันที่จะทำงานเมื่อหน้าจอถูกยืดหรือหด
+    const handleResize = () => {
+      setWidth(window.innerWidth); // อัปเดตค่าความกว้างล่าสุดลงไปใน State
+    };
+
+    // 3. สั่งให้เบราว์เซอร์คอยเฝ้าฟัง (Listen) ว่ามีการ 'resize' เกิดขึ้นไหม
+    window.addEventListener("resize", handleResize);
+
+    // 4. Cleanup: ถอดการเฝ้าฟังออกเมื่อไม่ได้ใช้หน้านี้แล้ว (ป้องกันบั๊กกินแรม)
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const targetTime = 1730448000;
 
@@ -383,7 +397,7 @@ function App({
   function debounce(func, wait) {
     let timeout;
     return function () {
-      if (window.innerWidth < 800) {
+      if (width < 800) {
         scrollmot = true;
         setOpacity(0.3); // ตั้งค่า opacity ต่ำเมื่อ scroll
 
@@ -774,7 +788,7 @@ function App({
       {/* --- UNIFIED APPBAR (ส่วนหัวเว็บ รวมร่าง Mobile + PC) --- */}
       <Fade in={appbarx} timeout={800} unmountOnExit>
         <AppBar
-          className={window.innerWidth < 900 ? "newmobileAppbar" : ""}
+          className={width < 1000 ? "newmobileAppbar" : ""}
           position="fixed"
           elevation={0}
           sx={{
@@ -825,11 +839,8 @@ function App({
 
                 {/* 2. PC Menu Links */}
                 <Box
-                  className={
-                    window.innerWidth < 900 ? "newmobileAppbar" : "newpcAppbar"
-                  }
+                  className={width >= 1000 ? "newpcAppbar d-flex" : "d-none"}
                   sx={{
-                    display: { xs: "none", md: "flex" },
                     borderRadius: "50px",
                     padding: "4px 24px",
                     alignItems: "center",
@@ -913,7 +924,7 @@ function App({
                   }}
                 >
                   {/* PC User Setting Icon */}
-                  <Box sx={{ display: { xs: "none", md: "flex" } }}>
+                  <Box className={width >= 1000 ? "d-flex" : "d-none"}>
                     <Tooltip title="Open settings">
                       <IconButton
                         onClick={() => setAnchorElUser(true)}
@@ -934,8 +945,8 @@ function App({
 
                   {/* Mobile Hamburger Icon */}
                   <Box
+                    className={width < 1000 ? "d-flex" : "d-none"}
                     sx={{
-                      display: { xs: "flex", md: "none" },
                       alignItems: "center",
                     }}
                   >
